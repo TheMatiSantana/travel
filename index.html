@@ -1,0 +1,4108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, viewport-fit=cover">
+<meta name="theme-color" content="#0a0e27">
+
+<!-- PWA / Android -->
+<link rel="manifest" href="manifest.json">
+<meta name="application-name" content="París 2026">
+<meta name="mobile-web-app-capable" content="yes">
+
+<!-- iOS -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="París 2026">
+<link rel="apple-touch-icon" href="icon-192.png">
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
+
+<title>Londres & París 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ---------- RESET + ROOT ---------- */
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html { -webkit-text-size-adjust: 100%; }
+
+:root {
+  /* base palette — parisian night */
+  --bg: #0a0e27;
+  --bg-elevated: #131935;
+  --bg-card: #1a2147;
+  --bg-card-hover: #222a56;
+  --border: #2a3366;
+  --border-subtle: #1f2750;
+
+  --text: #f4f1e8;
+  --text-muted: #9ca3cf;
+  --text-faint: #6b7299;
+
+  --accent: #d4a574;      /* dorado cálido */
+  --accent-bright: #f4c88a;
+  --accent-dim: #8a6d4c;
+
+  --london: #e8c547;      /* amarillo cálido londinense */
+  --paris: #c8b6ff;       /* violeta parisino */
+
+  /* activity type colors */
+  --type-transport: #7dd3fc;   /* cyan suave */
+  --type-transport-bg: #0c4a6e33;
+  --type-activity: #a7f3d0;    /* verde menta */
+  --type-activity-bg: #064e3b33;
+  --type-food: #fda4af;        /* rosa salmón */
+  --type-food-bg: #881337aa;
+  --type-rest: #c4b5fd;        /* lila */
+  --type-rest-bg: #3730a333;
+  --type-highlight: #fcd34d;   /* dorado brillante */
+  --type-highlight-bg: #78350f55;
+  --type-warning: #fb923c;     /* naranja */
+  --type-warning-bg: #7c2d1255;
+
+  --radius: 16px;
+  --radius-sm: 10px;
+  --radius-lg: 24px;
+
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.3);
+  --shadow: 0 4px 12px rgba(0,0,0,0.4);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,0.6);
+
+  --font-display: 'Fraunces', 'Instrument Serif', Georgia, serif;
+  --font-body: 'Fraunces', 'Instrument Serif', Georgia, serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  --safe-top: env(safe-area-inset-top);
+  --safe-bottom: env(safe-area-inset-bottom);
+}
+
+html, body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.55;
+  min-height: 100vh;
+  min-height: 100dvh;
+  overscroll-behavior-y: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background:
+    radial-gradient(ellipse at top, #1a1f4e 0%, transparent 50%),
+    radial-gradient(ellipse at bottom, #2a1a4e 0%, transparent 50%),
+    var(--bg);
+  background-attachment: fixed;
+  padding-bottom: calc(80px + var(--safe-bottom));
+}
+
+/* ---------- TYPOGRAPHY ---------- */
+h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 500; line-height: 1.15; letter-spacing: -0.02em; }
+h1 { font-size: 2.5rem; font-weight: 400; }
+h2 { font-size: 1.75rem; }
+h3 { font-size: 1.25rem; }
+
+/* ---------- APP SHELL ---------- */
+.app {
+  max-width: 440px;
+  margin: 0 auto;
+  padding: 0;
+  min-height: 100vh;
+}
+
+/* ---------- HEADER ---------- */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  background: rgba(10, 14, 39, 0.82);
+  border-bottom: 1px solid var(--border-subtle);
+  padding: calc(var(--safe-top) + 14px) 20px 14px;
+}
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.header-title {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+.header-sub {
+  font-size: 0.72rem;
+  color: var(--text-faint);
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* ---------- TAB BAR (bottom) ---------- */
+.tab-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  background: rgba(10, 14, 39, 0.9);
+  border-top: 1px solid var(--border-subtle);
+  padding: 10px 10px calc(10px + var(--safe-bottom));
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 4px;
+}
+.tab-btn {
+  appearance: none;
+  background: transparent;
+  border: none;
+  color: var(--text-faint);
+  padding: 8px 4px;
+  font-size: 0.68rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition: color 0.15s, background 0.15s;
+  font-family: var(--font-body);
+  letter-spacing: 0.02em;
+}
+.tab-btn svg { width: 22px; height: 22px; stroke-width: 1.5; }
+.tab-btn.active { color: var(--accent-bright); }
+.tab-btn:active { background: rgba(255,255,255,0.03); }
+
+/* ---------- VIEW ---------- */
+.view { display: none; padding: 20px 18px; }
+.view.active { display: block; animation: fadeIn 0.25s ease-out; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ---------- HERO / TODAY ---------- */
+.hero {
+  position: relative;
+  padding: 28px 22px;
+  margin-bottom: 18px;
+  background: linear-gradient(135deg, #1a2147 0%, #2a1a4e 100%);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 85% 15%, rgba(244, 200, 138, 0.15), transparent 50%),
+    radial-gradient(circle at 15% 85%, rgba(200, 182, 255, 0.1), transparent 50%);
+  pointer-events: none;
+}
+.hero-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+  margin-bottom: 8px;
+  position: relative;
+}
+.hero-title {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 400;
+  line-height: 1.05;
+  margin-bottom: 4px;
+  position: relative;
+  font-style: italic;
+}
+.hero-sub {
+  color: var(--text-muted);
+  font-size: 1.02rem;
+  position: relative;
+  line-height: 1.3;
+}
+.hero-meta {
+  display: flex;
+  gap: 14px;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  position: relative;
+  flex-wrap: wrap;
+}
+.hero-meta-item { font-size: 0.82rem; color: var(--text-muted); }
+.hero-meta-item strong { color: var(--accent-bright); font-weight: 500; }
+
+/* ---------- COUNTDOWN ---------- */
+.countdown {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin: 24px 0;
+}
+.countdown-item {
+  flex: 1;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 8px;
+  text-align: center;
+}
+.countdown-num {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 500;
+  color: var(--accent-bright);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.countdown-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-faint);
+  margin-top: 6px;
+}
+
+/* ---------- SECTION TITLE ---------- */
+.section-title {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 500;
+  margin: 26px 0 14px;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  font-style: italic;
+}
+.section-title-mini {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-faint);
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* ---------- DAY CARD (list) ---------- */
+.day-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  cursor: pointer;
+  transition: all 0.15s;
+  text-align: left;
+  width: 100%;
+  font: inherit;
+  color: inherit;
+}
+.day-card:active { transform: scale(0.98); background: var(--bg-card-hover); }
+.day-card.current { border-color: var(--accent); background: linear-gradient(135deg, var(--bg-card) 0%, #2a1f3a 100%); }
+.day-card.past { opacity: 0.55; }
+
+.day-num {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 500;
+  color: var(--accent-bright);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  min-width: 44px;
+  font-style: italic;
+}
+.day-content { flex: 1; min-width: 0; }
+.day-date {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-faint);
+  margin-bottom: 2px;
+}
+.day-title {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.2;
+  margin-bottom: 2px;
+}
+.day-sub {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.25;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.day-city-badge {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-right: 6px;
+}
+.day-city-badge.london { background: rgba(232, 197, 71, 0.15); color: var(--london); }
+.day-city-badge.paris { background: rgba(200, 182, 255, 0.15); color: var(--paris); }
+.day-arrow { color: var(--text-faint); font-size: 1.2rem; }
+
+/* ---------- DAY DETAIL ---------- */
+.day-detail-header {
+  padding: 18px 0 24px;
+  border-bottom: 1px solid var(--border-subtle);
+  margin-bottom: 22px;
+}
+.back-btn {
+  appearance: none;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  padding: 8px 14px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-bottom: 18px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.back-btn:active { background: var(--bg-card-hover); }
+
+.day-detail-num {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+  margin-bottom: 6px;
+}
+.day-detail-title {
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  font-weight: 400;
+  line-height: 1.05;
+  margin-bottom: 6px;
+  font-style: italic;
+}
+.day-detail-sub {
+  color: var(--text-muted);
+  font-size: 1.05rem;
+  margin-bottom: 14px;
+}
+
+/* ---------- PRINCIPLE ---------- */
+.principle {
+  background: linear-gradient(135deg, rgba(212, 165, 116, 0.08), rgba(212, 165, 116, 0.02));
+  border-left: 3px solid var(--accent);
+  padding: 14px 16px;
+  border-radius: var(--radius-sm);
+  margin: 18px 0;
+  font-style: italic;
+  color: var(--text);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+.principle::before {
+  content: 'Principio';
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+  margin-bottom: 6px;
+  font-style: normal;
+}
+
+/* ---------- BOOKED / BADGES ---------- */
+.booked-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 14px 0 6px;
+}
+.booked-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  background: rgba(232, 197, 71, 0.08);
+  border: 1px solid rgba(232, 197, 71, 0.3);
+  border-radius: 8px;
+  font-size: 0.78rem;
+  color: var(--london);
+}
+.booked-badge strong { font-weight: 600; }
+
+/* ---------- TIME BLOCK ---------- */
+.block {
+  position: relative;
+  margin: 16px 0;
+  padding: 16px 16px 16px 20px;
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--border);
+}
+.block.t-transport { border-left-color: var(--type-transport); }
+.block.t-activity { border-left-color: var(--type-activity); }
+.block.t-food { border-left-color: var(--type-food); }
+.block.t-rest { border-left-color: var(--type-rest); }
+.block.t-highlight {
+  border-left-color: var(--type-highlight);
+  background: linear-gradient(135deg, var(--bg-card) 0%, rgba(252, 211, 77, 0.06) 100%);
+  border-color: rgba(252, 211, 77, 0.2);
+}
+.block.t-warning {
+  border-left-color: var(--type-warning);
+  background: linear-gradient(135deg, var(--bg-card) 0%, rgba(251, 146, 60, 0.06) 100%);
+  border-color: rgba(251, 146, 60, 0.2);
+}
+
+.block-header {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+.block-time {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--accent-bright);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+.block-type-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+.block-title {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 1.05rem;
+  line-height: 1.25;
+  flex: 1;
+  min-width: 200px;
+}
+.block-body {
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+.block-bullets {
+  list-style: none;
+  margin-top: 10px;
+}
+.block-bullets li {
+  position: relative;
+  padding-left: 18px;
+  margin-bottom: 8px;
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+.block-bullets li::before {
+  content: '';
+  position: absolute;
+  left: 4px;
+  top: 9px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+/* ---------- MISSIONS ---------- */
+.missions {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 18px 12px;
+  margin: 22px 0;
+}
+.missions-title {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-style: italic;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.mission {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 0;
+  border-top: 1px solid var(--border-subtle);
+  cursor: pointer;
+  user-select: none;
+}
+.mission:first-of-type { border-top: none; }
+.mission-check {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+  transition: all 0.15s;
+}
+.mission.done .mission-check {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.mission.done .mission-check::after {
+  content: '✓';
+  color: var(--bg);
+  font-size: 0.85rem;
+  font-weight: 900;
+}
+.mission-text {
+  font-size: 0.92rem;
+  color: var(--text);
+  line-height: 1.35;
+}
+.mission.done .mission-text { color: var(--text-faint); text-decoration: line-through; }
+
+/* ---------- TIPS / NOTES ---------- */
+.tips {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  margin: 18px 0;
+}
+.tips-title {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  margin-bottom: 10px;
+}
+.tips-list { list-style: none; }
+.tips-list li {
+  padding: 6px 0;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.45;
+  position: relative;
+  padding-left: 16px;
+}
+.tips-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 13px;
+  width: 6px;
+  height: 1px;
+  background: var(--accent-dim);
+}
+
+/* ---------- RESERVATION ITEM ---------- */
+.resv-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  transition: all 0.15s;
+}
+.resv-item.done {
+  opacity: 0.55;
+  border-color: var(--border-subtle);
+}
+.resv-check {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  border: 2px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  margin-top: 2px;
+  transition: all 0.15s;
+  background: transparent;
+}
+.resv-check.checked { background: var(--accent); border-color: var(--accent); }
+.resv-check.checked::after {
+  content: '✓';
+  color: var(--bg);
+  font-size: 1rem;
+  font-weight: 900;
+}
+.resv-info { flex: 1; min-width: 0; }
+.resv-name {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 1rem;
+  margin-bottom: 3px;
+}
+.resv-meta {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 6px;
+}
+.resv-note {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+.resv-link {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 6px 10px;
+  background: rgba(212, 165, 116, 0.12);
+  border: 1px solid rgba(212, 165, 116, 0.3);
+  border-radius: 6px;
+  color: var(--accent-bright);
+  text-decoration: none;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.resv-link:active { background: rgba(212, 165, 116, 0.2); }
+
+/* ---------- PHRASE ---------- */
+.phrase-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  margin-bottom: 8px;
+}
+.phrase-fr {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.12rem;
+  color: var(--accent-bright);
+  margin-bottom: 3px;
+}
+.phrase-es {
+  font-size: 0.86rem;
+  color: var(--text-muted);
+}
+
+/* ---------- EMERGENCY ---------- */
+.emergency {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin: 14px 0;
+}
+.emerg-btn {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 12px;
+  color: var(--text);
+  text-decoration: none;
+  display: block;
+}
+.emerg-btn-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-faint);
+  margin-bottom: 4px;
+}
+.emerg-btn-value {
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
+  color: var(--accent-bright);
+}
+
+/* ---------- TRANSPORT REF ---------- */
+.transp-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  margin-bottom: 8px;
+}
+.transp-ctx {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  margin-bottom: 4px;
+}
+.transp-info {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.45;
+}
+
+/* ---------- ACCORDION ---------- */
+.acc { margin-bottom: 8px; }
+.acc-btn {
+  width: 100%;
+  appearance: none;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 18px;
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.acc-btn::after {
+  content: '+';
+  font-size: 1.3rem;
+  color: var(--accent);
+  transition: transform 0.2s;
+}
+.acc.open .acc-btn::after { transform: rotate(45deg); }
+.acc-body {
+  display: none;
+  padding: 14px 18px 4px;
+}
+.acc.open .acc-body { display: block; animation: fadeIn 0.2s; }
+
+/* ---------- CHECKLIST ---------- */
+.chk-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border-subtle);
+  cursor: pointer;
+}
+.chk-item:last-child { border-bottom: none; }
+.chk-box {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--border);
+  border-radius: 5px;
+  flex-shrink: 0;
+  margin-top: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.chk-item.done .chk-box {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.chk-item.done .chk-box::after {
+  content: '✓';
+  font-size: 0.8rem;
+  color: var(--bg);
+  font-weight: 900;
+}
+.chk-text {
+  flex: 1;
+  font-size: 0.92rem;
+  line-height: 1.4;
+}
+.chk-item.done .chk-text { color: var(--text-faint); text-decoration: line-through; }
+.chk-detail {
+  font-size: 0.78rem;
+  color: var(--text-faint);
+  margin-top: 3px;
+}
+
+/* ---------- GRID UTIL ---------- */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+/* ---------- CONDITIONAL MESSAGES ---------- */
+.hint {
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  padding: 14px;
+  text-align: center;
+  background: var(--bg-card);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+  margin: 14px 0;
+}
+
+/* ---------- FLAVORS ---------- */
+.flavor-filter-pill {
+  appearance: none;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  padding: 7px 12px;
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.flavor-filter-pill.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--bg);
+  font-weight: 600;
+}
+.flavor-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  border-left: 4px solid var(--border);
+  transition: all 0.2s;
+}
+.flavor-card.tried {
+  background: linear-gradient(135deg, var(--bg-card) 0%, rgba(212, 165, 116, 0.08) 100%);
+  border-left-color: var(--accent);
+}
+.flavor-card.lvl-1 { border-left-color: var(--type-activity); }
+.flavor-card.lvl-2 { border-left-color: var(--type-highlight); }
+.flavor-card.lvl-3 { border-left-color: var(--type-warning); }
+.flavor-card.lvl-4 { border-left-color: var(--paris); }
+
+.flavor-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+.flavor-emoji {
+  font-size: 1.7rem;
+  line-height: 1;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.flavor-info { flex: 1; min-width: 0; }
+.flavor-name {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 1.02rem;
+  line-height: 1.25;
+  margin-bottom: 2px;
+}
+.flavor-meta {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-faint);
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.flavor-level-badge {
+  padding: 1px 7px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+.flavor-level-badge.lvl-1 { background: rgba(167, 243, 208, 0.15); color: var(--type-activity); }
+.flavor-level-badge.lvl-2 { background: rgba(252, 211, 77, 0.15); color: var(--type-highlight); }
+.flavor-level-badge.lvl-3 { background: rgba(251, 146, 60, 0.15); color: var(--type-warning); }
+.flavor-level-badge.lvl-4 { background: rgba(200, 182, 255, 0.15); color: var(--paris); }
+
+.flavor-desc {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.45;
+  margin: 8px 0;
+}
+.flavor-where {
+  font-size: 0.8rem;
+  color: var(--text-faint);
+  line-height: 1.4;
+  font-style: italic;
+  padding-top: 6px;
+  border-top: 1px dashed var(--border-subtle);
+  margin-top: 8px;
+}
+.flavor-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border-subtle);
+  justify-content: space-between;
+}
+.flavor-try-btn {
+  appearance: none;
+  background: transparent;
+  border: 1.5px solid var(--border);
+  color: var(--text-muted);
+  padding: 7px 14px;
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.flavor-try-btn.tried {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--bg);
+  font-weight: 600;
+}
+.flavor-stars {
+  display: flex;
+  gap: 3px;
+}
+.flavor-star {
+  background: transparent;
+  border: none;
+  color: var(--border);
+  cursor: pointer;
+  padding: 2px 1px;
+  font-size: 1.1rem;
+  line-height: 1;
+  transition: color 0.1s;
+}
+.flavor-star.filled { color: var(--accent-bright); }
+.flavor-star:active { transform: scale(1.3); }
+
+.flavor-sugg-day {
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  background: rgba(212, 165, 116, 0.1);
+  color: var(--accent);
+  padding: 2px 6px;
+  border-radius: 4px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* Today's flavor suggestion card */
+.today-flavor {
+  background: linear-gradient(135deg, rgba(200, 182, 255, 0.08), rgba(212, 165, 116, 0.08));
+  border: 1px solid rgba(200, 182, 255, 0.2);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  margin: 16px 0;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.today-flavor:active { transform: scale(0.99); }
+.today-flavor-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--paris);
+  margin-bottom: 6px;
+}
+.today-flavor-name {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.2rem;
+  margin-bottom: 4px;
+}
+.today-flavor-desc {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+/* ---------- focus states ---------- */
+button:focus-visible, a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+</style>
+</head>
+<body>
+
+<div class="app">
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-inner">
+    <div>
+      <div class="header-title"><em>Londres & París</em></div>
+      <div class="header-sub">16 — 28 mayo 2026</div>
+    </div>
+    <div id="headerCountdown" style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--accent); text-align: right;"></div>
+  </div>
+</header>
+
+<!-- ========== VIEW: HOY ========== -->
+<section class="view active" id="view-today">
+  <div id="today-content"><!-- injected --></div>
+</section>
+
+<!-- ========== VIEW: DÍAS ========== -->
+<section class="view" id="view-days">
+  <div class="hero" style="padding: 22px 20px;">
+    <div class="hero-label">13 días</div>
+    <h2 class="hero-title" style="font-size: 1.6rem;">El viaje completo</h2>
+    <div class="hero-sub" style="font-size: 0.9rem;">Tocá cualquier día para ver su plan detallado</div>
+  </div>
+
+  <div class="section-title">
+    Londres <span class="section-title-mini">Días 1 — 6</span>
+  </div>
+  <div id="days-list-london"></div>
+
+  <div class="section-title">
+    París <span class="section-title-mini">Días 7 — 13</span>
+  </div>
+  <div id="days-list-paris"></div>
+</section>
+
+<!-- ========== VIEW: DAY DETAIL ========== -->
+<section class="view" id="view-day-detail">
+  <button class="back-btn" onclick="showView('days')">← Volver</button>
+  <div id="day-detail-content"></div>
+</section>
+
+<!-- ========== VIEW: RESERVAS / TODO ========== -->
+<section class="view" id="view-todos">
+  <div class="hero" style="padding: 22px 20px;">
+    <div class="hero-label">Pre-trip</div>
+    <h2 class="hero-title" style="font-size: 1.6rem;">Pendientes</h2>
+    <div class="hero-sub" style="font-size: 0.9rem;">Reservas, tareas y tickets confirmados</div>
+  </div>
+
+  <div class="section-title">
+    Reservas <span class="section-title-mini">Hacer antes del viaje</span>
+  </div>
+  <div id="reservations-list"></div>
+
+  <div class="section-title">
+    Tareas <span class="section-title-mini">Preparación</span>
+  </div>
+  <div id="todos-list"></div>
+
+  <div class="section-title">
+    Tickets confirmados <span class="section-title-mini">Ya los tenés</span>
+  </div>
+  <div id="confirmed-list"></div>
+</section>
+
+<!-- ========== VIEW: SABORES (antes Info) ========== -->
+<section class="view" id="view-info">
+  <div class="hero" style="padding: 22px 20px;">
+    <div class="hero-label">Pokédex culinario</div>
+    <h2 class="hero-title" style="font-size: 1.6rem;">Sabores</h2>
+    <div class="hero-sub" style="font-size: 0.9rem;">Cosas raras y exóticas para probar. Tocá para marcar como probado y puntuar.</div>
+    <div class="hero-meta">
+      <div class="hero-meta-item"><strong id="flavor-progress">0/0</strong> probados</div>
+      <div class="hero-meta-item" id="flavor-boss-progress"><strong>0</strong> nivel dios</div>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div id="flavor-filters" style="display: flex; gap: 6px; flex-wrap: wrap; margin: 14px 0 6px;">
+    <!-- injected -->
+  </div>
+
+  <div id="flavors-list"><!-- injected --></div>
+
+  <!-- Botón acceso a Más info -->
+  <button onclick="showView('more')" style="appearance: none; background: var(--bg-card); border: 1px solid var(--border); color: var(--text-muted); padding: 14px; width: 100%; border-radius: var(--radius); margin: 24px 0 10px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; font-family: var(--font-body); font-size: 0.95rem;">
+    <span>Frases, transporte, emergencias…</span>
+    <span style="color: var(--accent);">›</span>
+  </button>
+</section>
+
+<!-- ========== VIEW: MÁS (antes era el contenido de Info) ========== -->
+<section class="view" id="view-more">
+  <button class="back-btn" onclick="showView('info')">← Volver</button>
+  <div class="hero" style="padding: 22px 20px;">
+    <div class="hero-label">Práctico</div>
+    <h2 class="hero-title" style="font-size: 1.6rem;">Más info</h2>
+    <div class="hero-sub" style="font-size: 0.9rem;">Frases, transporte, emergencias, backup</div>
+  </div>
+
+  <div class="section-title">Frases en francés</div>
+  <div id="phrases-list"></div>
+
+  <div class="section-title">Transporte</div>
+  <div id="transport-list"></div>
+
+  <div class="section-title">Emergencias</div>
+  <div class="emergency" id="emergency-list"></div>
+
+  <div class="section-title">Alojamientos</div>
+  <div id="accommodations-list"></div>
+
+  <div class="section-title">
+    Backup <span class="section-title-mini">Tu progreso</span>
+  </div>
+  <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 18px; margin-bottom: 10px;">
+    <div style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 14px;">
+      Tu progreso se guarda automáticamente en este celular. Si cambiás de dispositivo o querés compartir con tu pareja, exportá un archivo e importalo en el otro celu.
+    </div>
+    <div style="display: grid; gap: 8px;">
+      <button onclick="exportState()" style="appearance: none; background: rgba(212, 165, 116, 0.15); border: 1px solid rgba(212, 165, 116, 0.4); color: var(--accent-bright); padding: 12px; border-radius: 10px; font-family: var(--font-mono); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.05em; cursor: pointer;">
+        ⬇ Exportar progreso
+      </button>
+      <label style="appearance: none; background: var(--bg-elevated); border: 1px solid var(--border); color: var(--text); padding: 12px; border-radius: 10px; font-family: var(--font-mono); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.05em; cursor: pointer; text-align: center; display: block;">
+        ⬆ Importar archivo
+        <input type="file" accept="application/json,.json" style="display: none;" onchange="if(this.files[0]) importStateFile(this.files[0]); this.value='';">
+      </label>
+      <button onclick="resetAllProgress()" style="appearance: none; background: transparent; border: 1px solid var(--border-subtle); color: var(--text-faint); padding: 12px; border-radius: 10px; font-family: var(--font-mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; cursor: pointer;">
+        Reiniciar progreso
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ========== VIEW: MISSIONS ========== -->
+<section class="view" id="view-missions">
+  <div class="hero" style="padding: 22px 20px;">
+    <div class="hero-label">Logros del viaje</div>
+    <h2 class="hero-title" style="font-size: 1.6rem;">Misiones</h2>
+    <div class="hero-sub" style="font-size: 0.9rem;">Tocá para marcar cuando las cumplan</div>
+    <div class="hero-meta">
+      <div class="hero-meta-item"><strong id="mission-progress">0/0</strong> misiones cumplidas</div>
+    </div>
+  </div>
+  <div id="missions-all"></div>
+</section>
+
+</div>
+
+<!-- ========== BOTTOM TAB BAR ========== -->
+<nav class="tab-bar">
+  <button class="tab-btn active" data-view="today">
+    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+    Hoy
+  </button>
+  <button class="tab-btn" data-view="days">
+    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+    Días
+  </button>
+  <button class="tab-btn" data-view="todos">
+    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+    Pendientes
+  </button>
+  <button class="tab-btn" data-view="info">
+    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+    Sabores
+  </button>
+  <button class="tab-btn" id="tab-missions-btn">
+    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>
+    Misiones
+  </button>
+</nav>
+
+<script>
+// ITINERARIO DATA
+// Tipos de actividad: transport, activity, food, rest, mission, highlight, warning
+
+const TRIP = {
+  title: "Londres & París 2026",
+  subtitle: "Mati, pareja, Benjamin (8) y Julian (4)",
+  dateRange: "16 — 28 mayo 2026",
+  startDate: "2026-05-16",
+  endDate: "2026-05-28",
+  accommodations: [
+    { city: "Londres", address: "High Street Kensington", flag: "🇬🇧" },
+    { city: "París", address: "26 rue des Rosiers, 75004 (Marais)", flag: "🇫🇷" }
+  ]
+};
+
+const DAYS = [
+  // =========== DÍA 1 ===========
+  {
+    num: 1,
+    date: "2026-05-16",
+    dayName: "Sábado",
+    city: "Londres",
+    title: "Llegada",
+    subtitle: "Aterrizaje + Kensington Gardens suave",
+    principle: "Hacer lo mínimo posible y dormir temprano. El jet lag es lo que más pega los primeros 2 días.",
+    blocks: [
+      {
+        time: "15:30",
+        type: "transport",
+        title: "Aterrizaje en Heathrow",
+        body: "Con niños y equipaje facturado: 1h30-2h desde pista a salida de terminal. Migraciones, valijas, baño, reagrupar. Salida real ~17:00-17:30."
+      },
+      {
+        time: "17:00-17:30",
+        type: "transport",
+        title: "Heathrow → High Street Kensington",
+        body: "Uber XL directo. 45-60 min con tráfico sábado tarde. £70-95. Los nenes duermen en el auto si quieren."
+      },
+      {
+        time: "~18:30",
+        type: "rest",
+        title: "Llegan al alojamiento",
+        body: "Check-in, valijas, baño, agua y snack."
+      },
+      {
+        time: "19:00-20:15",
+        type: "activity",
+        title: "Kensington Gardens suave",
+        body: "Entrada más cercana desde High St Ken: Palace Gate o Queen's Gate (5-10 min caminando).",
+        bullets: [
+          "En mayo atardecer Londres ~20:45, tienen luz natural",
+          "Caminata tranqui, ardillas (hay muchísimas)",
+          "Si todavía tienen pila: estatua Peter Pan (~15 min desde Palace Gate, lado Long Water)",
+          "Plan B mental: si a 10 min Juli dice 'no quiero más', vuelta y listo"
+        ]
+      },
+      {
+        time: "20:30",
+        type: "food",
+        title: "Cena cerca del alojamiento",
+        body: "",
+        bullets: [
+          "Byron Kensington (hamburguesas, rápido, kid-friendly)",
+          "Plan B: Wagamama High St Kensington",
+          "Plan C: Whole Foods Kensington para llevar (comen en pijama — a veces la mejor opción)"
+        ]
+      },
+      {
+        time: "21:30-22:00",
+        type: "rest",
+        title: "Todos a dormir"
+      }
+    ],
+    tips: [
+      "En el avión: últimos 30 min antes de aterrizar, muda de ropa limpia, dientes, peinarlos",
+      "Migraciones UK: con niños vayan TODOS por fila manual para no separarse",
+      "NO compren Oyster. Apple Pay/contactless directo en torniquete. Benji y Juli (<11) gratis en metro/bus/DLR/Overground con adulto",
+      "Jet lag con Juli: probable despertar 4-5 AM primeros 2-3 días. Tablet con descargas offline listas",
+      "Clima mayo Londres: 10-18°C. Campera liviana impermeable para todos"
+    ]
+  },
+
+  // =========== DÍA 2 ===========
+  {
+    num: 2,
+    date: "2026-05-17",
+    dayName: "Domingo",
+    city: "Londres",
+    title: "London Eye + Big Ben + St James's + National Gallery",
+    subtitle: "El día icónico",
+    booked: [
+      { name: "London Eye", time: "10:00" }
+    ],
+    warning: {
+      title: "⚠️ Timing London Eye",
+      body: "El slot 10:00 es cuando entran a la cola, no cuando suben. Con cola normal 20-30 min antes de embarcar. Apunten a llegar 9:40-9:45. Tolerancia 15 min tarde máximo. Ciclo completo (cola + vuelta + bajar) ~1h. Salen ~11:15-11:30."
+    },
+    blocks: [
+      { time: "9:00", type: "transport", title: "Salen del alojamiento" },
+      { time: "9:15", type: "transport", title: "District Line → Westminster", body: "11 min, directo, sin cambios." },
+      {
+        time: "9:30",
+        type: "activity",
+        title: "Westminster → Big Ben → cruce del puente",
+        body: "Apenas salen de la estación, Big Ben está arriba. Saquen las fotos de Big Ben ACÁ, antes del London Eye. Cruzan el puente caminando (7 min) con vistas del Támesis."
+      },
+      { time: "9:45", type: "activity", title: "Llegan al London Eye", body: "Cola de seguridad + boarding." },
+      {
+        time: "10:00-11:15",
+        type: "highlight",
+        title: "🎡 London Eye",
+        body: "La vuelta dura ~30 min, una rotación completa.",
+        bullets: ["Misión: contar las 32 cápsulas (no hay la 13, por superstición — reemplazada por la 12 seguida de la 14)"]
+      },
+      {
+        time: "11:30-13:00",
+        type: "activity",
+        title: "🦆 St James's Park",
+        body: "Caminata 20 min desde London Eye cruzando Westminster Bridge y Parliament Square. Pasan por Horse Guards con guardias a caballo.",
+        bullets: [
+          "Dar de comer a patos y cisnes — comprar semillas/avena (NO pan blanco)",
+          "Ver los pelícanos (5 residentes desde 1664, regalo del embajador ruso a Carlos II)",
+          "Las ardillas son increíblemente mansas, comen de la mano — maní sin sal ni cáscara",
+          "Puente sobre el lago: vista icónica con Buckingham de un lado, Horse Guards del otro",
+          "Bonus mayo: los patos tienen patitos bebés 🐤"
+        ]
+      },
+      {
+        time: "13:00-14:00",
+        type: "food",
+        title: "Almuerzo",
+        bullets: [
+          "Inn the Park (dentro del parque, reservar OpenTable)",
+          "Plan B: The Admiralty pub cerca de Trafalgar",
+          "Plan C: Dishoom Covent Garden (indio brutal, 10 min caminando)"
+        ]
+      },
+      {
+        time: "14:00-15:30",
+        type: "activity",
+        title: "🦁 Trafalgar Square + National Gallery",
+        body: "Leones gigantes de bronce (los nenes se trepan). Fuente. National Gallery gratis — 30-45 min viendo 5-6 cuadros específicos con los niños."
+      },
+      {
+        time: "14:30-15:30",
+        type: "highlight",
+        title: "🎨 Ruta estratégica National Gallery (45-60 min)",
+        bullets: [
+          "Los Girasoles de Van Gogh (Sala 43): misión 'contar los girasoles'. Dato para Benji: Van Gogh se cortó la oreja",
+          "La silla de Van Gogh: '¿de quién era esta silla?' — de él. Otra para su amigo Gauguin",
+          "El carro de heno de Constable (Sala 34): paisaje inglés clásico, rápido",
+          "Los embajadores de Holbein (Sala 4): VUELA LA CABEZA. Calavera distorsionada en el piso, solo se ve desde ángulo lateral específico. Misión: '¿podés encontrar la calavera escondida?'",
+          "Venus y Marte de Botticelli (Sala 58): bonus — hay avispas en el cuadro"
+        ]
+      },
+      {
+        time: "15:30-16:30",
+        type: "transport",
+        title: "🚌 Vuelta escénica bus 9 (top deck)",
+        body: "Parada 'Trafalgar Square / Charing Cross' sobre Cockspur Street. Bus 9 dirección Hammersmith.",
+        bullets: [
+          "SUBIR inmediatamente al piso de arriba, asientos del frente. Si ocupados esperen el próximo (cada 6-10 min)",
+          "Ruta escénica: Trafalgar → Piccadilly Circus (pantallas) → Green Park → Hyde Park Corner (arco) → Knightsbridge (Harrods) → Kensington High Street",
+          "Bajan en 'High Street Kensington Station'"
+        ]
+      },
+      { time: "16:30+", type: "rest", title: "Descanso + cena", body: "Juli probablemente siesta. Cena temprana 18:30-19:30. A dormir ~20:30 — mañana museos 10:00." }
+    ],
+    tips: [
+      "Compras preparación St James's: semillas/avena (Tesco/Sainsbury's, £1-2)",
+      "Puñado de maní sin sal ni cáscara para ardillas",
+      "Bolsita ziplock para no tener semillas por toda la mochila"
+    ],
+    missions: [
+      "Contar cápsulas del London Eye (32)",
+      "Foto con Big Ben",
+      "Dar de comer a una ardilla con la mano",
+      "Encontrar la calavera escondida en Los Embajadores",
+      "Piso de arriba del bus 9 asientos del frente"
+    ]
+  },
+
+  // =========== DÍA 3 ===========
+  {
+    num: 3,
+    date: "2026-05-18",
+    dayName: "Lunes",
+    city: "Londres",
+    title: "Dinos y cohetes",
+    subtitle: "Natural History Museum + Science Museum",
+    warning: {
+      title: "⚠️ Reservar YA",
+      body: "En períodos concurridos el NHM puede no acomodar walk-ins. Reservar online las entradas GRATIS. Slot ideal: lunes 10:00, Exhibition Road entrance (entrada principal, más rápida que Cromwell Road)."
+    },
+    blocks: [
+      { time: "7:30-8:30", type: "rest", title: "Despertar con jet lag, desayuno en casa" },
+      {
+        time: "8:45",
+        type: "transport",
+        title: "Salida del alojamiento",
+        body: "OPCIÓN A: si hicieron Peter Pan el Día 1 — salen 9:30 directo al museo (15 min caminando por Kensington Gardens).\n\nOPCIÓN B (recomendada): si NO hicieron Peter Pan — salen 8:45, entran Kensington Gardens por Palace Gate, caminan a estatua Peter Pan (15-20 min), misión 'primera ardilla', fotos con Peter Pan (tiene conejos, hadas, ratones esculpidos), y bajan al museo por Exhibition Road. Llegan 9:50."
+      },
+      {
+        time: "10:00-12:30",
+        type: "highlight",
+        title: "🦖 Natural History Museum",
+        body: "Ruta recomendada con Benji 8 y Juli casi 5:",
+        bullets: [
+          "Hintze Hall (entrada): la ballena azul 'Hope' colgando del techo. Foto obligada. 5 min",
+          "Dinosaurs gallery (Blue Zone): directo ahí. El T-Rex animatrónico es el cierre — lo aproximás por pasillo oscuro, se mueve y ruge. Juli puede asustarse un toque",
+          "Mammals gallery: ballena azul tamaño real en el suelo",
+          "Earth Hall + Earth's Treasury (Red Zone): piedras preciosas, cristales gigantes. Escalera con globo terráqueo",
+          "Investigate Centre (opcional): sala hands-on con fósiles y microscopios",
+          "Tiempo total en el museo: 2-2.5 horas. Más que eso es sobredosis"
+        ]
+      },
+      {
+        time: "12:30-13:30",
+        type: "food",
+        title: "Almuerzo",
+        bullets: [
+          "Rápido: Pret/Leon/Itsu en Exhibition Road — 20 min y listo",
+          "Mejor: Daquise (polaco, kid-friendly, reservar) o The Queen's Arms (pub clásico)"
+        ]
+      },
+      {
+        time: "13:30-14:45",
+        type: "rest",
+        title: "Descanso o paseo suave",
+        body: "Vuelta al alojamiento para que Juli duerma siesta 30-45 min (10 min caminando). O paseo lento por Kensington Gardens + helado."
+      },
+      {
+        time: "15:00-17:00",
+        type: "highlight",
+        title: "🚀 Science Museum",
+        body: "Probablemente el museo que Benji ame más que el NHM.",
+        bullets: [
+          "Exploring Space: cohete espacial de verdad — réplicas y piezas reales de Apollo 10 (cápsula de comando que dio la vuelta a la Luna), Black Arrow rocket, trajes espaciales",
+          "Making the Modern World: locomotora de vapor, primer auto, Apollo 10 cápsula real",
+          "Flight Gallery (3er piso): aviones colgando del techo, Spitfire, Hurricane",
+          "Pattern Pod (planta baja, <8 años): específicamente para Juli. Luces, patrones interactivos",
+          "Wonderlab (PAGO, reserva aparte): solo si Benji súper enganchado. Decisión en el momento"
+        ]
+      },
+      { time: "17:00-17:30", type: "transport", title: "Vuelta caminando al alojamiento + cena temprana" }
+    ],
+    tips: [
+      "Reservar NHM YA online — son gratis pero se llenan",
+      "Control de bolsos con escáner en NHM — mochilas chicas",
+      "Budget claro con Benji ANTES de entrar a tiendas: '£10 máximo'. Peluchito dinosaurio para Juli"
+    ],
+    missions: [
+      "El T-Rex robot",
+      "Cohete espacial de verdad (Apollo 10)",
+      "Bonus Juli: contar ballenas en el NHM (la colgada + la del piso + fósiles = 3-4)",
+      "Bonus Benji: encontrar el meteorito más antiguo que la Tierra en Red Zone (se puede tocar)"
+    ]
+  },
+
+  // =========== DÍA 4 ===========
+  {
+    num: 4,
+    date: "2026-05-19",
+    dayName: "Martes",
+    city: "Londres",
+    title: "Covent Garden + Warner Bros",
+    subtitle: "Harry Potter Studio Tour",
+    booked: [
+      { name: "Warner Bros Studio Tour", time: "16:00" }
+    ],
+    warning: {
+      title: "⚠️ Entrada Warner Bros 16:00 fija",
+      body: "Con slot 16:00, tour dura 3.5-4 horas. Salen ~19:30-20:00. Mañana tiene que ser suave para no fundirse antes del tour. Uber de vuelta reservado desde el estudio — €90-110, 55 min, Juli duerme en el auto."
+    },
+    blocks: [
+      {
+        time: "8:30-10:00",
+        type: "rest",
+        title: "Mañana suave en casa",
+        body: "Desayuno tranqui. Jet lag ya cediendo. Shows callejeros en Covent Garden no empiezan antes de 11:00.",
+        bullets: [
+          "Mochila ligera: agua, snacks, campera, gorra, efectivo en monedas para propinas (£5-10)"
+        ]
+      },
+      { time: "10:15", type: "transport", title: "Salida a Covent Garden", body: "Piccadilly Line desde High Street Kensington → Covent Garden (15 min directo)." },
+      {
+        time: "",
+        type: "warning",
+        title: "Tip Covent Garden station",
+        body: "Estación chiquita con ascensores viejos (193 escalones en escalera caracol). Usen el ascensor con Juli, NO se tienten con las escaleras."
+      },
+      {
+        time: "10:45-13:00",
+        type: "highlight",
+        title: "🎭 Covent Garden",
+        body: "Plantar bandera en West Piazza (frente a St Paul's Church, la 'Actors' Church') — artistas de mayor nivel, shows de 20-30 min encadenados.",
+        bullets: [
+          "10:45-11:30: vuelta de reconocimiento, ver la piazza, bajar al Apple Market",
+          "11:30-12:30: sentarse en escalones de St Paul's, ver 2-3 shows completos. DEJAR QUE LOS NENES PONGAN LA PROPINA EN EL SOMBRERO",
+          "12:30-13:00: paseo por Apple Market. NO comprar varitas Harry Potter acá (peor calidad que Warner Bros)",
+          "Segundo spot: Magicians Corner (33 James St) — magos, trucos cercanos, mejor para Benji",
+          "Bajar al Apple Market (subterráneo) — músico clásico, eco increíble"
+        ]
+      },
+      {
+        time: "13:00-13:45",
+        type: "food",
+        title: "🥩 Almuerzo FUERTE pre-Warner Bros",
+        bullets: [
+          "Flat Iron Covent Garden (17-18 Henrietta St) — solo steak y papas, simplísimo, rápido, £11 el steak. Pick fuerte",
+          "Alt 1: Dishoom Covent Garden — indio premiado",
+          "Alt 2: Shake Shack (en la piazza misma) — hamburguesas, los nenes aman"
+        ]
+      },
+      { time: "14:00", type: "rest", title: "Buffer + baños + salida" },
+      {
+        time: "14:00-15:30",
+        type: "transport",
+        title: "🚆 Tránsito al estudio",
+        bullets: [
+          "14:00 Piccadilly Line a Leicester Square (2 min) → cambio Northern Line a Euston (6 min)",
+          "14:30 Tren RÁPIDO a Watford Junction desde Euston (verificar 'fast' en pantallas, plataformas 8-11, 20 min). EVITAR Overground (55 min)",
+          "14:50 Llegan Watford Junction → bus stop 4 afuera (shuttle decorado Harry Potter)",
+          "15:00-15:15 Shuttle al estudio"
+        ]
+      },
+      {
+        time: "16:00-19:30",
+        type: "highlight",
+        title: "⚡ Warner Bros Studio Tour",
+        body: "Autoguiado después del Great Hall.\n\nOrden: Great Hall → Sets interiores (Gryffindor, Dumbledore, Weasley, Hagrid) → Backlot (Knight Bus, Privet Drive, puente de Hogwarts, Butterbeer) → Creature Effects → Diagon Alley → Model Room (cierre emocional)."
+      },
+      {
+        time: "",
+        type: "highlight",
+        title: "🎯 Imperdibles",
+        bullets: [
+          "Butterbeer: obligatoria en el backlot (~£7). Versión espumosa es la clásica. Guardar el vaso de recuerdo",
+          "Plataforma 9¾: carrito con equipaje encastrado en la pared. Staff saca la foto con bufanda y varita",
+          "Escoba voladora: si fila es >20 min, skipeenlo",
+          "Hagrid's Hut: momentazo, Hagrid animatrónico. Juli flipa",
+          "Dragón de Gringotts: escupe fuego de verdad cada 10-15 min",
+          "Modelo de Hogwarts al final: sala circular oscura con música. Cierre emocional. NO se vayan antes del final"
+        ]
+      },
+      { time: "19:30", type: "food", title: "Cena rápida en el estudio", body: "Studio Café o Backlot Café. Pizza, sandwiches, chicken nuggets. £15-20 por persona. OBLIGATORIO comer — después no hay nada decente." },
+      {
+        time: "~19:00 (durante el tour)",
+        type: "transport",
+        title: "📱 Pedir Uber de vuelta",
+        body: "Uno abre la app, marca 'Warner Bros. Studio Tour London, Leavesden WD25 7LR' como origen. Pedirlo 15 min antes de salir. Pick-up en rotonda de entrada/salida del estudio."
+      },
+      { time: "~20:30", type: "rest", title: "Llegan al alojamiento en Uber", body: "Juli 100% dormido en brazos. Uno carga a Juli, otro las bolsas." }
+    ],
+    tips: [
+      "Presupuesto tienda: '£20 máximo para Benji UNA cosa'",
+      "Varitas £35-45, snitches £15-20, peluches £20",
+      "Juli: peluchito dinosaurio o similar £10-15"
+    ],
+    missions: [
+      "Tomar Butterbeer",
+      "Foto plataforma 9¾",
+      "Ver al dragón escupir fuego",
+      "Modelo de Hogwarts final"
+    ]
+  },
+
+  // =========== DÍA 5 ===========
+  {
+    num: 5,
+    date: "2026-05-20",
+    dayName: "Miércoles",
+    city: "Londres",
+    title: "Torre de Londres light",
+    subtitle: "Versión light post-Warner",
+    principle: "Versión LIGHT después del Warner Bros. 3h30 actividad total, no 6h. Saltean joyas de la corona (cola + aburrido para nenes) y Tower Bridge exhibition (Juli no llega a 1.20m para glass floor).",
+    blocks: [
+      { time: "9:00-10:30", type: "rest", title: "Desayuno tranqui, arranque lento" },
+      { time: "10:30", type: "transport", title: "Salida + District Line a Tower Hill", body: "District Line desde High Street Kensington directo a Tower Hill (18 min, sin cambios)." },
+      { time: "11:05-11:15", type: "activity", title: "Tower Hill viewpoint + entrada", body: "Plaza elevada arriba de la estación: vista brutal del castillo, Tower Bridge, HMS Belfast, mapa gigante de bronce. Entran por Middle Drawbridge (Middle Tower en conservación hasta junio 2026)." },
+      {
+        time: "11:15-13:00",
+        type: "highlight",
+        title: "🏰 Tower of London — highlights only (1h 45min)",
+        bullets: [
+          "11:15-11:45 Los cuervos + Tower Green: directo al Inner Ward, cuervos sueltos. Misión: encontrar los 7 (Munin, Jubilee, Harris, Merlina, etc). Tower Green: 'acá Enrique VIII mandó a cortar la cabeza a 2 de sus 6 esposas'",
+          "11:45-12:20 White Tower planta baja únicamente: Line of Kings / Royal Armouries. La armadura de Enrique VIII con el 'extra' (risa garantizada). NO suben los 3 pisos",
+          "12:20-13:00 Medieval Palace: guías en vestuario medieval que interactúan con los chicos. Los nenes son 'nobles visitando al rey'. Suben a Wall Walk si tienen ganas"
+        ]
+      },
+      {
+        time: "13:00-14:00",
+        type: "food",
+        title: "⚓ Almuerzo en St Katharine Docks",
+        body: "5 min caminando al este, cruzando bajo Tower Bridge. Marina histórica con barcos amarrados, restaurantes al aire libre.",
+        bullets: [
+          "Pick fuerte: The Dickens Inn — pub histórico edificio victoriano, menu kids, terraza enorme",
+          "Alts: Pizza Express (ventana al agua), Côte Brasserie (francés), Burger & Lobster"
+        ]
+      },
+      {
+        time: "14:00-14:45",
+        type: "activity",
+        title: "🌉 Cruzar Tower Bridge caminando (SOLO paseo)",
+        body: "GRATIS cruzar. Saltean la exhibición (Juli no llega a 1.20m para glass floor).",
+        bullets: [
+          "Paran en el medio para fotos",
+          "Si hay Bridge Lift programado (chequear towerbridge.org.uk el día antes) = bonus épico",
+          "14:45: llegan al lado sur, Potter's Fields Park. Helado en carrito cerca"
+        ]
+      },
+      {
+        time: "15:00-16:00",
+        type: "activity",
+        title: "Opción libre según energía",
+        bullets: [
+          "A) Con energía: Uber Boat en Tower Pier → Westminster Pier (25 min, vistas épicas), bajan en Westminster + District Line",
+          "B) Fundidos: caminan 8 min a London Bridge → Jubilee + District al alojamiento",
+          "C) Cierre chill: Uber directo a Diana Memorial Playground Kensington Gardens (£35-45) — el mejor playground de Londres, Juli 1-1.5h felicidad pura"
+        ]
+      },
+      { time: "17:00-17:30", type: "rest", title: "Llegan al alojamiento" },
+      { time: "18:30-19:30", type: "food", title: "Cena en Kensington", body: "Si quieren reservar algo especial, esta es la noche porque mañana es el último día en Londres." }
+    ],
+    missions: [
+      "Encontrar los 7 cuervos",
+      "Armadura de Enrique VIII con el 'extra'",
+      "Hacer reverencia al rey en el Medieval Palace",
+      "Cruzar Tower Bridge caminando en el medio",
+      "Bonus si hay Bridge Lift: ver el puente levantándose"
+    ]
+  },
+
+  // =========== DÍA 6 ===========
+  {
+    num: 6,
+    date: "2026-05-21",
+    dayName: "Jueves",
+    city: "Londres",
+    title: "Último día Londres",
+    subtitle: "Lift 109 + Hamleys",
+    blocks: [
+      {
+        time: "8:30-10:00",
+        type: "rest",
+        title: "Desayuno + preparación valijas",
+        body: "Preparar valijas parcialmente (mañana Eurostar a París). Poner al lado lo que se llevan al tren: documentos, snacks, entretenimiento, ropa cómoda."
+      },
+      {
+        time: "10:00",
+        type: "transport",
+        title: "🚢 Uber Boat Westminster → Battersea",
+        bullets: [
+          "High Street Kensington → District Line → Westminster (11 min)",
+          "Caminata 5 min a Westminster Pier (pasan por Big Ben, última foto)",
+          "10:45 o 11:00 Uber Boat (RB2) → Battersea Power Station Pier. 22 min de paseo glorioso frente a las 4 chimeneas"
+        ]
+      },
+      { time: "11:10-11:40", type: "activity", title: "Exterior Battersea Power Station", body: "Mini-misión: '¿cuál chimenea tiene el lift adentro?' Respuesta: la nor-oeste (mira hacia el Támesis y Chelsea)." },
+      {
+        time: "11:45-12:30",
+        type: "highlight",
+        title: "🛗 Lift 109 / The Chimney Lift",
+        body: "Reserva online con anticipación, slot ~11:45-12:00. Entrada Turbine Hall A. Suitable Ages 3+.",
+        bullets: [
+          "Experiencia ~45 min: exhibición Art Deco → pared interactiva → Switch Room (película 360°) → Infinity Room (luces LED táctiles) → ascensor de vidrio por la chimenea (109m en <1 min) → plataforma superior 360° (Shard, London Eye, Big Ben, Wembley) → descenso",
+          "Cochecitos NO entran, hay buggy park"
+        ]
+      },
+      {
+        time: "13:00-14:15",
+        type: "food",
+        title: "🍜 Almuerzo en Battersea",
+        bullets: [
+          "Arcade Food Hall (pick fuerte) — food hall con 10+ puestos (vietnamita, coreano, pizza, mexicano). Cada uno pide lo suyo",
+          "Alts: Megan's, Gordon Ramsay Street Pizza, Wagamama"
+        ]
+      },
+      {
+        time: "14:15-15:00",
+        type: "activity",
+        title: "Opcional: Power Station Park o directo Hamleys",
+        bullets: [
+          "Si día lindo: 30-45 min césped + fuente interactiva al lado del edificio",
+          "Si fundidos: Uber directo a Hamleys (20 min, £20-25)"
+        ]
+      },
+      {
+        time: "15:00-17:30",
+        type: "highlight",
+        title: "🧸 Hamleys Regent Street",
+        body: "7 pisos de locura infantil. 1-1.5 horas máximo (más es sobredosis).",
+        bullets: [
+          "CRITICAL: presupuesto ANTES de entrar: 'Benji UNA cosa hasta £30. Juli UNA hasta £20'",
+          "Estrategia: subir directo al último piso y bajar. Empezar arriba con lo que le interesa a Benji (Lego, drones) y bajar llegando a peluches para Juli al final",
+          "Planta baja: peluches, osos gigantes, demostradores con globos",
+          "Piso 1: niños chicos — Juli acá se queda",
+          "Piso 2: niñas, arts & crafts",
+          "Piso 3: STEM, ciencia, construcción (Benji)",
+          "Piso 4: Lego land",
+          "Piso 5: juegos electrónicos, drones",
+          "Último piso: dulces temáticos",
+          "Misión High-Five al oso: en la entrada oso gigante uniformado, staff juega con los nenes"
+        ]
+      },
+      {
+        time: "17:30-18:00",
+        type: "activity",
+        title: "🌆 Cierre escénico Regent → Piccadilly",
+        body: "Caminan por Regent Street (8 min) → Piccadilly Circus (pantallas gigantes, estatua de Eros). M&M's World a 5 min: SOLO entrar a mirar, no comprar nada (carísimo)."
+      },
+      { time: "18:00-18:30", type: "transport", title: "Vuelta al alojamiento", body: "Piccadilly Line Piccadilly Circus → High Street Kensington (directo, 15 min)." },
+      {
+        time: "Noche",
+        type: "warning",
+        title: "⚠️ Tareas OBLIGATORIAS esta noche",
+        bullets: [
+          "API Eurostar: completar Advance Passenger Information para los 4 en app Eurostar (pasaportes). Si no lo hacen, pueden DENEGAR embarque",
+          "Valijas listas: grandes cerradas, mochilas mano ligeras con snacks, entretenimiento, ropa cómoda",
+          "Ropa del viernes separada: afuera de la valija",
+          "Uber XL reservado: mañana 8:00 para estar en St Pancras 8:45-9:00"
+        ]
+      },
+      { time: "20:00-21:30", type: "food", title: "Cena de despedida de Londres", body: "Dishoom Kensington / The Ivy Kensington Brasserie / Kensington Square Kitchen / o repetir el favorito.\n\n22:00 a dormir. Eurostar sale 10:30." }
+    ]
+  }
+];
+// Continuación - Días 7-13 París
+
+const DAYS_PART2 = [
+  // =========== DÍA 7 ===========
+  {
+    num: 7,
+    date: "2026-05-22",
+    dayName: "Viernes",
+    city: "París",
+    title: "Cruce a París + Torre Eiffel",
+    subtitle: "Eurostar + primer encuentro con la Torre",
+    booked: [
+      { name: "Eurostar LDN→PAR", time: "10:30" },
+      { name: "Torre Eiffel", time: "17:30" }
+    ],
+    warning: {
+      title: "Timing ajustado pero factible",
+      body: "Llegan Gare du Nord 13:59 → Marais 14:45 → check-in 14:55 → salida 15:30 → Torre 16:00 → entrada 17:30. Margen: 3h30 entre Eurostar y ticket Torre. Suficiente pero no sobra. ACCIÓN CRÍTICA: coordinar check-in temprano con anfitrión del Marais (máx 14:45) o luggage storage (Nannybag/Bounce, €5-8/valija)."
+    },
+    blocks: [
+      { time: "7:00-8:00", type: "rest", title: "Despertar, desayuno, valijas listas" },
+      { time: "8:00", type: "transport", title: "🚖 Uber XL al St Pancras", body: "45 min con tráfico matinal. £50-70." },
+      { time: "8:45-9:00", type: "transport", title: "Llegan St Pancras", body: "Check-in Eurostar en Lower Concourse. Con niños, 75-90 min antes de salida recomendado." },
+      {
+        time: "9:00-10:15",
+        type: "activity",
+        title: "Ticket gate → Security → UK exit → French border → sala",
+        bullets: [
+          "Pipí preventivo antes de subir",
+          "Comprar snacks/bebidas para el tren en la sala (Pret a Manger, champagne bar)",
+          "Los nenes pueden caminar un poco"
+        ]
+      },
+      { time: "10:30", type: "transport", title: "🚄 Sale Eurostar", body: "Buscar número de vagón ANTES de subir (pantallas plataforma). Si están en vagón 14 y suben al 3, caminan 11 vagones con valijas." },
+      {
+        time: "Durante el tren (2h 20min)",
+        type: "activity",
+        title: "🌊 Cruce del canal",
+        bullets: [
+          "Min 35-55: Eurotúnel. 20 min de oscuridad total. Misión Benji: buscar el reloj cuando se pone oscuro / cuando vuelve la luz",
+          "Tablet con descargas offline (Netflix download — hacer la noche anterior)",
+          "Libros y cuadernos para dibujar",
+          "Almuerzo en el tren (comprado en St Pancras). Consumo lento como entretenimiento",
+          "Snack dulce + juguetito £5 Hamleys guardado para el momento crítico (hora 1:30-2:00)"
+        ]
+      },
+      {
+        time: "13:59",
+        type: "transport",
+        title: "Llegan a Gare du Nord",
+        body: "NO hay control de pasaporte al bajar — ya pasaron en Londres.\n\n⚠️ CUIDADO pickpockets: Gare du Nord es notoria. Billeteras bolsillos internos, mochilas al frente, valijas pegadas al cuerpo."
+      },
+      { time: "14:10-14:25", type: "transport", title: "🚕 Cola de taxis G7 oficial", body: "Señalización 'TAXI' lado oeste de la estación. Al Marais: €20-30, 15-20 min. NO metro con 4 valijas + 2 nenes. NO Uber (pick-up caótico en Gare du Nord)." },
+      {
+        time: "14:45-14:55",
+        type: "rest",
+        title: "🏠 Llegan al alojamiento (26 rue des Rosiers)",
+        bullets: [
+          "Check-in, valijas adentro, baño, cambio de ropa si hace falta",
+          "Snack rápido: boulangerie Rue des Rosiers/Rue Vieille du Temple",
+          "Preparar mochila Torre: camperas (viento arriba), agua, snacks, cargador, celus 100%, tickets Torre en PDF/app"
+        ]
+      },
+      { time: "15:30", type: "transport", title: "Salida hacia Trocadéro", body: "Uber directo Marais → Place du Trocadéro (~20 min, €18-22). Alt metro: Saint-Paul (L1) → Franklin D. Roosevelt → cambio L9 → Trocadéro (~35 min, 1 cambio). Peor con nenes cansados." },
+      {
+        time: "16:00-16:30",
+        type: "highlight",
+        title: "🗼 Trocadéro — primera vista de la Torre",
+        body: "Salen del Uber en la plaza. Caminan al borde (baranda sobre los jardines).",
+        bullets: [
+          "PRIMERA VISTA DE LA TORRE EIFFEL, DE FRENTE, COMPLETA",
+          "La foto emocional del viaje. Todas las fotos necesarias, videos, selfies",
+          "Ojo con vendedores de pulseras/figuritas — 'non merci' firme y siguen"
+        ]
+      },
+      { time: "16:30-17:00", type: "activity", title: "Bajada por Jardines + Pont d'Iéna", body: "Bajan por los Jardines del Trocadéro (escaleras, estanques, fuentes). Cruzan el Sena por Pont d'Iéna. Foto en el puente con la Torre de fondo. Entran al perímetro de seguridad (vallas desde 2018). Control tipo aeropuerto 10-20 min." },
+      { time: "17:15-17:30", type: "rest", title: "Cola de ascensor con ticket timed 17:30" },
+      {
+        time: "17:30-19:00",
+        type: "highlight",
+        title: "🗼 Torre Eiffel",
+        bullets: [
+          "Ventaja slot 17:30 vs mañana: ven torre de DÍA Y de NOCHE. Atardecer mayo ~21:20",
+          "17:30-18:30 arriba: luz dorada, atardecer empezando",
+          "18:30 bajando por primer piso (glass floor): vistas con luz cada vez más bonita",
+          "19:00 salen: aún con luz pero atardecer mágico",
+          "Con Juli casi-5, si ticket es summit piénsenlo: más colas, cima chica. El 2° piso es 85% de la experiencia",
+          "Misión 'tocar los tornillos' ✅ cumplida en cualquier piso (2.5 millones de remaches)"
+        ]
+      },
+      { time: "19:00-19:30", type: "rest", title: "Bajada + salida" },
+      { time: "19:30-20:00", type: "transport", title: "Uber al Marais", body: "€15-20, 15-20 min. Los nenes empiezan a colapsar." },
+      {
+        time: "20:00-21:30",
+        type: "food",
+        title: "🥙 Cena rápida en el Marais",
+        body: "Primera cena del barrio. Opciones a 2-5 min del alojamiento:",
+        bullets: [
+          "L'As du Fallafel (34 Rue des Rosiers) — el mejor falafel del mundo, a 50 metros. Cola 15-20 min viernes tarde",
+          "Miznon (22 Rue des Écouffes) — pitas creativas",
+          "Breizh Café Marais (109 Rue Vieille du Temple) — crepes",
+          "Chez Marianne — mezze medio oriental, kid-friendly"
+        ]
+      },
+      { time: "21:30", type: "rest", title: "A dormir" }
+    ],
+    tips: [
+      "Expresiones para los nenes en el taxi: Bonjour (hola), Merci (gracias)",
+      "El francés aprecia MUCHO el esfuerzo. Si los nenes dicen 'Bonjour Monsieur' al entrar a panadería, los miman gratis"
+    ],
+    missions: [
+      "Primera vista de la Torre desde Trocadéro",
+      "Tocar los tornillos de la Torre Eiffel",
+      "Probar L'As du Fallafel"
+    ]
+  },
+
+  // =========== DÍA 8 ===========
+  {
+    num: 8,
+    date: "2026-05-23",
+    dayName: "Sábado",
+    city: "París",
+    title: "Sena + Barquitos + Louvre",
+    subtitle: "Bateaux Mouches + Tuileries + Louvre",
+    booked: [
+      { name: "Louvre", time: "15:00" }
+    ],
+    warning: {
+      title: "Acción crítica antes del viaje",
+      body: "Reservar tickets Louvre YA en ticketlouvre.fr (o Tiqets/GetYourGuide) para sábado 23/05, slot 15:00 o 15:30. Sábado de mayo los slots de tarde se agotan rápido."
+    },
+    principle: "Orden Bateaux Mouches primero (mañana) → Barquitos + Louvre (tarde). El Bateaux Mouches termina a 15-20 min del Louvre, logística limpia.",
+    blocks: [
+      { time: "9:00-10:30", type: "rest", title: "Despertar natural, desayuno tranqui", body: "Boulangerie del barrio: Poilâne Marais, Maison Landemaine, o cualquier del Marais." },
+      { time: "10:30", type: "transport", title: "Salida", body: "Uber directo Marais → Bateaux Mouches (Pont de l'Alma), €12-18, 10-15 min." },
+      { time: "11:15", type: "activity", title: "Llegan al pier", body: "Compran tickets en ventanilla o vienen con online (ahorran €1 por ticket)." },
+      {
+        time: "11:30-12:45",
+        type: "highlight",
+        title: "🚢 Bateaux Mouches",
+        body: "Duración 1h 10min. Salida y vuelta desde Pont de l'Alma. 2 adultos + Benji + Juli (gratis si <4) = ~€47 total.",
+        bullets: [
+          "Parten frente a la Torre Eiffel",
+          "Pont Alexandre III (el más bonito, dorado)",
+          "Les Invalides (tumba de Napoleón)",
+          "Musée d'Orsay",
+          "Louvre desde el río",
+          "Hôtel de Ville",
+          "Île de la Cité con Notre-Dame (reabierta post-incendio)",
+          "Île Saint-Louis",
+          "Vuelta pasando los mismos lugares"
+        ]
+      },
+      {
+        time: "",
+        type: "activity",
+        title: "Tips crucero",
+        bullets: [
+          "Arriba, cubierta abierta (top deck) — mejor vista",
+          "Audio guide GRATIS en español — pedirlo al embarcar",
+          "Campera obligatoria — 5-7°C menos en el barco por el viento",
+          "Misión 'saludar a otros barcos' — siempre saludan de vuelta",
+          "Misión bonus: contar puentes (~15 en el recorrido)"
+        ]
+      },
+      {
+        time: "12:45-14:00",
+        type: "food",
+        title: "☕ Almuerzo caminando hacia el Louvre",
+        body: "Caminan 15 min por el Sena desde Pont de l'Alma hacia el Louvre.",
+        bullets: [
+          "Pick fuerte: Angelina (226 Rue de Rivoli, frente al Louvre) — pastelería clásica, chocolate caliente 'L'Africain' mundialmente famoso. Carísimo pero experiencia. Plato principal €20-28",
+          "Alt: Café Kitsuné (Palais Royal, 5 min del Louvre) — trendy"
+        ]
+      },
+      {
+        time: "14:00-14:30",
+        type: "highlight",
+        title: "⛵ Barquitos en Tuileries",
+        body: "Les Petits Bateaux — Grand Bassin del Jardin des Tuileries.",
+        bullets: [
+          "Barquito de madera con palito para empujar, €5 por 30 min",
+          "Cada velero tiene bandera de un país. Juli elige España/Francia, Benji Italia (no hay Uruguay)",
+          "Experiencia parisina pura, los nenes van a amarlo"
+        ]
+      },
+      { time: "14:30-14:45", type: "transport", title: "Caminata al Louvre", body: "Atraviesan Tuileries caminando suave hasta el Louvre (~5-10 min desde los barquitos)." },
+      { time: "14:45-15:00", type: "activity", title: "Entrada al Louvre", body: "Acceso por Pirámide de Vidrio. Presentar e-ticket no más tarde de media hora antes del slot. Cola seguridad (con ticket más rápida). Pasan por rayos-X. Dejan bolsas medianas-grandes en lockers GRATIS (planta baja bajo la pirámide)." },
+      {
+        time: "15:00-16:30",
+        type: "highlight",
+        title: "🏛️ Louvre ruta 'Highlights + Momias' (1h 30min ESTRICTA)",
+        body: "REGLA DE ORO: no intentes ver más. El Louvre tiene 35,000 obras. Vinieron a ver 6-8."
+      },
+      {
+        time: "",
+        type: "activity",
+        title: "1. Sully Wing, planta baja — Antigüedades Egipcias (30 min)",
+        bullets: [
+          "Esfinge de Tanis (sala 321) — bienvenida monumental",
+          "Sarcófagos pintados, Escriba sentado",
+          "Momias reales (sala 322-323) — incluyen momias de animales (gatos, ibis, cocodrilos). Juli flipa",
+          "Misión Benji: '¿cuántos jeroglíficos con pájaros encontrás?'",
+          "Misión Juli: '¿cuál momia es la más chiquita?' (las de animales)"
+        ]
+      },
+      {
+        time: "",
+        type: "activity",
+        title: "2. Denon Wing, primer piso — Grandes Pinturas (35-40 min)",
+        bullets: [
+          "Victoria de Samotracia en el descanso de la gran escalera — estatua alada, foto",
+          "Grand Galerie pasando pinturas italianas",
+          "Mona Lisa (Sala 711) — cola permanente 15-20 min, 30 seg frente al cuadro",
+          "Bodas de Caná de Veronese (frente a Mona Lisa, casi todos lo ignoran) — cuadro del tamaño de una pared",
+          "La Coronación de Napoleón de Jacques-Louis David — gigante, imponente"
+        ]
+      },
+      {
+        time: "",
+        type: "activity",
+        title: "3. Sully Wing, planta baja — Antigüedades Griegas (15 min)",
+        bullets: [
+          "Venus de Milo (sala 345) — '¿dónde están sus brazos?' (se perdieron en 1820). Foto"
+        ]
+      },
+      {
+        time: "16:30-17:30",
+        type: "rest",
+        title: "Descanso en Tuileries",
+        body: "Al salir, no vuelvan al alojamiento. Jardin des Tuileries al oeste del Louvre. Playground + carrusel en la parte oeste. Café Les Marronniers al aire libre."
+      },
+      { time: "17:30-18:00", type: "transport", title: "Vuelta al Marais", body: "Caminando 20-25 min cruzando Pont des Arts o Pont du Carrousel (paseo precioso por el Sena). O Uber directo (€10-12, 10 min)." },
+      { time: "18:30-19:00", type: "rest", title: "Descanso + preparación Día 9" },
+      { time: "19:00-20:30", type: "food", title: "Cena temprana + PSG prep", body: "Cena simple. Mañana fútbol a las 10:00." }
+    ],
+    missions: [
+      "Saludar a otros barcos del Sena",
+      "Empujar barquito de madera con palito",
+      "Encontrar jeroglíficos con pájaros",
+      "Ver la Mona Lisa",
+      "Contar brazos que le faltan a la Venus de Milo"
+    ]
+  },
+
+  // =========== DÍA 9 ===========
+  {
+    num: 9,
+    date: "2026-05-24",
+    dayName: "Domingo",
+    city: "París",
+    title: "Fútbol + Champs-Élysées",
+    subtitle: "PSG + Arco + Trocadéro",
+    booked: [
+      { name: "PSG Stadium Tour", time: "10:00" }
+    ],
+    warning: {
+      title: "⚠️ Verificaciones CRÍTICAS",
+      body: "PSG Stadium Tour en domingo 24/05: disponible fines de semana 10:00-17:00. PERO si hay partido local ese fin de semana, el tour puede cancelarse. Verificar en psg.fr antes del viaje. RESERVAR YA en stadiumtour.psg.fr. Slot propuesto: 10:00 o 10:30 AM."
+    },
+    blocks: [
+      { time: "8:00-9:00", type: "rest", title: "Despertar, desayuno" },
+      { time: "9:00", type: "transport", title: "🚖 Salida hacia Parc des Princes", body: "Uber directo Marais → Parc des Princes (15-25 min, €15-22). Pick fuerte para domingo matinal. Alt metro: Saint-Paul (L1) → Châtelet → L10 → Michel-Ange-Molitor (25-30 min)." },
+      {
+        time: "10:00-11:30",
+        type: "highlight",
+        title: "⚽ PSG Stadium Tour",
+        body: "Gate L. Recorrido autoguiado con QR 1h-1h15. Gratis <5 años (verificar edad Juli). Adulto €25-30.",
+        bullets: [
+          "VIP areas, vestuario PSG: banquetas con nombres jugadores actuales (Dembélé, Donnarumma, Hakimi). Foto en la banqueta del favorito de Benji",
+          "Sala de conferencias de prensa: los nenes se sientan en el podio con logo PSG",
+          "Players' hall + tunnel: pasillo por donde salen al campo, música épica",
+          "Pitch side + banco: pisan el césped (zonas permitidas), se sientan en el banco",
+          "🎯 Penal en el arco: actividad única — Benji patea penal contra arquero inflable o real. LA JOYA. Celu listo para video",
+          "Trophy Room: todas las copas PSG, incluida Champions League 2025"
+        ]
+      },
+      { time: "11:30-12:15", type: "food", title: "Almuerzo cerca del estadio", body: "Le Lady (Rue du Commandant Guilbaud) — pub temático, kid-friendly. O sandwiches en boulangerie cercana." },
+      { time: "12:15-13:00", type: "transport", title: "🚇 Tránsito al Arc de Triomphe", body: "Metro L9 (Porte d'Auteuil) → Franklin D. Roosevelt (12 min directo). Caminata por Champs-Élysées subiendo hacia el Arco (20 min)." },
+      {
+        time: "13:00-15:00",
+        type: "activity",
+        title: "🛍️ Champs-Élysées subiendo",
+        body: "El paseo más icónico del mundo, 1 km cuesta arriba.",
+        bullets: [
+          "Ladurée (75 Av. des Champs-Élysées): macarons mundialmente famosos, €3 c/u. Elegir 4-6 colores para merendar",
+          "LEGO Store (55): misión original del día. 2 pisos, construcciones gigantes de monumentos parisinos. Benji 30-45 min. Budget: '€30 máximo'",
+          "Peugeot Avenue (136): showroom de autos, F1, concept cars. GRATIS. 15 min",
+          "Haribo Store (149): similar a M&M's World pero golosinas francesas"
+        ]
+      },
+      {
+        time: "15:00-15:45",
+        type: "highlight",
+        title: "🏛️ Arc de Triomphe — SOLO POR FUERA",
+        body: "NO cruzar la rotonda (imposible, 12 calles). Túnel peatonal subterráneo desde salida Metro Charles de Gaulle-Étoile.",
+        bullets: [
+          "Tumba del Soldado Desconocido + Llama Eterna (GRATIS, bajo el arco). Momento solemne",
+          "Esculturas fachadas: La Marsellesa de François Rude (mujer gritando con espada). Misión Benji: '¿podés encontrar al soldado más grande en cada escultura?'",
+          "Bajo el arco: foto mítica mirando hacia arriba",
+          "Placas suelo: nombres de batallas napoleónicas. Dato divertido — 'Waterloo' NO está (los franceses no la ponen porque la perdieron)"
+        ]
+      },
+      { time: "15:45-16:30", type: "transport", title: "Caminata por Avenue Kléber a Trocadéro", body: "Una de las 12 avenidas del Arco, la que va al sur." },
+      { time: "16:30-17:15", type: "highlight", title: "🌇 Trocadéro con luz dorada (segunda visita)", body: "Segunda visita a la vista mágica de la Torre Eiffel, esta vez con tranquilidad. Helado en un kiosco. Fotos." },
+      { time: "17:15-17:45", type: "transport", title: "Vuelta al Marais", body: "Metro Trocadéro (L9) → cambio → Saint-Paul. O Uber (€15-20)." },
+      { time: "19:00-20:30", type: "food", title: "Cena en el Marais", body: "Ya conocen el barrio. Opciones cerca del alojamiento según apetito." }
+    ],
+    missions: [
+      "⚽ Patear penal en Parc des Princes",
+      "🏆 Foto con la copa Champions 2025 en la Trophy Room",
+      "🕳️ Cruzar la rotonda del Arco por debajo",
+      "🔥 Ver la llama eterna del Soldado Desconocido",
+      "✨ Trocadéro con luz dorada"
+    ]
+  },
+
+  // =========== DÍA 10 ===========
+  {
+    num: 10,
+    date: "2026-05-25",
+    dayName: "Lunes",
+    city: "París",
+    title: "Montmartre + Buttes-Chaumont",
+    subtitle: "París bohemio + parque selva",
+    blocks: [
+      { time: "8:30-9:45", type: "rest", title: "Desayuno tranqui" },
+      {
+        time: "10:00",
+        type: "transport",
+        title: "Metro L4 a Anvers",
+        body: "Desde Marais: Saint-Paul (L1) → Châtelet → cambio L4 → Anvers (~25 min, 1 cambio).\n\nNO bajar en Abbesses (200+ escalones en espiral, ascensores a veces fuera)."
+      },
+      {
+        time: "10:30-11:00",
+        type: "activity",
+        title: "🎠 Carrousel Saint-Pierre + Funicular",
+        body: "Place Saint-Pierre (base de las escaleras a Sacré-Cœur).",
+        bullets: [
+          "Carrousel Saint-Pierre — clásico manège francés, caballitos de madera. Juli obligatorio. €3 por viaje",
+          "Funicular a Sacré-Cœur: 1 ticket metro por persona (~€2.15). Contactless NO funciona — necesitan ticket físico o Carnet. 1.5 min de subida"
+        ]
+      },
+      {
+        time: "11:00-12:00",
+        type: "highlight",
+        title: "⛪ Sacré-Cœur + Place du Tertre",
+        bullets: [
+          "Fachada de Sacré-Cœur. Interior gratis 10-15 min (mosaico gigante del Cristo en el ábside)",
+          "Parvis (escalera frente): vista panorámica de París. Torre Eiffel, Louvre, Pompidou, Arc de Triomphe. Misión: '¿pueden encontrar la Torre Eiffel?'",
+          "⚠️ Cuidado timadores de pulseras: 'non merci' firme, no dejar que toquen las manos",
+          "Caminar 3 min al este a Place du Tertre — plaza de los artistas con pintores y caricaturistas"
+        ]
+      },
+      {
+        time: "12:00-13:30",
+        type: "food",
+        title: "🍷 Bajada por callecitas + almuerzo",
+        body: "Ruta: Rue Norvins → Le Consulat (café icónico rosa y amarillo) → Rue des Saules → Viñedos de Montmartre (Clos Montmartre) — Benji flipa con viñedos en ciudad → Lapin Agile (cabaret histórico por fuera) → Rue Lepic.",
+        bullets: [
+          "Le Moulin de la Galette (pintado por Renoir)",
+          "Café des Deux Moulins (15 Rue Lepic) — el café de Amélie, decorado exactamente como la película. Almuerzo aquí",
+          "Au Marché de la Butte (56 Rue des Trois Frères) — tiendita verde de Amélie, foto",
+          "💙 Mur des 'Je t'aime' (Square Jehan Rictus, Place des Abbesses) — mural azul gigante en 250 idiomas. MISIÓN ORIGINAL. Buscar 'Te quiero' en español"
+        ]
+      },
+      {
+        time: "13:30-14:15",
+        type: "transport",
+        title: "🚖 Tránsito a Buttes-Chaumont",
+        bullets: [
+          "Uber directo 15-20 min, €12-18. Pick fuerte con niños cansados",
+          "Metro: Abbesses (L12) → Pigalle → L2 → Belleville → L11 → Buttes-Chaumont (25-30 min, 2 transbordos)"
+        ]
+      },
+      {
+        time: "14:15-17:30",
+        type: "highlight",
+        title: "🌳 Parc des Buttes-Chaumont",
+        body: "25 hectáreas, muy montañoso (ex-cantera de yeso). Abre 7:00 AM hasta 23:00 en abril-octubre.",
+        bullets: [
+          "14:30-15:00 Puente colgante + isla + Temple de la Sibylle: puente colgante rojo diseñado por Gustave Eiffel. Isla central con 173 escalones al templete. Vista panorámica",
+          "15:00-15:30 La Grotte: gruta artificial con estalactitas de 8m y cascada de 18m. Benji y Juli flipan",
+          "15:30-16:30 Playgrounds + descanso: área 'Les Pirates' con temática pirata. Carrusel tradicional (€2-3). Pony rides (€4-5). Ustedes en el césped",
+          "16:30-17:00 Merienda: Rosa Bonheur guinguette (bar al aire libre en parte alta), crêpes, cerveza. O un kiosco"
+        ]
+      },
+      { time: "17:00-18:00", type: "transport", title: "Vuelta al Marais", body: "Uber directo (25 min, €18-22). Juli probablemente dormido en el auto." },
+      { time: "19:30-21:00", type: "food", title: "Cena", body: "Le Procope (13 Rue de l'Ancienne Comédie) — restaurante más antiguo de París (1686, Voltaire y Franklin). Experiencia histórica. O Breizh Café Marais (conocido)." }
+    ],
+    missions: [
+      "🎠 Subir a Montmartre en funicular",
+      "💙 Buscar 'Te quiero' en español en el Mur des Je T'aime",
+      "🍷 Ver un viñedo real en medio de París",
+      "🎨 Ver pintores pintando en Place du Tertre",
+      "🌉 Cruzar el puente colgante de Eiffel en Buttes-Chaumont",
+      "🦎 Entrar a una gruta con estalactitas"
+    ]
+  },
+
+  // =========== DÍA 11 ===========
+  {
+    num: 11,
+    date: "2026-05-26",
+    dayName: "Martes",
+    city: "París",
+    title: "Descanso Marais + Parpadeo",
+    subtitle: "Día 'París en cámara lenta' + Torre Eiffel a las 22:00",
+    principle: "Día 'París en cámara lenta'. Cero presión, cero tickets, cero colas. Los nenes recuperan energía para Disney. Ustedes viven el París que NO se ve en guías turísticas.",
+    blocks: [
+      {
+        time: "9:00-11:30",
+        type: "rest",
+        title: "🛏️ Mañana lenta en el alojamiento",
+        body: "LITERALMENTE no hagan nada. Nenes se despiertan naturalmente, desayunan, miran dibujitos.\n\nMisión autonomía para Benji: comprar croissants en boulangerie de la esquina. 'Bonjour, trois croissants s'il vous plaît.'"
+      },
+      {
+        time: "11:30-13:00",
+        type: "highlight",
+        title: "🏛️ Place des Vosges + Maison Victor Hugo",
+        body: "Caminata 3 MINUTOS desde el alojamiento. La plaza más antigua de París (1605-1612).",
+        bullets: [
+          "Jardín central con playgrounds cerrados, sandpits y fuentes. Juli y Benji directo al playground",
+          "Ustedes en bancos o sillas metálicas, observan familias del barrio. Paseo por las arcadas",
+          "Maison de Victor Hugo (6 Place des Vosges, esquina sureste) — GRATIS, martes-domingo 10-18h (cerrado lunes)",
+          "30-40 min. Donde vivió el autor de 'Los Miserables' y 'El Jorobado de Notre Dame' entre 1832-1848"
+        ]
+      },
+      {
+        time: "13:00-14:00",
+        type: "food",
+        title: "🥙 Almuerzo en el Marais",
+        bullets: [
+          "Pick fuerte: L'AS DU FALLAFEL (34 Rue des Rosiers) — a 50 metros. €9 pita gigante. Cola 15-20 min al mediodía. Los nenes lo aman",
+          "Alts: Miznon, Breizh Café Marais, Chez Marianne, Le Loir dans la Théière"
+        ]
+      },
+      { time: "14:00-15:00", type: "rest", title: "Descanso en el alojamiento", body: "Juli siesta corta 30-45 min. Sagrado. A la noche Champ de Mars hasta 22:30." },
+      {
+        time: "15:00-17:00",
+        type: "activity",
+        title: "🚶 Paseo Marais → Pompidou → Notre-Dame → Île Saint-Louis",
+        bullets: [
+          "15:00-15:15 Rue des Rosiers: última caminata por 'su' calle",
+          "15:15-15:30 Centre Pompidou exterior + Fuente Stravinsky: edificio industrial 'al revés' (tuberías afuera), Benji flipa. Fuente Stravinsky: esculturas MECÁNICAS de colores que se mueven y escupen agua (Niki de Saint Phalle, Jean Tinguely). Cerditos, labios rojos gigantes",
+          "15:30-16:00 Notre-Dame por fuera: reabierta post-incendio. Kilómetro 0 de Francia (placa de bronce en explanada)",
+          "16:00-16:30 Île Saint-Louis: cruzan Pont Saint-Louis → BERTHILLON (31 Rue Saint-Louis-en-l'Île) — el mejor helado de París. Sabores: chocolate amer, vainilla, marron (castaña), pistacho. €5 por 2 bolas",
+          "16:30-17:00 Vuelta al Marais: Pont Marie → Quai des Célestins → alojamiento. 10 min caminando"
+        ]
+      },
+      {
+        time: "17:30-19:30",
+        type: "rest",
+        title: "Descanso + preparación DISNEY + cena liviana",
+        body: "Ducha. Cena liviana en casa o pizzería rápida cerca.\n\nPreparar mochila Disney: ponchos €2 Monoprix, snacks, cargadores, ropa extra Juli, gorras, protector solar, tickets verificados.\n\nDespertador 7:00-7:15."
+      },
+      { time: "19:45-20:00", type: "transport", title: "🚖 Salida al Champ de Mars", body: "Uber directo Marais → Champ de Mars, €18-22, 20-25 min. Pick fuerte." },
+      { time: "20:15-20:30", type: "activity", title: "Llegan a Champ de Mars", body: "Champ de Mars = parque alargado FRENTE a la Torre (lado Ecole Militaire, NO Trocadéro). Eligen punto en el césped a 200-300m de la base. Llevar manta/toallón (Monoprix €5, más barato que vendedores)." },
+      { time: "20:30-21:35", type: "activity", title: "✨ Hora dorada", body: "Atmósfera parisina. Músicos callejeros, familias del mundo. Snacks suaves. Ojo con vendedores — torres LED €2-5, Juli puede querer una." },
+      { time: "21:35-21:50", type: "activity", title: "🌇 Atardecer", body: "Sol se pone detrás de la torre. Fotos obligadas." },
+      { time: "21:50-22:00", type: "activity", title: "💡 Luces doradas se encienden", body: "Automático ~10 min después del atardecer. La Torre se pone amarilla. Momento mágico #1." },
+      {
+        time: "22:00",
+        type: "highlight",
+        title: "✨ PRIMER PARPADEO",
+        body: "5 minutos exactos. 20,000 bombitas parpadean en bursts aleatorios sobre las 4 caras. Juli sin palabras, Benji saca mil fotos. Aplausos espontáneos — los nenes aplauden también.",
+        bullets: ["MOMENTO MÁS MÁGICO DEL VIAJE"]
+      },
+      {
+        time: "22:15",
+        type: "transport",
+        title: "Salida",
+        body: "NO se queden para segundo parpadeo 23:00 — Disney mañana.\n\nUber Champ de Mars → Marais, 20-25 min, €18-22. Juli 100% duerme en el auto.\n\n22:45 llegan al Marais. 23:00 todos en la cama. Despertar 7:00-7:15."
+      }
+    ],
+    missions: [
+      "🥐 Benji compra croissants solo",
+      "🏛️ Place des Vosges",
+      "🏠 Maison Victor Hugo",
+      "🥙 L'As du Fallafel",
+      "🎨 Fuente Stravinsky (esculturas mecánicas)",
+      "🍦 Helado Berthillon en Île Saint-Louis",
+      "✨ Ver parpadear la Torre Eiffel a las 22:00"
+    ]
+  },
+
+  // =========== DÍA 12 ===========
+  {
+    num: 12,
+    date: "2026-05-27",
+    dayName: "Miércoles",
+    city: "París",
+    title: "Disneyland Park",
+    subtitle: "🏰 Un solo día, ejecutado con cabeza",
+    booked: [
+      { name: "Disneyland Park", time: "Todo el día" }
+    ],
+    principle: "Maratón de alegría, ejecutado con cabeza. Regla clave: llegar antes de que abra, aprovechar la primera hora (la única sin colas), siesta a la tarde o pausa larga, cerrar con fuegos artificiales.",
+    blocks: [
+      {
+        time: "",
+        type: "warning",
+        title: "📋 Datos logísticos",
+        bullets: [
+          "Trayecto: Saint-Paul (L1) → Châtelet (3 min) → RER A → Marne-la-Vallée-Chessy (40 min). ~50 min puerta a puerta",
+          "Ticket: Île-de-France €7.60 adulto, €3.85 niños 4-10. Gratis <4",
+          "Frecuencia: trenes cada 10-15 min desde 5:20 AM",
+          "⚠️ Verificar tren dice 'Marne La Vallée – Chessy'. Si cuadro no está iluminado, NO es ese tren",
+          "Apertura parque: 9:30 AM (verificar app el día antes, a veces 9:00 en temporada alta)",
+          "Illuminations: ~22:00 frente al castillo"
+        ]
+      },
+      { time: "6:30-7:15", type: "rest", title: "Despertar" },
+      { time: "7:15-7:45", type: "food", title: "Desayuno FUERTE en casa", body: "Huevos, croissants, fruta, yogur. Los dejan comidos hasta 11-12. Hidratar bien." },
+      {
+        time: "7:45-8:00",
+        type: "warning",
+        title: "🎒 Checklist mochila Disney",
+        bullets: [
+          "4 ponchos de lluvia plegados (Monoprix €2 c/u)",
+          "2 botellas de agua rellenables (fuentes gratis en el parque)",
+          "Snacks: galletitas, frutos secos, barritas, manzana",
+          "2 cargadores portátiles",
+          "4 gorras",
+          "Protector solar (spray)",
+          "Ropa de recambio para Juli",
+          "Curitas, paracetamol infantil, toallitas húmedas",
+          "Contactless + efectivo (€50-100)",
+          "Tickets Disney en app + capturas pantalla por si falla internet"
+        ]
+      },
+      { time: "8:00", type: "transport", title: "Salida del alojamiento" },
+      { time: "8:05-8:10", type: "transport", title: "Line 1 Saint-Paul → Châtelet (3 min)" },
+      { time: "8:15-8:25", type: "transport", title: "RER A a Marne-la-Vallée — Chessy", body: "Verificar dirección 'Marne la Vallée – Chessy' en pantalla." },
+      { time: "9:05", type: "activity", title: "Llegan a Marne-la-Vallée", body: "Caminata 2 min a entrada. Control seguridad. Escaneo tickets." },
+      { time: "9:15-9:30", type: "activity", title: "🏰 En explanada, caminan por Main Street USA hacia el castillo" },
+      {
+        time: "9:30-12:30",
+        type: "highlight",
+        title: "🎠 PRIMER BLOQUE: Fantasyland (3h)",
+        body: "Estrategia clave: ir DIRECTO a las atracciones más populares antes de que empiecen las colas.",
+        bullets: [
+          "1. 🌟 Peter Pan's Flight: primera parada. La atracción infantil más mágica del parque. A las 9:35 cola 5-10 min, a las 11 cola 60-90 min",
+          "2. Dumbo the Flying Elephant",
+          "3. It's a Small World",
+          "4. Mad Hatter's Tea Cups",
+          "5. Le Carrousel de Lancelot",
+          "6. Blanche-Neige (Snow White's Scary) — OJO con Juli, la bruja aparece varias veces",
+          "7. Pinocchio ride"
+        ]
+      },
+      {
+        time: "12:30-14:00",
+        type: "food",
+        title: "🍔 Almuerzo temprano",
+        body: "Coman ANTES del pico 13:00-14:00.",
+        bullets: [
+          "Pick: Plaza Gardens Restaurant (reservar por app) o Cowboy Cookout Barbecue (western, sin reserva)",
+          "Presupuestar €80-100 para los 4"
+        ]
+      },
+      {
+        time: "14:00-15:30",
+        type: "highlight",
+        title: "🏴‍☠️ SEGUNDO BLOQUE: Adventureland + Frontierland",
+        bullets: [
+          "Pirates of the Caribbean: IMPERDIBLE. Barco por cuevas con piratas animatrónicos. 10 min",
+          "Adventure Isle: túneles, puentes colgantes, búsqueda de tesoros. 30-60 min de juego LIBRE sin cola",
+          "La Cabane des Robinson: cabaña en el árbol con escaleras",
+          "Big Thunder Mountain: roller coaster moderado. Altura mínima 1.02m (medir a Juli antes). Imperdible Benji",
+          "Phantom Manor: casa embrujada. Oscuro, 'scary' suave. Juli puede asustarse, decisión familiar",
+          "Thunder Mesa Riverboat: barco de vapor 15 min, tranqui"
+        ]
+      },
+      {
+        time: "15:30-16:30",
+        type: "rest",
+        title: "🛏️ SIESTA FORZADA",
+        body: "SAGRADO. NO saltear.",
+        bullets: [
+          "Mejor opción: Disneyland Railroad — tren a vapor que da la vuelta al parque completo, 20 min. Juli se duerme, vos descansás. Pueden dar 1-2 vueltas. Salida desde Main Street Station",
+          "Helado en carrito, sentados"
+        ]
+      },
+      {
+        time: "16:30-19:00",
+        type: "highlight",
+        title: "🚀 TERCER BLOQUE: Discoveryland + repetidas",
+        bullets: [
+          "Buzz Lightyear Laser Blast: interactiva, disparan a blancos. Compiten puntuación",
+          "Star Tours: simulator. Altura mínima 1.02m. Solo si Benji engancha Star Wars",
+          "Orbitron: como Dumbo pero cohetes/naves",
+          "Autopia: autos para manejar. Benji maneja solo, Juli de pasajero",
+          "Repetidas: Peter Pan, Big Thunder, Pirates — colas bajan a la tarde"
+        ]
+      },
+      {
+        time: "19:00-20:30",
+        type: "food",
+        title: "🍕 Cena + descanso antes del show",
+        bullets: [
+          "Casual rápida: Market House Deli, Casey's Corner (hot dogs), Café Hypérion",
+          "Si reservaron con anticipación: Auberge de Cendrillon (cena con princesas, €85-95 adulto)"
+        ]
+      },
+      {
+        time: "20:30-22:30",
+        type: "highlight",
+        title: "🎆 Disney Illuminations",
+        body: "20:30 empezar a posicionarse en Central Plaza (frente al castillo). Buenos spots se llenan 1h antes. Llegar 21:00 máximo.",
+        bullets: [
+          "Juli a upa para ver bien",
+          "22:00 show de 20-25 min: proyecciones en el castillo + fuegos artificiales + música"
+        ]
+      },
+      {
+        time: "22:30",
+        type: "transport",
+        title: "Salida estratégica",
+        bullets: [
+          "Esperar 20-30 min en Main Street (tiendas, helado) para evitar el 'éxodo de Disney'",
+          "Salen 22:50-23:00 más tranquilos",
+          "🚖 UBER directo Disney → Marais (€90-120, 55 min). Vale la pena con niños dormidos"
+        ]
+      },
+      { time: "00:00", type: "rest", title: "Llegan al Marais", body: "Juli dormido. Todos directo a la cama." }
+    ],
+    tips: [
+      "App 'Disneyland Paris': tiempos de espera en vivo, mapa, horarios, reservas. ESENCIAL",
+      "Premier Access (pago extra): si atracción 90 min cola, valorar €5-15 por persona por skip. NO preventivo, solo si crítico",
+      "Parade a las 13:00 en Main Street — aprovechar para hacer Peter Pan's Flight (cola cae durante el parade)",
+      "Rider Switch: si atracción no apta para Juli, uno espera con él, después el otro va con Benji sin hacer cola de nuevo",
+      "Hidratación: fountains gratis en todo el parque",
+      "Calzado: zapatillas súper cómodas, medias algodón limpias, curitas preventivas",
+      "Altura Juli 1.02m: medir antes. Con zapatillas altas gana 2 cm",
+      "Punto de encuentro establecido YA al entrar (castillo) por si se separan"
+    ],
+    missions: [
+      "🏰 Entrar al Castillo de la Bella Durmiente",
+      "🧚 Volar con Peter Pan sobre Londres y Neverland",
+      "⛰️ Sobrevivir Big Thunder Mountain",
+      "🏴‍☠️ Navegar Pirates of the Caribbean",
+      "🚀 Disparar a Zurg con Buzz Lightyear",
+      "🎆 Ver Disney Illuminations desde la plaza del castillo"
+    ]
+  },
+
+  // =========== DÍA 13 ===========
+  {
+    num: 13,
+    date: "2026-05-28",
+    dayName: "Jueves",
+    city: "París → Londres → Montevideo",
+    title: "Despedida",
+    subtitle: "Marais + Eurostar 15:11 + vuelo 21:20",
+    booked: [
+      { name: "Eurostar PAR→LDN", time: "15:11" },
+      { name: "Vuelo LDN→MVD", time: "21:20" }
+    ],
+    principle: "Día del 'cierre emocional del Marais'. Cero transporte largo, cero colas, cero museos, solo sabores y paseo final.",
+    blocks: [
+      {
+        time: "",
+        type: "warning",
+        title: "📋 Contexto del día",
+        bullets: [
+          "Eurostar: sale 15:11 de Gare du Nord",
+          "Traslado a Gare du Nord: 13:00-13:15 del Marais (taxi ~15-20 min)",
+          "Tiempo útil: desde despertar hasta 13:00",
+          "Vuelo Montevideo: 21:20 desde Heathrow"
+        ]
+      },
+      {
+        time: "8:00-9:30",
+        type: "rest",
+        title: "Despertar, desayuno, valijas",
+        body: "Preparar valijas hasta 'solo falta ropa del día'. Todo cerrado. Confirmar check-out con anfitrión."
+      },
+      {
+        time: "9:30-10:30",
+        type: "food",
+        title: "🥐 Desayuno de despedida",
+        bullets: [
+          "Boulangerie favorita del barrio",
+          "Korcarz (29 Rue des Rosiers) — pastelería judía, strudel de manzana increíble",
+          "O Du Pain et des Idées (34 Rue Yves Toudic) — una de las mejores panaderías de París",
+          "Comen sentados en un café con terraza"
+        ]
+      },
+      {
+        time: "10:30-12:15",
+        type: "activity",
+        title: "🚶 Última vuelta al Marais",
+        bullets: [
+          "10:30-11:00 Rue des Rosiers + Pletzl: última caminata por 'su' calle. Falafel para avión (L'As du Fallafel envuelto aguanta 3-4h), chocolates Jacques Genin, pan dulce judío (rugelach, babka) para Montevideo",
+          "11:00-11:30 Place des Vosges por última vez: última sesión playground para Juli. Fotos finales. Si no entraron a Maison Victor Hugo el Día 11, última chance (gratis, 30 min)",
+          "11:30-12:00 Chocolatería / souvenirs: Jacques Genin (133 Rue de Turenne) — caramelos de mantequilla y bombones famosos. Mariage Frères (30 Rue du Bourg-Tibourg) — té gourmet",
+          "12:00-12:30 Compras prácticas: agua, snacks Eurostar (Franprix o Monoprix en Rue de Rivoli, 5 min). Más barato que Gare du Nord"
+        ]
+      },
+      {
+        time: "12:30-13:00",
+        type: "rest",
+        title: "🏠 Vuelta al alojamiento + despedida",
+        bullets: [
+          "Recogen todas las valijas",
+          "Check-out final (dejan llaves si Airbnb, coordinar con host)",
+          "Última foto en la puerta del 26 rue des Rosiers",
+          "Pedir Uber XL al Gare du Nord"
+        ]
+      },
+      { time: "13:00-13:20", type: "transport", title: "🚕 Uber al Gare du Nord", body: "Marais → Gare du Nord: 15-20 min, €20-30." },
+      {
+        time: "13:20-15:11",
+        type: "activity",
+        title: "Gare du Nord / Eurostar",
+        bullets: [
+          "13:20-13:40: pipí, orientación. Ir directo área Eurostar (señalización, nivel superior). ⚠️ Cuidado pickpockets",
+          "13:40-14:00: Check-in Eurostar. Ticket gate → Security X-ray → Control pasaporte UK (entra a UK). NO hay control francés de salida",
+          "14:00-14:50: Sala de espera. Pipí último antes de subir. Cargadores en enchufes",
+          "14:50-15:00: Llamado plataforma. Busquen número de vagón en pantallas",
+          "15:11: Sale Eurostar → Londres"
+        ]
+      },
+      {
+        time: "16:30 UK / 17:30 París",
+        type: "transport",
+        title: "🇬🇧 Llegan a St Pancras London",
+        body: "Cambio de hora: Londres UTC+1, París UTC+2 (1h menos en Londres).\n\nBajan del tren, salida directa (no hay control en Londres saliendo a UK internamente).\n\nTúnel del canal: 20 min oscuridad, Juli puede dormir."
+      },
+      {
+        time: "16:40 UK",
+        type: "transport",
+        title: "🚖 St Pancras → Heathrow",
+        bullets: [
+          "Opción recomendada: Uber directo (£50-70, 1h con tráfico). Pick fuerte con niños cansados + valijas",
+          "Alt: Elizabeth Line + cambio (~50 min)"
+        ]
+      },
+      { time: "17:30-18:00 UK", type: "activity", title: "Llegan a Heathrow", body: "Depende terminal del vuelo." },
+      { time: "18:00-21:20 UK", type: "activity", title: "Check-in, seguridad, sala, embarque" },
+      { time: "21:20 UK", type: "highlight", title: "✈️ VUELO A MONTEVIDEO 🇺🇾" }
+    ],
+    checklist: [
+      "Pasaportes (ETIAS si es necesario, tickets Eurostar, vuelo Londres-Montevideo)",
+      "Valijas dentro del peso permitido del vuelo final",
+      "Mochilas: entretenimiento niños, snacks, cargadores, auriculares, ropa cambio Juli",
+      "Efectivo sobrante convertir o gastar antes",
+      "Tarjetas contactless/Oyster disponibles para Londres tramo final",
+      "Nada olvidado (bajo la cama, armarios, baño)",
+      "Foto grupo final en Place des Vosges o Rue des Rosiers"
+    ]
+  }
+];
+
+// Merge both parts
+DAYS.push(...DAYS_PART2);
+
+// =========== APPENDIX DATA ===========
+
+const RESERVATIONS = [
+  { id: "nhm", name: "Natural History Museum", day: 3, date: "Lun 18/05", time: "10:00", url: "https://www.nhm.ac.uk/visit/tickets.html", note: "GRATIS pero reservar slot. Exhibition Road entrance." },
+  { id: "louvre", name: "Louvre", day: 8, date: "Sáb 23/05", time: "15:00", url: "https://www.ticketlouvre.fr/", note: "Slot 15:00-15:30. Sábado mayo se agota rápido." },
+  { id: "psg", name: "PSG Stadium Tour", day: 9, date: "Dom 24/05", time: "10:00", url: "https://stadiumtour.psg.fr/", note: "Verificar que no haya partido ese domingo en psg.fr" },
+  { id: "inn-park", name: "Inn the Park (opcional)", day: 2, date: "Dom 17/05", time: "13:00", url: "https://www.opentable.co.uk/r/inn-the-park-london", note: "Si quieren asegurar lugar" },
+  { id: "plaza-gardens", name: "Plaza Gardens Disney (opcional)", day: 12, date: "Mié 27/05", time: "12:30", url: "https://www.disneylandparis.com", note: "App Disneyland Paris con 2-3 días anticipación" }
+];
+
+const CONFIRMED = [
+  { name: "London Eye", day: 2, date: "Dom 17/05", time: "10:00" },
+  { name: "Warner Bros Studio Tour", day: 4, date: "Mar 19/05", time: "16:00" },
+  { name: "Torre Eiffel", day: 7, date: "Vie 22/05", time: "17:30" },
+  { name: "Disneyland Park", day: 12, date: "Mié 27/05", time: "Todo el día" },
+  { name: "Eurostar LDN→PAR", day: 7, date: "Vie 22/05", time: "10:30" },
+  { name: "Eurostar PAR→LDN", day: 13, date: "Jue 28/05", time: "15:11" }
+];
+
+const PRE_TRIP_TODOS = [
+  { id: "etias", title: "Verificar ETIAS abril 2026", detail: "En travel-europe.europa.eu. Si activo, tramitar 4 ETIAS con 1+ semana anticipación. ~€7/adulto, gratis <18." },
+  { id: "apps", title: "Descargar apps", detail: "Disneyland Paris, Uber, Bolt, Google Maps offline Londres/París, Eurostar, CityMapper" },
+  { id: "esim", title: "Comprar eSIM", detail: "Airalo ~€10-20 por 5GB/semana. Mucho más barato que roaming Antel" },
+  { id: "offline", title: "Descargas offline", detail: "Netflix/Disney+ series y películas para Eurostar (2.5h) + vuelo (12h). ANTES de salir" },
+  { id: "measure", title: "Medir altura Juli", detail: "Necesita 1.02m para Big Thunder Mountain en Disney" },
+  { id: "uber-kensington", title: "Reservar Uber XL Día 7", detail: "Mañana 8:00 Kensington → St Pancras" },
+  { id: "poncho", title: "Comprar ponchos lluvia Monoprix", detail: "€2 c/u vs €15 dentro del parque Disney" },
+  { id: "marais-checkin", title: "Coordinar check-in Marais", detail: "Día 7 antes 14:45 O reservar luggage storage Nannybag/Bounce €5-8/valija" }
+];
+
+const TRANSPORT_REF = [
+  { context: "Londres", info: "Apple Pay/contactless directo. Menores de 11 GRATIS en metro/bus/DLR/Overground con adulto. NO Oyster." },
+  { context: "París", info: "Contactless o ticket Île-de-France. Juli <4 gratis, ≥5 paga €3.85. Benji €3.85." },
+  { context: "Londres → Heathrow", info: "Uber XL (£50-70, 1h) / Piccadilly Line / Elizabeth Line" },
+  { context: "París → Disney", info: "RER A desde Châtelet directo a Marne-la-Vallée (40 min)" },
+  { context: "Eurostar", info: "St Pancras ↔ Gare du Nord, 2h 20min" }
+];
+
+const FRENCH_PHRASES = [
+  { fr: "Bonjour", es: "Hola (mañana/mediodía)" },
+  { fr: "Bonsoir", es: "Buenas tardes/noches" },
+  { fr: "Merci", es: "Gracias" },
+  { fr: "S'il vous plaît", es: "Por favor" },
+  { fr: "Au revoir", es: "Adiós" },
+  { fr: "Un chocolat chaud, s'il vous plaît", es: "Un chocolate caliente por favor" },
+  { fr: "Un croissant, s'il vous plaît", es: "Un croissant por favor" },
+  { fr: "Où sont les toilettes ?", es: "¿Dónde están los baños?" },
+  { fr: "Non merci", es: "No gracias (a vendedores callejeros)" },
+  { fr: "L'addition, s'il vous plaît", es: "La cuenta por favor" },
+  { fr: "C'est combien ?", es: "¿Cuánto cuesta?" }
+];
+
+const EMERGENCY = [
+  { label: "Emergencias UE", value: "112", href: "tel:112" },
+  { label: "Emergencias UK", value: "999", href: "tel:999" },
+  { label: "Taxi G7 París", value: "+33 1 47 39 47 39", href: "tel:+33147394739" },
+  { label: "Embajada UY en Francia", value: "+33 1 45 00 81 37", href: "tel:+33145008137" },
+  { label: "Embajada UY en UK", value: "+44 20 7581 8752", href: "tel:+442075818752" }
+];
+// FLAVORS data — cosas raras de verdad para probar
+// Niveles de rareza:
+//   1 = fácil (snack típico)
+//   2 = medio (algo que no existe en UY)
+//   3 = valiente (sabor raro, aspecto extraño)
+//   4 = dios (nivel desafío real)
+
+const FLAVORS = [
+  // =========== LONDRES — DESAYUNOS ===========
+  {
+    id: "marmite",
+    name: "Marmite",
+    city: "Londres",
+    category: "Desayuno",
+    level: 4,
+    emoji: "🟫",
+    desc: "Pasta marrón oscura de levadura de cerveza. Slogan oficial: 'Love it or hate it'. Ultra salada, umami brutal.",
+    where: "Tesco o cualquier supermercado. Untar finito sobre tostada con manteca.",
+    suggestedDay: 1
+  },
+  {
+    id: "black-pudding",
+    name: "Black Pudding",
+    city: "Londres",
+    category: "Desayuno",
+    level: 3,
+    emoji: "⚫",
+    desc: "Morcilla frita en rodajas. Parte del Full English Breakfast.",
+    where: "Cualquier pub con Full English, o en hoteles ingleses.",
+    suggestedDay: 6
+  },
+  {
+    id: "baked-beans-toast",
+    name: "Baked beans con tostada",
+    city: "Londres",
+    category: "Desayuno",
+    level: 2,
+    emoji: "🫘",
+    desc: "Porotos blancos en salsa de tomate dulce arriba de pan tostado al desayuno. Rarísimo para uruguayo.",
+    where: "Cualquier café inglés o hotel.",
+    suggestedDay: 3
+  },
+  {
+    id: "full-english",
+    name: "Full English Breakfast",
+    city: "Londres",
+    category: "Desayuno",
+    level: 2,
+    emoji: "🍳",
+    desc: "Huevos + bacon + salchichas + black pudding + porotos + hongos + tomate + tostada. Desafío de estómago.",
+    where: "The Breakfast Club, Regency Café, cualquier pub mañanero.",
+    suggestedDay: 6
+  },
+
+  // =========== LONDRES — CALLEJERA / PLATOS ===========
+  {
+    id: "jellied-eels",
+    name: "Jellied Eels (anguilas en gelatina)",
+    city: "Londres",
+    category: "Calle",
+    level: 4,
+    emoji: "🍥",
+    desc: "Pedazos de anguila fría en gelatina traslúcida. Plato tradicional del East End. NIVEL DIOS.",
+    where: "Tubby Isaacs, M.Manze, o mercados del este. Difícil pero épico.",
+    suggestedDay: 5
+  },
+  {
+    id: "pie-mash-liquor",
+    name: "Pie and mash with liquor",
+    city: "Londres",
+    category: "Calle",
+    level: 3,
+    emoji: "🥧",
+    desc: "Pastel de carne con puré y salsa verde rara hecha con perejil y agua de anguila. Clásico obrero desde 1900.",
+    where: "M.Manze (Tower Bridge Rd) — el lugar histórico, desde 1902.",
+    suggestedDay: 5
+  },
+  {
+    id: "mushy-peas",
+    name: "Mushy Peas",
+    city: "Londres",
+    category: "Calle",
+    level: 2,
+    emoji: "🟢",
+    desc: "Puré de arvejas verde fluor que acompaña el fish & chips. Color y textura rarísimos.",
+    where: "Cualquier local de fish & chips.",
+    suggestedDay: 5
+  },
+  {
+    id: "fish-chips-newspaper",
+    name: "Fish & Chips en diario",
+    city: "Londres",
+    category: "Calle",
+    level: 1,
+    emoji: "🐟",
+    desc: "Pescado frito con papas, envuelto en papel de diario. Obligatorio una vez.",
+    where: "Poppie's, The Golden Hind, Rock & Sole Plaice (Covent Garden).",
+    suggestedDay: 4
+  },
+  {
+    id: "haggis",
+    name: "Haggis",
+    city: "Londres",
+    category: "Plato",
+    level: 4,
+    emoji: "🐑",
+    desc: "Vísceras de cordero picadas con avena y especias, cocinado en estómago de oveja. Escocés puro.",
+    where: "Pubs escoceses como Boisdale, o Albannach en Trafalgar.",
+    suggestedDay: 2
+  },
+  {
+    id: "toad-hole",
+    name: "Toad in the Hole",
+    city: "Londres",
+    category: "Plato",
+    level: 2,
+    emoji: "🐸",
+    desc: "Salchichas horneadas dentro de masa Yorkshire. Nombre ridículo: 'sapo en el agujero'.",
+    where: "Pubs tradicionales como The Guinea Grill, Simpson's in the Strand.",
+    suggestedDay: 5
+  },
+
+  // =========== LONDRES — DULCES RAROS ===========
+  {
+    id: "liquorice-allsorts",
+    name: "Liquorice Allsorts",
+    city: "Londres",
+    category: "Dulce",
+    level: 3,
+    emoji: "🟨",
+    desc: "Regalices de colores con coco y formas raras. Sabor regaliz fuerte que divide aguas.",
+    where: "Supermercado, Hamleys, M&S Food.",
+    suggestedDay: 6
+  },
+  {
+    id: "kendal-mint-cake",
+    name: "Kendal Mint Cake",
+    city: "Londres",
+    category: "Dulce",
+    level: 3,
+    emoji: "🌿",
+    desc: "Tableta de azúcar puro sabor menta extrema. Alpinistas la comen en el Everest.",
+    where: "Tiendas de outdoor, supermercados grandes, Boots.",
+    suggestedDay: 3
+  },
+  {
+    id: "sherbet-fountain",
+    name: "Sherbet Fountain",
+    city: "Londres",
+    category: "Dulce",
+    level: 2,
+    emoji: "🧂",
+    desc: "Tubito con polvito ácido que se come con un palito de regaliz. Raro de usar.",
+    where: "Cualquier candy shop o Hamleys.",
+    suggestedDay: 6
+  },
+  {
+    id: "dandelion-burdock",
+    name: "Dandelion & Burdock",
+    city: "Londres",
+    category: "Bebida",
+    level: 3,
+    emoji: "🌱",
+    desc: "Gaseosa medieval con sabor a raíz de diente de león y bardana. Única en el mundo.",
+    where: "Tesco o cualquier supermercado.",
+    suggestedDay: 3
+  },
+  {
+    id: "irn-bru",
+    name: "Irn-Bru",
+    city: "Londres",
+    category: "Bebida",
+    level: 3,
+    emoji: "🟠",
+    desc: "Gaseosa escocesa naranja fluor. Sabor indefinido que 'parece a chicle o metal'.",
+    where: "Tesco, Sainsbury's, cualquier supermercado.",
+    suggestedDay: 2
+  },
+  {
+    id: "ribena",
+    name: "Ribena",
+    city: "Londres",
+    category: "Bebida",
+    level: 1,
+    emoji: "🟣",
+    desc: "Jugo de grosella negra ultra británico. No existe en Uruguay.",
+    where: "Cualquier supermercado.",
+    suggestedDay: 1
+  },
+
+  // =========== PARÍS — CARACOLES/ANCAS ===========
+  {
+    id: "escargots",
+    name: "Escargots à la bourguignonne",
+    city: "París",
+    category: "Plato",
+    level: 4,
+    emoji: "🐌",
+    desc: "Caracoles con mantequilla de ajo y perejil. Se comen con pinza y tenedor de 2 dientes. Experiencia completa.",
+    where: "L'Escargot Montorgueil, Bistrot Paul Bert, o cualquier bistro tradicional. €12-18.",
+    suggestedDay: 10
+  },
+  {
+    id: "frog-legs",
+    name: "Cuisses de grenouille (ancas de rana)",
+    city: "París",
+    category: "Plato",
+    level: 4,
+    emoji: "🐸",
+    desc: "Ancas de rana fritas con ajo y perejil. Saben parecido al pollo. Se comen como alitas.",
+    where: "Roger la Grenouille (Saint-Germain), Léon Manjoua, bistrots tradicionales.",
+    suggestedDay: 11
+  },
+
+  // =========== PARÍS — MARISCOS CRUDOS ===========
+  {
+    id: "huitres",
+    name: "Huîtres (ostras crudas)",
+    city: "París",
+    category: "Marisco",
+    level: 4,
+    emoji: "🦪",
+    desc: "Ostras crudas con limón. Técnicamente se comen vivas. 6 ostras ~€15.",
+    where: "Le Bar à Huîtres, Huîtrerie Régis, Clamato. Cualquier brasserie.",
+    suggestedDay: 9
+  },
+  {
+    id: "oursin",
+    name: "Oursin (erizo de mar)",
+    city: "París",
+    category: "Marisco",
+    level: 4,
+    emoji: "🦔",
+    desc: "Erizo de mar crudo. Se come la carne naranja con cucharita, directo del caparazón con púas.",
+    where: "Le Bar à Huîtres, brasseries de mariscos de temporada.",
+    suggestedDay: 9
+  },
+  {
+    id: "bulots",
+    name: "Bulots (caracoles de mar)",
+    city: "París",
+    category: "Marisco",
+    level: 3,
+    emoji: "🐚",
+    desc: "Caracoles marinos grandes hervidos. Se sacan con alfiler. Se mojan en mayonesa.",
+    where: "Cualquier plateau de fruits de mer.",
+    suggestedDay: 9
+  },
+
+  // =========== PARÍS — QUESOS QUE HUELEN ===========
+  {
+    id: "epoisses",
+    name: "Époisses",
+    city: "París",
+    category: "Queso",
+    level: 4,
+    emoji: "🧀",
+    desc: "El queso más oloroso de Francia. Literalmente prohibido en transporte público francés por el olor. Sabor increíble.",
+    where: "Fromagerie Jouannault (Marais), Laurent Dubois, Fromagerie Hisada.",
+    suggestedDay: 11
+  },
+  {
+    id: "mont-dor",
+    name: "Mont d'Or",
+    city: "París",
+    category: "Queso",
+    level: 3,
+    emoji: "🥣",
+    desc: "Queso cremoso casi líquido en caja de madera. Se come con cuchara.",
+    where: "Cualquier fromagerie buena del Marais. Solo en temporada (oct-mar).",
+    suggestedDay: 11
+  },
+  {
+    id: "roquefort",
+    name: "Roquefort",
+    city: "París",
+    category: "Queso",
+    level: 3,
+    emoji: "🔵",
+    desc: "Azul intenso con vetas verdes. Mucho más fuerte que cualquier queso azul de súper uruguayo.",
+    where: "Cualquier fromagerie. Pedir la versión madurada.",
+    suggestedDay: 11
+  },
+  {
+    id: "reblochon",
+    name: "Reblochon",
+    city: "París",
+    category: "Queso",
+    level: 3,
+    emoji: "🧀",
+    desc: "Textura viscosa, olor fuerte pero sabor más suave de lo esperado.",
+    where: "Fromagerie Jouannault y otras del Marais.",
+    suggestedDay: 11
+  },
+  {
+    id: "misión-olfato",
+    name: "Misión: 'le plus fort'",
+    city: "París",
+    category: "Queso",
+    level: 4,
+    emoji: "👃",
+    desc: "Entrar a una fromagerie y pedir 'le plus fort que vous avez' (el más fuerte). Te dan a probar gratis.",
+    where: "Fromagerie Jouannault, 39 Rue de Bretagne, Marais.",
+    suggestedDay: 11
+  },
+
+  // =========== PARÍS — CHARCUTERIE RARA ===========
+  {
+    id: "andouillette",
+    name: "Andouillette",
+    city: "París",
+    category: "Plato",
+    level: 4,
+    emoji: "🌭",
+    desc: "Embutido de intestinos de cerdo. Olor fuerte específico. Label AAAAA = más auténtica y más fuerte de olor.",
+    where: "Bistrots clásicos: Chez L'Ami Jean, Le Bistrot Paul Bert.",
+    suggestedDay: 8
+  },
+  {
+    id: "steak-tartare",
+    name: "Steak Tartare",
+    city: "París",
+    category: "Plato",
+    level: 3,
+    emoji: "🥩",
+    desc: "Carne cruda picada con yema de huevo crudo arriba, alcaparras, cebolla. Te lo sirven crudo de verdad.",
+    where: "Le Severo, Bistrot Paul Bert, Café de Flore. Cualquier bistró.",
+    suggestedDay: 10
+  },
+  {
+    id: "boudin-noir",
+    name: "Boudin Noir",
+    city: "París",
+    category: "Plato",
+    level: 3,
+    emoji: "⚫",
+    desc: "Morcilla francesa, similar al black pudding pero más suave. Se sirve con manzana.",
+    where: "Bistrots tradicionales del Marais.",
+    suggestedDay: 11
+  },
+  {
+    id: "jambon-persille",
+    name: "Jambon Persillé",
+    city: "París",
+    category: "Plato",
+    level: 3,
+    emoji: "🟢",
+    desc: "Gelatina transparente con pedazos de jamón y perejil. Visual impactante.",
+    where: "Charcuteries del Marais o cualquier brasserie tradicional.",
+    suggestedDay: 13
+  },
+  {
+    id: "rillettes",
+    name: "Rillettes",
+    city: "París",
+    category: "Plato",
+    level: 2,
+    emoji: "🫙",
+    desc: "Carne de cerdo o pato deshebrada en su propia grasa. Untable sobre pan. Aspecto raro.",
+    where: "Boulangeries del Marais, Franprix, cualquier charcuterie.",
+    suggestedDay: 11
+  },
+
+  // =========== PARÍS — PLATOS FUERTES ===========
+  {
+    id: "ris-de-veau",
+    name: "Ris de Veau (mollejas)",
+    city: "París",
+    category: "Plato",
+    level: 3,
+    emoji: "🥩",
+    desc: "Mollejas de ternera. Tipo que conocemos pero preparación francesa muy fina.",
+    where: "Bistrots tradicionales.",
+    suggestedDay: 10
+  },
+  {
+    id: "rognons",
+    name: "Rognons à la moutarde",
+    city: "París",
+    category: "Plato",
+    level: 3,
+    emoji: "🫘",
+    desc: "Riñones de ternera con salsa de mostaza. Sabor fuerte pero muy clásico.",
+    where: "Cualquier bistró con menu tradicional.",
+    suggestedDay: 10
+  },
+
+  // =========== PARÍS — HELADOS RAROS BERTHILLON ===========
+  {
+    id: "berthillon-marron",
+    name: "Berthillon sabor marron",
+    city: "París",
+    category: "Dulce",
+    level: 2,
+    emoji: "🌰",
+    desc: "Helado de castaña. Textura suave, sabor único no existe en Uruguay.",
+    where: "Berthillon, 31 Rue Saint-Louis-en-l'Île.",
+    suggestedDay: 11
+  },
+  {
+    id: "berthillon-lavande",
+    name: "Berthillon sabor lavande",
+    city: "París",
+    category: "Dulce",
+    level: 3,
+    emoji: "💜",
+    desc: "Helado de lavanda. Sabor a flor puro.",
+    where: "Berthillon, Île Saint-Louis.",
+    suggestedDay: 11
+  },
+  {
+    id: "berthillon-violette",
+    name: "Berthillon sabor violette",
+    city: "París",
+    category: "Dulce",
+    level: 3,
+    emoji: "🟣",
+    desc: "Helado de violeta. Perfumado, casi a caramelo violeta.",
+    where: "Berthillon, Île Saint-Louis.",
+    suggestedDay: 11
+  },
+  {
+    id: "berthillon-caramel",
+    name: "Berthillon caramel au beurre salé",
+    city: "París",
+    category: "Dulce",
+    level: 1,
+    emoji: "🍯",
+    desc: "Caramelo de mantequilla salada. El sabor más pedido, nivel dios uruguayo.",
+    where: "Berthillon, Île Saint-Louis.",
+    suggestedDay: 11
+  },
+
+  // =========== PARÍS — DULCES RAROS ===========
+  {
+    id: "calissons",
+    name: "Calissons d'Aix",
+    city: "París",
+    category: "Dulce",
+    level: 2,
+    emoji: "💎",
+    desc: "Rombitos blancos de pasta de melón confitado y almendra. Textura rarísima, entre mazapán y gelatina.",
+    where: "Pâtisseries y confiteries. Jacques Genin, Aoki.",
+    suggestedDay: 13
+  },
+  {
+    id: "pates-de-fruits",
+    name: "Pâtes de fruits",
+    city: "París",
+    category: "Dulce",
+    level: 1,
+    emoji: "🟥",
+    desc: "Gelatinas de fruta puras ultra dulces, con azúcar grueso arriba.",
+    where: "Jacques Genin, pâtisseries, Mariage Frères.",
+    suggestedDay: 13
+  },
+  {
+    id: "canele",
+    name: "Canelé de Bordeaux",
+    city: "París",
+    category: "Dulce",
+    level: 2,
+    emoji: "🥮",
+    desc: "Pastelito acaramelado por fuera, cremoso por dentro. Forma de corona.",
+    where: "Lemoine, La Toque Cuivrée, Pâtisseries del Marais.",
+    suggestedDay: 11
+  },
+  {
+    id: "religieuse",
+    name: "Religieuse",
+    city: "París",
+    category: "Dulce",
+    level: 2,
+    emoji: "⛪",
+    desc: "Dos profiteroles apilados que parecen una monja. Relleno de chocolate o café.",
+    where: "Cualquier pâtisserie clásica del Marais.",
+    suggestedDay: 13
+  },
+  {
+    id: "madeleines-calientes",
+    name: "Madeleines calientes",
+    city: "París",
+    category: "Dulce",
+    level: 1,
+    emoji: "🐚",
+    desc: "Bizcochitos con forma de concha, recién horneados todavía calientes. Juli las va a amar.",
+    where: "Mesdemoiselles Madeleines (Marais), Maison Pozzetto.",
+    suggestedDay: 11
+  },
+
+  // =========== PARÍS — BEBIDAS RARAS ===========
+  {
+    id: "diabolo-menthe",
+    name: "Diabolo Menthe",
+    city: "París",
+    category: "Bebida",
+    level: 2,
+    emoji: "🟢",
+    desc: "Sprite/limonada con sirope de menta. Queda verde fluor brillante. Clásico de chicos franceses.",
+    where: "Cualquier café o brasserie.",
+    suggestedDay: 8
+  },
+  {
+    id: "sirop-grenadine",
+    name: "Sirop à l'eau (granadina)",
+    city: "París",
+    category: "Bebida",
+    level: 1,
+    emoji: "🔴",
+    desc: "Agua con sirope de granadina. Te sirven jarra de agua y sirope aparte para armar.",
+    where: "Cualquier café.",
+    suggestedDay: 8
+  },
+  {
+    id: "sirop-menthe",
+    name: "Sirop à l'eau (menta verde)",
+    city: "París",
+    category: "Bebida",
+    level: 2,
+    emoji: "🟢",
+    desc: "Agua con sirope de menta. Color verde intenso. Clásico de verano francés.",
+    where: "Cualquier café.",
+    suggestedDay: 10
+  },
+  {
+    id: "orangina",
+    name: "Orangina agitada",
+    city: "París",
+    category: "Bebida",
+    level: 1,
+    emoji: "🟠",
+    desc: "Gaseosa de naranja con pulpa. Ritual: botella panzona se agita antes de abrir.",
+    where: "Cualquier supermercado, Monoprix, Franprix.",
+    suggestedDay: 7
+  },
+  {
+    id: "citron-presse",
+    name: "Citron Pressé",
+    city: "París",
+    category: "Bebida",
+    level: 1,
+    emoji: "🍋",
+    desc: "Limonada natural DIY: jugo de limón + jarra de agua + azúcar. Vos mismo la armás.",
+    where: "Cualquier café.",
+    suggestedDay: 9
+  },
+  {
+    id: "chocolat-chaud",
+    name: "Chocolat chaud espeso",
+    city: "París",
+    category: "Bebida",
+    level: 1,
+    emoji: "🍫",
+    desc: "Chocolate caliente francés: mucho más denso que el uruguayo, casi líquido espeso.",
+    where: "Angelina (226 Rue de Rivoli) — el famoso L'Africain.",
+    suggestedDay: 8
+  }
+];
+
+// Helpers
+const FLAVOR_CATEGORIES = ["Desayuno", "Calle", "Plato", "Marisco", "Queso", "Dulce", "Bebida"];
+
+const LEVEL_META = {
+  1: { label: "Fácil", color: "#a7f3d0", dot: "🟢" },
+  2: { label: "Medio", color: "#fcd34d", dot: "🟡" },
+  3: { label: "Valiente", color: "#fb923c", dot: "🔴" },
+  4: { label: "Nivel dios", color: "#c8b6ff", dot: "🟣" }
+};
+// ---------- STATE ----------
+const STORAGE_KEY = 'paris2026-state-v1';
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    const parsed = raw ? JSON.parse(raw) : {};
+    return {
+      reservations: parsed.reservations || {},
+      todos: parsed.todos || {},
+      missions: parsed.missions || {},
+      checklist: parsed.checklist || {},
+      flavors: parsed.flavors || {},      // { id: { tried: bool, stars: 0-5 } }
+      flavorFilter: parsed.flavorFilter || { city: 'all', level: 'all' }
+    };
+  } catch { return { reservations: {}, todos: {}, missions: {}, checklist: {}, flavors: {}, flavorFilter: { city: 'all', level: 'all' } }; }
+}
+
+function saveState() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+  catch(e) { console.warn('localStorage unavailable', e); }
+}
+
+const state = loadState();
+
+// ---------- TYPE CONFIG ----------
+const TYPE_META = {
+  transport: { icon: '🚇', label: 'Transporte' },
+  activity: { icon: '📍', label: 'Actividad' },
+  food: { icon: '🍽️', label: 'Comida' },
+  rest: { icon: '🛋️', label: 'Descanso' },
+  highlight: { icon: '✨', label: 'Destacado' },
+  warning: { icon: '⚠️', label: 'Importante' },
+};
+
+// ---------- HELPERS ----------
+function el(tag, attrs = {}, children = []) {
+  const e = document.createElement(tag);
+  for (const k in attrs) {
+    if (k === 'class') e.className = attrs[k];
+    else if (k === 'html') e.innerHTML = attrs[k];
+    else if (k.startsWith('on')) e.addEventListener(k.slice(2).toLowerCase(), attrs[k]);
+    else e.setAttribute(k, attrs[k]);
+  }
+  (Array.isArray(children) ? children : [children]).forEach(c => {
+    if (c == null) return;
+    if (typeof c === 'string') e.appendChild(document.createTextNode(c));
+    else e.appendChild(c);
+  });
+  return e;
+}
+
+function formatDateShort(isoDate) {
+  const d = new Date(isoDate + 'T12:00:00');
+  const months = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+  return `${d.getDate()} ${months[d.getMonth()]}`;
+}
+
+function daysBetween(from, to) {
+  const a = new Date(from + 'T00:00:00');
+  const b = new Date(to + 'T00:00:00');
+  return Math.round((b - a) / (1000 * 60 * 60 * 24));
+}
+
+function getCurrentDayNum() {
+  const today = new Date().toISOString().slice(0, 10);
+  const day = DAYS.find(d => d.date === today);
+  return day ? day.num : null;
+}
+
+function getDayStatus(day) {
+  const today = new Date().toISOString().slice(0, 10);
+  if (day.date === today) return 'current';
+  if (day.date < today) return 'past';
+  return 'future';
+}
+
+function getFlavorsForDay(dayNum) {
+  return FLAVORS.filter(f => f.suggestedDay === dayNum);
+}
+
+function getTodaySuggestedFlavor() {
+  const currentDayNum = getCurrentDayNum();
+  if (!currentDayNum) return null;
+  const dayFlavors = getFlavorsForDay(currentDayNum);
+  if (dayFlavors.length === 0) return null;
+  // Pick first not-yet-tried, or any if all tried
+  const notTried = dayFlavors.find(f => !getFlavorState(f.id).tried);
+  return notTried || dayFlavors[0];
+}
+
+function buildTodayFlavorCard(flavor) {
+  const levelMeta = LEVEL_META[flavor.level];
+  return el('div', {
+    class: 'today-flavor',
+    onclick: () => {
+      // Jump to flavors view filtered by city & scroll to item
+      state.flavorFilter.city = flavor.city;
+      state.flavorFilter.level = 'all';
+      saveState();
+      showView('info');
+      // After view renders, scroll to item
+      setTimeout(() => {
+        const cards = document.querySelectorAll('.flavor-card');
+        cards.forEach(c => {
+          if (c.querySelector('.flavor-name')?.textContent === flavor.name) {
+            c.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            c.style.boxShadow = '0 0 0 2px var(--accent)';
+            setTimeout(() => { c.style.boxShadow = ''; }, 2000);
+          }
+        });
+      }, 100);
+    }
+  }, [
+    el('div', { class: 'today-flavor-label' }, `${levelMeta.dot} Sabor del día · ${levelMeta.label}`),
+    el('div', { class: 'today-flavor-name' }, `${flavor.emoji} ${flavor.name}`),
+    el('div', { class: 'today-flavor-desc' }, flavor.desc)
+  ]);
+}
+
+// ---------- VIEW ROUTING ----------
+function showView(name, opts = {}) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  const target = document.getElementById('view-' + name);
+  if (target) target.classList.add('active');
+
+  // update tab bar
+  document.querySelectorAll('.tab-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.view === name);
+  });
+  if (name === 'missions') {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-missions-btn').classList.add('active');
+  }
+  if (name === 'day-detail') {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelector('[data-view="days"]').classList.add('active');
+  }
+  if (name === 'more') {
+    // Keep "Sabores" highlighted since we came from there
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelector('[data-view="info"]').classList.add('active');
+  }
+
+  window.scrollTo({ top: 0, behavior: 'instant' });
+}
+
+document.querySelectorAll('.tab-btn[data-view]').forEach(btn => {
+  btn.addEventListener('click', () => showView(btn.dataset.view));
+});
+document.getElementById('tab-missions-btn').addEventListener('click', () => {
+  showView('missions');
+  renderMissionsView();
+});
+
+// ---------- RENDER: TODAY ----------
+function renderToday() {
+  const container = document.getElementById('today-content');
+  container.innerHTML = '';
+
+  const today = new Date().toISOString().slice(0, 10);
+  const currentDay = DAYS.find(d => d.date === today);
+
+  if (currentDay) {
+    // Inside the trip
+    const hero = el('div', { class: 'hero' }, [
+      el('div', { class: 'hero-label' }, `Día ${currentDay.num} de ${DAYS.length} · ${currentDay.city}`),
+      el('h1', { class: 'hero-title' }, currentDay.title),
+      el('div', { class: 'hero-sub' }, currentDay.subtitle || '')
+    ]);
+    container.appendChild(hero);
+
+    const btn = el('button', {
+      class: 'day-card current',
+      style: 'margin-top: 16px; display: flex; align-items: center;',
+      onclick: () => openDayDetail(currentDay.num)
+    }, [
+      el('div', { style: 'flex: 1;' }, [
+        el('div', { class: 'day-date' }, 'Plan completo'),
+        el('div', { class: 'day-title' }, 'Ver el día de hoy →')
+      ])
+    ]);
+    container.appendChild(btn);
+
+    // Sabor del día
+    const todayFlavor = getTodaySuggestedFlavor();
+    if (todayFlavor) {
+      container.appendChild(buildTodayFlavorCard(todayFlavor));
+    }
+
+    // Next day preview
+    const nextDay = DAYS[currentDay.num]; // num is 1-indexed, so DAYS[num] is next
+    if (nextDay) {
+      container.appendChild(el('div', { class: 'section-title' }, [
+        'Mañana ', el('span', { class: 'section-title-mini' }, `Día ${nextDay.num}`)
+      ]));
+      container.appendChild(buildDayCard(nextDay));
+    }
+
+  } else if (today < TRIP.startDate) {
+    // Pre-trip countdown
+    const dUntil = daysBetween(today, TRIP.startDate);
+    const hero = el('div', { class: 'hero' }, [
+      el('div', { class: 'hero-label' }, 'Faltan'),
+      el('h1', { class: 'hero-title' }, TRIP.title),
+      el('div', { class: 'hero-sub' }, TRIP.subtitle)
+    ]);
+    container.appendChild(hero);
+
+    // Countdown
+    const countdown = el('div', { class: 'countdown' }, [
+      el('div', { class: 'countdown-item' }, [
+        el('div', { class: 'countdown-num' }, String(dUntil)),
+        el('div', { class: 'countdown-label' }, dUntil === 1 ? 'día' : 'días')
+      ]),
+      el('div', { class: 'countdown-item' }, [
+        el('div', { class: 'countdown-num' }, '13'),
+        el('div', { class: 'countdown-label' }, 'días viaje')
+      ]),
+      el('div', { class: 'countdown-item' }, [
+        el('div', { class: 'countdown-num' }, '2'),
+        el('div', { class: 'countdown-label' }, 'ciudades')
+      ])
+    ]);
+    container.appendChild(countdown);
+
+    // Pending reservations
+    const pendingResv = RESERVATIONS.filter(r => !state.reservations[r.id]);
+    if (pendingResv.length) {
+      container.appendChild(el('div', { class: 'section-title' }, [
+        'Para reservar ', el('span', { class: 'section-title-mini' }, `${pendingResv.length} pendientes`)
+      ]));
+      pendingResv.slice(0, 3).forEach(r => container.appendChild(buildReservationItem(r)));
+      if (pendingResv.length > 3) {
+        container.appendChild(el('button', {
+          class: 'back-btn',
+          style: 'margin-top: 8px;',
+          onclick: () => showView('todos')
+        }, `Ver los ${pendingResv.length} pendientes →`));
+      }
+    }
+
+    // Pre-trip todos
+    const pendingTodos = PRE_TRIP_TODOS.filter(t => !state.todos[t.id]);
+    if (pendingTodos.length) {
+      container.appendChild(el('div', { class: 'section-title' }, [
+        'Tareas pre-viaje ', el('span', { class: 'section-title-mini' }, `${pendingTodos.length} pendientes`)
+      ]));
+      pendingTodos.slice(0, 3).forEach(t => container.appendChild(buildTodoItem(t)));
+    }
+
+    // First day preview
+    container.appendChild(el('div', { class: 'section-title' }, [
+      'El primer día ', el('span', { class: 'section-title-mini' }, formatDateShort(DAYS[0].date))
+    ]));
+    container.appendChild(buildDayCard(DAYS[0]));
+
+  } else {
+    // Post-trip
+    const hero = el('div', { class: 'hero' }, [
+      el('div', { class: 'hero-label' }, '¡Terminó el viaje!'),
+      el('h1', { class: 'hero-title' }, 'Bon voyage 🗼'),
+      el('div', { class: 'hero-sub' }, 'El itinerario queda guardado. Revivan las misiones.')
+    ]);
+    container.appendChild(hero);
+
+    container.appendChild(el('button', {
+      class: 'day-card',
+      style: 'margin-top: 16px;',
+      onclick: () => { showView('missions'); renderMissionsView(); }
+    }, [
+      el('div', { style: 'flex: 1;' }, [
+        el('div', { class: 'day-date' }, 'Logros'),
+        el('div', { class: 'day-title' }, 'Ver misiones cumplidas')
+      ])
+    ]));
+  }
+}
+
+// ---------- RENDER: DAYS LIST ----------
+function buildDayCard(day) {
+  const status = getDayStatus(day);
+  const cls = ['day-card'];
+  if (status === 'current') cls.push('current');
+  if (status === 'past') cls.push('past');
+
+  const cityBadge = el('span', {
+    class: 'day-city-badge ' + day.city.toLowerCase().replace(/[^a-z]/g, '').slice(0, 6)
+  }, day.city);
+
+  return el('button', {
+    class: cls.join(' '),
+    onclick: () => openDayDetail(day.num)
+  }, [
+    el('div', { class: 'day-num' }, String(day.num).padStart(2, '0')),
+    el('div', { class: 'day-content' }, [
+      el('div', { class: 'day-date' }, [
+        cityBadge,
+        `${day.dayName} ${formatDateShort(day.date)}`
+      ]),
+      el('div', { class: 'day-title' }, day.title),
+      el('div', { class: 'day-sub' }, day.subtitle || '')
+    ]),
+    el('div', { class: 'day-arrow' }, '›')
+  ]);
+}
+
+function renderDaysList() {
+  const london = document.getElementById('days-list-london');
+  const paris = document.getElementById('days-list-paris');
+  london.innerHTML = '';
+  paris.innerHTML = '';
+
+  DAYS.forEach(d => {
+    const card = buildDayCard(d);
+    if (d.num <= 6) london.appendChild(card);
+    else paris.appendChild(card);
+  });
+}
+
+// ---------- RENDER: DAY DETAIL ----------
+function openDayDetail(num) {
+  const day = DAYS.find(d => d.num === num);
+  if (!day) return;
+  renderDayDetail(day);
+  showView('day-detail');
+}
+
+function renderDayDetail(day) {
+  const container = document.getElementById('day-detail-content');
+  container.innerHTML = '';
+
+  // Header
+  const header = el('div', { class: 'day-detail-header' }, [
+    el('div', { class: 'day-detail-num' }, `Día ${day.num} · ${day.dayName} ${formatDateShort(day.date)} · ${day.city}`),
+    el('h1', { class: 'day-detail-title' }, day.title),
+    el('div', { class: 'day-detail-sub' }, day.subtitle || '')
+  ]);
+
+  // Booked badges
+  if (day.booked && day.booked.length) {
+    const row = el('div', { class: 'booked-row' });
+    day.booked.forEach(b => {
+      row.appendChild(el('span', { class: 'booked-badge' }, [
+        '🎫 ', el('strong', {}, b.name), ' · ', b.time
+      ]));
+    });
+    header.appendChild(row);
+  }
+
+  container.appendChild(header);
+
+  // Principle
+  if (day.principle) {
+    container.appendChild(el('div', { class: 'principle' }, day.principle));
+  }
+
+  // Warning (top-level, mostly used in Día 2-3)
+  if (day.warning) {
+    container.appendChild(buildBlock({
+      type: 'warning',
+      title: day.warning.title,
+      body: day.warning.body
+    }));
+  }
+
+  // Blocks
+  if (day.blocks && day.blocks.length) {
+    day.blocks.forEach(b => container.appendChild(buildBlock(b)));
+  }
+
+  // Missions
+  if (day.missions && day.missions.length) {
+    const miss = el('div', { class: 'missions' }, [
+      el('div', { class: 'missions-title' }, [
+        el('span', {}, '🎯'), el('em', {}, 'Misiones del día')
+      ])
+    ]);
+    day.missions.forEach((m, i) => {
+      const id = `d${day.num}-m${i}`;
+      const isDone = state.missions[id];
+      const item = el('div', {
+        class: 'mission' + (isDone ? ' done' : ''),
+        onclick: () => {
+          state.missions[id] = !state.missions[id];
+          saveState();
+          renderDayDetail(day);
+        }
+      }, [
+        el('div', { class: 'mission-check' }),
+        el('div', { class: 'mission-text' }, m)
+      ]);
+      miss.appendChild(item);
+    });
+    container.appendChild(miss);
+  }
+
+  // Sabores sugeridos del día
+  const dayFlavors = getFlavorsForDay(day.num);
+  if (dayFlavors.length > 0) {
+    const flavSection = el('div', {
+      class: 'missions',
+      style: 'background: linear-gradient(135deg, var(--bg-card) 0%, rgba(200, 182, 255, 0.04) 100%); border-color: rgba(200, 182, 255, 0.2);'
+    }, [
+      el('div', { class: 'missions-title' }, [
+        el('span', {}, '🍽️'), el('em', {}, 'Sabores para probar hoy')
+      ])
+    ]);
+    dayFlavors.forEach(f => {
+      const fState = getFlavorState(f.id);
+      const levelMeta = LEVEL_META[f.level];
+      const row = el('div', {
+        style: 'display: flex; align-items: flex-start; gap: 10px; padding: 10px 0; border-top: 1px solid var(--border-subtle); cursor: pointer;',
+        onclick: () => {
+          toggleFlavorTried(f.id);
+          renderDayDetail(day);
+        }
+      }, [
+        el('div', {
+          style: `width: 22px; height: 22px; border-radius: 50%; border: 2px solid ${fState.tried ? 'var(--accent)' : 'var(--border)'}; background: ${fState.tried ? 'var(--accent)' : 'transparent'}; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; color: var(--bg); font-size: 0.8rem; font-weight: 900;`
+        }, fState.tried ? '✓' : ''),
+        el('div', { style: 'flex: 1;' }, [
+          el('div', { style: 'font-size: 0.95rem; font-weight: 500;' + (fState.tried ? ' color: var(--text-faint); text-decoration: line-through;' : '') }, `${f.emoji} ${f.name}`),
+          el('div', {
+            style: `font-family: var(--font-mono); font-size: 0.66rem; color: ${levelMeta.color}; text-transform: uppercase; letter-spacing: 0.06em; margin-top: 2px;`
+          }, `${levelMeta.dot} ${levelMeta.label} · ${f.category}`),
+          el('div', { style: 'font-size: 0.82rem; color: var(--text-muted); margin-top: 4px; line-height: 1.4;' }, f.desc)
+        ])
+      ]);
+      flavSection.appendChild(row);
+    });
+    container.appendChild(flavSection);
+  }
+
+  // Tips
+  if (day.tips && day.tips.length) {
+    const tips = el('div', { class: 'tips' }, [
+      el('div', { class: 'tips-title' }, 'Tips prácticos'),
+      el('ul', { class: 'tips-list' },
+        day.tips.map(t => el('li', {}, t))
+      )
+    ]);
+    container.appendChild(tips);
+  }
+
+  // Checklist (for Day 13)
+  if (day.checklist && day.checklist.length) {
+    const chk = el('div', { class: 'tips' }, [
+      el('div', { class: 'tips-title' }, '✅ Checklist final')
+    ]);
+    day.checklist.forEach((text, i) => {
+      const id = `d${day.num}-c${i}`;
+      const done = state.checklist[id];
+      chk.appendChild(el('div', {
+        class: 'chk-item' + (done ? ' done' : ''),
+        onclick: () => {
+          state.checklist[id] = !state.checklist[id];
+          saveState();
+          renderDayDetail(day);
+        }
+      }, [
+        el('div', { class: 'chk-box' }),
+        el('div', { class: 'chk-text' }, text)
+      ]));
+    });
+    container.appendChild(chk);
+  }
+}
+
+function buildBlock(b) {
+  const type = b.type || 'activity';
+  const meta = TYPE_META[type] || TYPE_META.activity;
+  const children = [];
+
+  const header = el('div', { class: 'block-header' }, []);
+  if (b.time) {
+    header.appendChild(el('span', { class: 'block-time' }, b.time));
+  }
+  header.appendChild(el('span', { class: 'block-type-icon' }, meta.icon));
+  header.appendChild(el('span', { class: 'block-title' }, b.title));
+
+  children.push(header);
+
+  if (b.body) {
+    children.push(el('div', { class: 'block-body' }, b.body));
+  }
+
+  if (b.bullets && b.bullets.length) {
+    const ul = el('ul', { class: 'block-bullets' },
+      b.bullets.map(x => el('li', {}, x))
+    );
+    children.push(ul);
+  }
+
+  return el('div', { class: `block t-${type}` }, children);
+}
+
+// ---------- RENDER: RESERVATIONS / TODOS ----------
+function buildReservationItem(r) {
+  const isDone = !!state.reservations[r.id];
+  const itemNode = el('div', { class: 'resv-item' + (isDone ? ' done' : '') }, [
+    el('button', {
+      class: 'resv-check' + (isDone ? ' checked' : ''),
+      onclick: () => {
+        state.reservations[r.id] = !state.reservations[r.id];
+        saveState();
+        renderReservations();
+        renderToday();
+      }
+    }),
+    el('div', { class: 'resv-info' }, [
+      el('div', { class: 'resv-name' }, r.name),
+      el('div', { class: 'resv-meta' }, `Día ${r.day} · ${r.date} · ${r.time}`),
+      r.note ? el('div', { class: 'resv-note' }, r.note) : null,
+      r.url ? el('a', {
+        class: 'resv-link',
+        href: r.url,
+        target: '_blank',
+        rel: 'noopener'
+      }, 'Reservar →') : null
+    ])
+  ]);
+  return itemNode;
+}
+
+function buildTodoItem(t) {
+  const isDone = !!state.todos[t.id];
+  return el('div', {
+    class: 'chk-item' + (isDone ? ' done' : ''),
+    style: 'padding: 12px 14px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 8px;',
+    onclick: () => {
+      state.todos[t.id] = !state.todos[t.id];
+      saveState();
+      renderReservations();
+      renderToday();
+    }
+  }, [
+    el('div', { class: 'chk-box' }),
+    el('div', { class: 'chk-text' }, [
+      t.title,
+      el('div', { class: 'chk-detail' }, t.detail || '')
+    ])
+  ]);
+}
+
+function renderReservations() {
+  const resvList = document.getElementById('reservations-list');
+  const todosList = document.getElementById('todos-list');
+  const confList = document.getElementById('confirmed-list');
+
+  resvList.innerHTML = '';
+  RESERVATIONS.forEach(r => resvList.appendChild(buildReservationItem(r)));
+
+  todosList.innerHTML = '';
+  PRE_TRIP_TODOS.forEach(t => todosList.appendChild(buildTodoItem(t)));
+
+  confList.innerHTML = '';
+  CONFIRMED.forEach(c => {
+    confList.appendChild(el('div', { class: 'resv-item' }, [
+      el('div', { style: 'width: 24px; height: 24px; border-radius: 6px; background: rgba(232, 197, 71, 0.2); border: 1px solid rgba(232, 197, 71, 0.5); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; color: var(--london);' }, '✓'),
+      el('div', { class: 'resv-info' }, [
+        el('div', { class: 'resv-name' }, c.name),
+        el('div', { class: 'resv-meta' }, `Día ${c.day} · ${c.date} · ${c.time}`)
+      ])
+    ]));
+  });
+}
+
+// ---------- RENDER: SABORES (antes Info) ----------
+function getFlavorState(id) {
+  return state.flavors[id] || { tried: false, stars: 0 };
+}
+
+function updateFlavorProgress() {
+  const total = FLAVORS.length;
+  const tried = FLAVORS.filter(f => getFlavorState(f.id).tried).length;
+  const bossTried = FLAVORS.filter(f => f.level === 4 && getFlavorState(f.id).tried).length;
+  const bossTotal = FLAVORS.filter(f => f.level === 4).length;
+  const pEl = document.getElementById('flavor-progress');
+  const bEl = document.getElementById('flavor-boss-progress');
+  if (pEl) pEl.textContent = `${tried}/${total}`;
+  if (bEl) bEl.innerHTML = `<strong>${bossTried}/${bossTotal}</strong> nivel dios`;
+}
+
+function toggleFlavorTried(id) {
+  const current = getFlavorState(id);
+  state.flavors[id] = { ...current, tried: !current.tried };
+  saveState();
+  renderInfo();
+}
+
+function setFlavorStars(id, stars) {
+  const current = getFlavorState(id);
+  // If clicking same star, reset to 0
+  const newStars = current.stars === stars ? 0 : stars;
+  state.flavors[id] = { ...current, stars: newStars };
+  if (newStars > 0 && !current.tried) {
+    state.flavors[id].tried = true;  // auto-mark as tried
+  }
+  saveState();
+  renderInfo();
+}
+
+function buildFlavorCard(f) {
+  const fState = getFlavorState(f.id);
+  const levelMeta = LEVEL_META[f.level];
+
+  const card = el('div', {
+    class: `flavor-card lvl-${f.level}${fState.tried ? ' tried' : ''}`
+  });
+
+  const header = el('div', { class: 'flavor-header' }, [
+    el('div', { class: 'flavor-emoji' }, f.emoji),
+    el('div', { class: 'flavor-info' }, [
+      el('div', { class: 'flavor-name' }, f.name),
+      el('div', { class: 'flavor-meta' }, [
+        el('span', { class: `flavor-level-badge lvl-${f.level}` }, levelMeta.label),
+        el('span', {}, '·'),
+        el('span', {}, f.city),
+        el('span', {}, '·'),
+        el('span', {}, f.category),
+        f.suggestedDay ? el('span', { class: 'flavor-sugg-day' }, `D${f.suggestedDay}`) : null
+      ])
+    ])
+  ]);
+  card.appendChild(header);
+
+  card.appendChild(el('div', { class: 'flavor-desc' }, f.desc));
+  if (f.where) {
+    card.appendChild(el('div', { class: 'flavor-where' }, '📍 ' + f.where));
+  }
+
+  // Actions: "probado" + estrellas
+  const actions = el('div', { class: 'flavor-actions' });
+
+  const tryBtn = el('button', {
+    class: 'flavor-try-btn' + (fState.tried ? ' tried' : ''),
+    onclick: (e) => { e.stopPropagation(); toggleFlavorTried(f.id); }
+  }, fState.tried ? '✓ Probado' : 'Marcar probado');
+  actions.appendChild(tryBtn);
+
+  const stars = el('div', { class: 'flavor-stars' });
+  for (let i = 1; i <= 5; i++) {
+    const star = el('button', {
+      class: 'flavor-star' + (i <= fState.stars ? ' filled' : ''),
+      onclick: (e) => { e.stopPropagation(); setFlavorStars(f.id, i); }
+    }, '★');
+    stars.appendChild(star);
+  }
+  actions.appendChild(stars);
+
+  card.appendChild(actions);
+  return card;
+}
+
+function renderFlavorFilters() {
+  const container = document.getElementById('flavor-filters');
+  container.innerHTML = '';
+
+  const filter = state.flavorFilter;
+
+  const filters = [
+    { group: 'city', value: 'all', label: 'Todas' },
+    { group: 'city', value: 'Londres', label: '🇬🇧 Londres' },
+    { group: 'city', value: 'París', label: '🇫🇷 París' },
+    { group: 'sep', value: '', label: '' },
+    { group: 'level', value: 'all', label: 'Todos' },
+    { group: 'level', value: '1', label: '🟢 Fácil' },
+    { group: 'level', value: '2', label: '🟡 Medio' },
+    { group: 'level', value: '3', label: '🔴 Valiente' },
+    { group: 'level', value: '4', label: '🟣 Dios' },
+  ];
+
+  filters.forEach(f => {
+    if (f.group === 'sep') {
+      container.appendChild(el('div', { style: 'width: 100%; height: 0;' }));
+      return;
+    }
+    const isActive = String(filter[f.group]) === String(f.value);
+    const btn = el('button', {
+      class: 'flavor-filter-pill' + (isActive ? ' active' : ''),
+      onclick: () => {
+        state.flavorFilter[f.group] = f.value;
+        saveState();
+        renderInfo();
+      }
+    }, f.label);
+    container.appendChild(btn);
+  });
+}
+
+function renderFlavorsList() {
+  const container = document.getElementById('flavors-list');
+  container.innerHTML = '';
+
+  const filter = state.flavorFilter;
+  let filtered = FLAVORS.slice();
+
+  if (filter.city !== 'all') filtered = filtered.filter(f => f.city === filter.city);
+  if (filter.level !== 'all') filtered = filtered.filter(f => f.level === parseInt(filter.level));
+
+  // Sort: not-tried first (by level desc → rarest first), then tried (by stars desc)
+  filtered.sort((a, b) => {
+    const aT = getFlavorState(a.id).tried;
+    const bT = getFlavorState(b.id).tried;
+    if (aT !== bT) return aT ? 1 : -1;  // not-tried first
+    if (!aT) return b.level - a.level;  // rare first among not-tried
+    return getFlavorState(b.id).stars - getFlavorState(a.id).stars;  // high stars first among tried
+  });
+
+  if (filtered.length === 0) {
+    container.appendChild(el('div', { class: 'hint' }, 'No hay sabores con esos filtros'));
+    return;
+  }
+
+  filtered.forEach(f => container.appendChild(buildFlavorCard(f)));
+}
+
+function renderInfo() {
+  // Info view is now the Flavors view
+  updateFlavorProgress();
+  renderFlavorFilters();
+  renderFlavorsList();
+}
+
+// ---------- RENDER: MORE (frases, transporte, emergencias, backup) ----------
+function renderMore() {
+  // Phrases
+  const pList = document.getElementById('phrases-list');
+  pList.innerHTML = '';
+  FRENCH_PHRASES.forEach(p => {
+    pList.appendChild(el('div', { class: 'phrase-card' }, [
+      el('div', { class: 'phrase-fr' }, p.fr),
+      el('div', { class: 'phrase-es' }, p.es)
+    ]));
+  });
+
+  // Transport
+  const tList = document.getElementById('transport-list');
+  tList.innerHTML = '';
+  TRANSPORT_REF.forEach(t => {
+    tList.appendChild(el('div', { class: 'transp-item' }, [
+      el('div', { class: 'transp-ctx' }, t.context),
+      el('div', { class: 'transp-info' }, t.info)
+    ]));
+  });
+
+  // Emergency
+  const eList = document.getElementById('emergency-list');
+  eList.innerHTML = '';
+  EMERGENCY.forEach(e => {
+    eList.appendChild(el('a', { class: 'emerg-btn', href: e.href }, [
+      el('div', { class: 'emerg-btn-label' }, e.label),
+      el('div', { class: 'emerg-btn-value' }, e.value)
+    ]));
+  });
+
+  // Accommodations
+  const aList = document.getElementById('accommodations-list');
+  aList.innerHTML = '';
+  TRIP.accommodations.forEach(a => {
+    aList.appendChild(el('div', { class: 'transp-item' }, [
+      el('div', { class: 'transp-ctx' }, `${a.flag} ${a.city}`),
+      el('div', { class: 'transp-info' }, a.address)
+    ]));
+  });
+}
+
+// ---------- RENDER: ALL MISSIONS ----------
+function updateMissionProgress() {
+  let total = 0, done = 0;
+  DAYS.forEach(d => {
+    if (d.missions && d.missions.length) {
+      total += d.missions.length;
+      d.missions.forEach((_, i) => {
+        if (state.missions[`d${d.num}-m${i}`]) done++;
+      });
+    }
+  });
+  const progressEl = document.getElementById('mission-progress');
+  if (progressEl) progressEl.textContent = `${done}/${total}`;
+}
+
+function toggleMission(id, itemNode) {
+  // Toggle without full re-render — preserves accordion open/close state
+  state.missions[id] = !state.missions[id];
+  saveState();
+  if (state.missions[id]) itemNode.classList.add('done');
+  else itemNode.classList.remove('done');
+  updateMissionProgress();
+}
+
+function renderMissionsView() {
+  const container = document.getElementById('missions-all');
+  container.innerHTML = '';
+
+  updateMissionProgress();
+
+  DAYS.forEach(d => {
+    if (!d.missions || !d.missions.length) return;
+
+    // Start OPEN by default
+    const acc = el('div', { class: 'acc open' });
+
+    let dayDone = 0;
+    d.missions.forEach((_, i) => {
+      if (state.missions[`d${d.num}-m${i}`]) dayDone++;
+    });
+
+    const counterSpan = el('span', {
+      style: 'font-family: var(--font-mono); font-size: 0.72rem; color: var(--accent); margin-left: auto; padding-right: 8px;'
+    }, `${dayDone}/${d.missions.length}`);
+
+    const btn = el('button', { class: 'acc-btn' }, [
+      el('span', { style: 'display: flex; align-items: center; flex: 1; gap: 8px;' }, [
+        el('span', { style: 'font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-faint);' }, `D${d.num}`),
+        el('span', { style: 'flex: 1;' }, d.title),
+        counterSpan
+      ])
+    ]);
+    const body = el('div', { class: 'acc-body' });
+
+    d.missions.forEach((m, i) => {
+      const id = `d${d.num}-m${i}`;
+      const isDone = !!state.missions[id];
+      const itemNode = el('div', {
+        class: 'mission' + (isDone ? ' done' : '')
+      }, [
+        el('div', { class: 'mission-check' }),
+        el('div', { class: 'mission-text' }, m)
+      ]);
+      itemNode.addEventListener('click', () => {
+        toggleMission(id, itemNode);
+        // Update day counter
+        let done = 0;
+        d.missions.forEach((_, j) => {
+          if (state.missions[`d${d.num}-m${j}`]) done++;
+        });
+        counterSpan.textContent = `${done}/${d.missions.length}`;
+      });
+      body.appendChild(itemNode);
+    });
+
+    btn.addEventListener('click', () => acc.classList.toggle('open'));
+    acc.appendChild(btn);
+    acc.appendChild(body);
+    container.appendChild(acc);
+  });
+}
+
+// ---------- EXPORT / IMPORT / RESET ----------
+function exportState() {
+  const data = {
+    version: 1,
+    exportedAt: new Date().toISOString(),
+    tripTitle: TRIP.title,
+    state: state
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const date = new Date().toISOString().slice(0, 10);
+  a.href = url;
+  a.download = `viaje-progreso-${date}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function importStateFile(file) {
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    try {
+      const data = JSON.parse(e.target.result);
+      if (!data.state) throw new Error('Archivo inválido');
+      const imported = data.state;
+      ['reservations', 'todos', 'missions', 'checklist'].forEach(key => {
+        if (imported[key]) {
+          state[key] = { ...state[key], ...imported[key] };
+        }
+      });
+      saveState();
+      const when = data.exportedAt ? new Date(data.exportedAt).toLocaleString('es-UY') : 'desconocido';
+      alert(`✓ Progreso importado\nExportado: ${when}`);
+      renderToday();
+      renderReservations();
+      if (document.getElementById('view-missions').classList.contains('active')) {
+        renderMissionsView();
+      }
+    } catch (err) {
+      alert('❌ No se pudo importar: ' + err.message);
+    }
+  };
+  reader.readAsText(file);
+}
+
+function resetAllProgress() {
+  if (!confirm('¿Borrar todo el progreso?\n\nEsto desmarca reservas, tareas y misiones. No se puede deshacer.')) return;
+  state.reservations = {};
+  state.todos = {};
+  state.missions = {};
+  state.checklist = {};
+  saveState();
+  renderToday();
+  renderReservations();
+  if (document.getElementById('view-missions').classList.contains('active')) {
+    renderMissionsView();
+  }
+  alert('Progreso reiniciado');
+}
+
+// Expose globally for onclick handlers
+window.exportState = exportState;
+window.importStateFile = importStateFile;
+window.resetAllProgress = resetAllProgress;
+
+// ---------- HEADER COUNTDOWN ----------
+function updateHeaderCountdown() {
+  const today = new Date().toISOString().slice(0, 10);
+  const el = document.getElementById('headerCountdown');
+  if (today < TRIP.startDate) {
+    const d = daysBetween(today, TRIP.startDate);
+    el.textContent = `−${d}d`;
+  } else if (today <= TRIP.endDate) {
+    const day = DAYS.find(x => x.date === today);
+    el.textContent = day ? `Día ${day.num}/13` : 'En viaje';
+  } else {
+    el.textContent = '✓ Hecho';
+  }
+}
+
+// ---------- SERVICE WORKER REGISTRATION ----------
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js')
+      .then(reg => console.log('SW registrado:', reg.scope))
+      .catch(err => console.warn('SW falló:', err));
+  });
+}
+
+// ---------- INIT ----------
+function init() {
+  updateHeaderCountdown();
+  renderToday();
+  renderDaysList();
+  renderReservations();
+  renderInfo();
+  renderMore();
+}
+
+init();
+
+</script>
+</body>
+</html>
