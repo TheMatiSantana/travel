@@ -1051,6 +1051,323 @@ h3 { font-size: 1.25rem; }
   line-height: 1.4;
 }
 
+/* ---------- MISSION V2 ---------- */
+.mission-v2 {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-left: 4px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0;
+  margin-bottom: 10px;
+  transition: opacity 0.15s;
+}
+.mission-v2.done { opacity: 0.55; }
+.mission-v2-header {
+  display: flex;
+  gap: 12px;
+  padding: 12px 14px;
+  align-items: flex-start;
+}
+.mission-v2-content { flex: 1; min-width: 0; }
+.mission-v2-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 5px;
+}
+.mission-type-badge {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+}
+.mission-points {
+  font-size: 0.78rem;
+  letter-spacing: 0.05em;
+}
+.mission-v2-title {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 1rem;
+  line-height: 1.25;
+  margin-bottom: 4px;
+}
+.mission-v2.done .mission-v2-title { text-decoration: line-through; color: var(--text-faint); }
+.mission-v2-desc {
+  font-size: 0.86rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+.mission-v2-hint {
+  font-size: 0.78rem;
+  color: var(--accent);
+  margin-top: 6px;
+  padding: 6px 10px;
+  background: rgba(212, 165, 116, 0.06);
+  border-radius: 6px;
+  font-style: italic;
+  line-height: 1.4;
+}
+.mission-check {
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--border);
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  flex-shrink: 0;
+  margin-top: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+}
+.mission-check.checked {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.mission-check.checked::after {
+  content: '✓';
+  color: var(--bg);
+  font-size: 0.85rem;
+  font-weight: 900;
+}
+
+/* ---------- POINTS HERO ---------- */
+.points-hero {
+  background: linear-gradient(135deg, #1a2147 0%, #2a1a4e 100%);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 24px 22px;
+  margin-bottom: 20px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.points-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 0%, rgba(244, 200, 138, 0.15), transparent 60%);
+  pointer-events: none;
+}
+.points-big {
+  font-family: var(--font-display);
+  font-size: 4rem;
+  font-weight: 500;
+  color: var(--accent-bright);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  position: relative;
+  font-style: italic;
+}
+.points-total {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin-top: 6px;
+  position: relative;
+}
+.points-bar {
+  height: 6px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 4px;
+  margin-top: 18px;
+  overflow: hidden;
+  position: relative;
+}
+.points-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--accent-bright));
+  transition: width 0.6s ease;
+}
+
+/* ---------- BADGES ---------- */
+.badges-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 18px;
+  position: relative;
+}
+.badge-item {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 12px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  text-align: left;
+}
+.badge-item.earned {
+  background: rgba(212, 165, 116, 0.1);
+  border-color: rgba(212, 165, 116, 0.3);
+}
+.badge-item.locked { opacity: 0.55; }
+.badge-emoji { font-size: 1.8rem; flex-shrink: 0; }
+.badge-info { flex: 1; min-width: 0; }
+.badge-name {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 500;
+  line-height: 1.2;
+}
+.badge-desc {
+  font-size: 0.7rem;
+  color: var(--text-faint);
+  margin-top: 2px;
+  line-height: 1.3;
+}
+
+/* ---------- WEATHER / PLACES / FACTS / HIGHLIGHT / PHOTOS ---------- */
+.weather-card, .places-card, .facts-card, .highlight-card, .photos-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  margin: 14px 0;
+}
+.weather-label, .places-label, .facts-label, .highlight-label, .photos-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  margin-bottom: 10px;
+}
+.weather-input {
+  width: 100%;
+  appearance: none;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  color: var(--text);
+  padding: 9px 12px;
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+}
+.weather-input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+.places-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+.place-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  padding: 9px 12px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  color: var(--text);
+  text-decoration: none;
+  font-size: 0.82rem;
+  line-height: 1.2;
+}
+.place-btn:active { background: var(--bg-card-hover); }
+.place-btn-name { flex: 1; }
+.place-btn-arrow { color: var(--accent); font-weight: 600; }
+
+.fact-item {
+  background: rgba(200, 182, 255, 0.06);
+  border-left: 3px solid var(--paris);
+  padding: 10px 12px;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  color: var(--text);
+  font-style: italic;
+}
+.fact-item:last-child { margin-bottom: 0; }
+
+.highlight-card {
+  background: linear-gradient(135deg, rgba(212, 165, 116, 0.05), rgba(212, 165, 116, 0.02));
+  border-color: rgba(212, 165, 116, 0.2);
+}
+.highlight-sub {
+  font-size: 0.78rem;
+  color: var(--text-faint);
+  margin-bottom: 10px;
+  margin-top: -4px;
+  font-style: italic;
+}
+.highlight-input {
+  width: 100%;
+  appearance: none;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  color: var(--text);
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  resize: vertical;
+  min-height: 56px;
+  line-height: 1.45;
+}
+.highlight-input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+.photos-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  margin-bottom: 10px;
+}
+.photo-thumb {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--bg-elevated);
+}
+.photo-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.photo-del {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.7);
+  color: white;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+.photo-add-btn {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  background: var(--bg-elevated);
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  text-align: center;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.photo-add-btn:active { background: var(--bg-card-hover); }
+
 /* ---------- focus states ---------- */
 button:focus-visible, a:focus-visible {
   outline: 2px solid var(--accent);
@@ -1202,9 +1519,9 @@ button:focus-visible, a:focus-visible {
   <div class="hero" style="padding: 22px 20px;">
     <div class="hero-label">Logros del viaje</div>
     <h2 class="hero-title" style="font-size: 1.6rem;">Misiones</h2>
-    <div class="hero-sub" style="font-size: 0.9rem;">Tocá para marcar cuando las cumplan</div>
+    <div class="hero-sub" style="font-size: 0.9rem;">Sumen puntos en familia. Tocá para marcar cumplida.</div>
     <div class="hero-meta">
-      <div class="hero-meta-item"><strong id="mission-progress">0/0</strong> misiones cumplidas</div>
+      <div class="hero-meta-item"><strong id="mission-progress">0/0</strong> cumplidas</div>
     </div>
   </div>
   <div id="missions-all"></div>
@@ -3150,6 +3467,311 @@ const LEVEL_META = {
   3: { label: "Valiente", color: "#fb923c", dot: "🔴" },
   4: { label: "Nivel dios", color: "#c8b6ff", dot: "🟣" }
 };
+// ============================================================
+// EXTRAS — misiones rediseñadas, curiosidades, mapas, clima, badges
+// ============================================================
+
+// Sistema de tipos de misión (con icono y descripción)
+const MISSION_TYPES = {
+  search:    { icon: "🔍", label: "Buscar",   color: "#7dd3fc" },
+  talk:      { icon: "🗣️", label: "Hablar",    color: "#a7f3d0" },
+  brave:     { icon: "💪", label: "Coraje",   color: "#fb923c" },
+  observe:   { icon: "👀", label: "Observar", color: "#c4b5fd" },
+  iconic:    { icon: "⭐", label: "Icónica",  color: "#fcd34d" },
+  count:     { icon: "🔢", label: "Contar",   color: "#fda4af" },
+  vote:      { icon: "🗳️", label: "Votar",    color: "#c8b6ff" }
+};
+
+// MISIONES REDISEÑADAS
+// Estructura: { id, day, type, points (1-3), title, desc, hint? }
+const MISSIONS_V2 = [
+  // ====== DÍA 1 — Llegada (era 0 misiones, ahora 4) ======
+  { id: "m1-1",  day: 1, type: "count",   points: 1, title: "Censo de ardillas",
+    desc: "En Kensington Gardens, contar las ardillas que ven entre todos. Cada uno cuenta y al final suman.",
+    hint: "Las ardillas grises son las británicas, las rojas casi no quedan." },
+  { id: "m1-2",  day: 1, type: "search",  points: 1, title: "Cabina roja",
+    desc: "Encontrar la primera cabina telefónica roja del viaje y meterse adentro de los 4.",
+    hint: "Hay varias cerca de High Street Kensington." },
+  { id: "m1-3",  day: 1, type: "talk",    points: 2, title: "Primer 'Cheers!'",
+    desc: "Decir 'Cheers!' a un local cuando pasen y que les responda. Ojo: 'Cheers' en UK también significa 'gracias', no solo brindis." },
+  { id: "m1-4",  day: 1, type: "iconic",  points: 1, title: "Foto familiar 'recién llegados'",
+    desc: "Foto de los 4 con las valijas o frente al alojamiento. Va a ser graciosa al volver." },
+
+  // ====== DÍA 2 — London Eye + St James's + National Gallery ======
+  { id: "m2-1",  day: 2, type: "count",   points: 1, title: "32 cápsulas, falta una",
+    desc: "Contar las cápsulas del London Eye. ¿Pueden encontrar la que falta?",
+    hint: "No hay número 13 (mala suerte). Saltea de 12 a 14." },
+  { id: "m2-2",  day: 2, type: "iconic",  points: 1, title: "Big Ben con cara de turista",
+    desc: "Foto familiar haciendo cara exagerada de turista frente al Big Ben." },
+  { id: "m2-3",  day: 2, type: "brave",   points: 3, title: "Ardilla que come de la mano",
+    desc: "Que UNA ardilla acepte comer maní directamente de la mano de Benji o Juli. Sin guantes.",
+    hint: "St James's Park: las ardillas son las más mansas. Quietitos y la mano abierta." },
+  { id: "m2-4",  day: 2, type: "observe", points: 2, title: "Calavera invisible",
+    desc: "Los Embajadores de Holbein (Sala 4 National Gallery): hay una calavera oculta. Solo se ve desde un ángulo. Tu misión: encontrarlo.",
+    hint: "Casi pegado a la pared, mirando muy de costado." },
+  { id: "m2-5",  day: 2, type: "search",  points: 2, title: "Pelícano oficial",
+    desc: "St James's Park tiene 5 pelícanos residentes desde 1664. Encontrar al menos uno y verle el pico (cabe un pez entero).",
+    hint: "Suelen estar cerca del Duck Island." },
+  { id: "m2-6",  day: 2, type: "iconic",  points: 1, title: "Bus rojo de dos pisos",
+    desc: "Subir al piso de arriba del bus 9 y conseguir asientos del frente. Fingir que manejan." },
+
+  // ====== DÍA 3 — Natural History + Science Museum ======
+  { id: "m3-1",  day: 3, type: "iconic",  points: 1, title: "Aullido del T-Rex",
+    desc: "Pararse frente al T-Rex animatrónico y aguantar sin retroceder cuando ruja." },
+  { id: "m3-2",  day: 3, type: "search",  points: 2, title: "Meteorito tocable",
+    desc: "En Earth's Treasury (Red Zone) hay un meteorito MÁS VIEJO que la Tierra que se puede tocar. Encontrarlo y tocarlo todos.",
+    hint: "Está en una vitrina abierta, viene desde fuera del sistema solar." },
+  { id: "m3-3",  day: 3, type: "count",   points: 1, title: "Censo de ballenas NHM",
+    desc: "Contar todas las ballenas que ven en el museo (la colgada Hope, la del piso, fósiles)." },
+  { id: "m3-4",  day: 3, type: "observe", points: 2, title: "Apollo 10 real",
+    desc: "En Science Museum: encontrar la cápsula REAL del Apollo 10. La misma que dio la vuelta a la Luna en 1969." },
+  { id: "m3-5",  day: 3, type: "talk",    points: 2, title: "Pregunta a un guía",
+    desc: "Que Benji haga UNA pregunta en inglés a un guía del museo (Explainer en uniforme rojo). Ej: 'Where is the dinosaur?'" },
+
+  // ====== DÍA 4 — Covent Garden + Warner Bros ======
+  { id: "m4-1",  day: 4, type: "talk",    points: 2, title: "Propina al artista",
+    desc: "Que UNO de los nenes (a elección) ponga la propina en el sombrero del artista callejero. Vuelta y aplauso." },
+  { id: "m4-2",  day: 4, type: "brave",   points: 2, title: "Magia cara a cara",
+    desc: "En Magicians Corner (33 James St): pararse en primera fila de un truco de cerca y dejar que el mago use a Benji como ayudante." },
+  { id: "m4-3",  day: 4, type: "iconic",  points: 1, title: "Butterbeer 'bigotes'",
+    desc: "Tomar Butterbeer y sacarse foto con bigotes de espuma. Guardar el vaso." },
+  { id: "m4-4",  day: 4, type: "iconic",  points: 1, title: "Plataforma 9¾",
+    desc: "Foto en el carrito de equipaje encastrado en la pared, con bufanda y varita." },
+  { id: "m4-5",  day: 4, type: "observe", points: 2, title: "Dragón puntual",
+    desc: "El dragón de Gringotts escupe fuego cada 10-15 min. Aguantar para verlo en VIVO. Cronometrar." },
+  { id: "m4-6",  day: 4, type: "search",  points: 3, title: "Casa de Hagrid",
+    desc: "Encontrar la cabaña de Hagrid en el backlot, entrar, y quedarse hasta que Hagrid animatrónico se mueva. Aguantar." },
+
+  // ====== DÍA 5 — Tower of London + Tower Bridge ======
+  { id: "m5-1",  day: 5, type: "count",   points: 2, title: "7 cuervos protectores",
+    desc: "La leyenda dice que si los 7 cuervos abandonan la Torre, cae la corona. Contarlos todos.",
+    hint: "Tienen las alas recortadas para que no se vayan. Algunos tienen nombres como Merlina, Jubilee." },
+  { id: "m5-2",  day: 5, type: "search",  points: 2, title: "Armadura con extra",
+    desc: "Line of Kings: encontrar la armadura de Enrique VIII con el 'pedacito grande' adelante (codpiece).",
+    hint: "Era símbolo de fertilidad. Risa garantizada." },
+  { id: "m5-3",  day: 5, type: "talk",    points: 3, title: "Reverencia al Beefeater",
+    desc: "Hacer una reverencia formal a un Yeoman Warder (Beefeater, los guardias con uniforme rojo y negro). Que uno de los nenes se anime a saludarlo y preguntar 'How are you, Sir?'" },
+  { id: "m5-4",  day: 5, type: "observe", points: 1, title: "Tower Bridge desde el medio",
+    desc: "Pararse exactamente en el medio del puente y mirar río arriba y río abajo. Foto de los 4 ahí." },
+  { id: "m5-5",  day: 5, type: "iconic",  points: 3, title: "BONUS: Bridge Lift",
+    desc: "Si justo se levanta el puente para pasar un barco, presenciarlo. (Chequear horarios en towerbridge.org.uk)",
+    hint: "Es raro pero pasa ~800 veces al año. Si tocan, son muy afortunados." },
+
+  // ====== DÍA 6 — Battersea + Hamleys ======
+  { id: "m6-1",  day: 6, type: "iconic",  points: 1, title: "4 chimeneas, 1 selfie",
+    desc: "Selfie familiar con las 4 chimeneas de Battersea Power Station de fondo." },
+  { id: "m6-2",  day: 6, type: "search",  points: 2, title: "Chimenea correcta",
+    desc: "¿Cuál de las 4 chimeneas tiene el ascensor adentro? Adivinar antes de subir, después confirmar.",
+    hint: "Es la nor-oeste (mira al Támesis y Chelsea)." },
+  { id: "m6-3",  day: 6, type: "observe", points: 2, title: "Tres torres desde 109m",
+    desc: "Desde la cima del Lift 109: encontrar el Shard, el London Eye y el Big Ben en el horizonte." },
+  { id: "m6-4",  day: 6, type: "talk",    points: 1, title: "High-five al oso de Hamleys",
+    desc: "En la entrada de Hamleys hay un oso gigante uniformado. Saludarlo con high-five." },
+  { id: "m6-5",  day: 6, type: "vote",    points: 1, title: "Última votación Londres",
+    desc: "Cada uno vota su MEJOR momento de Londres. Anotarlo en el diario del día.",
+    hint: "Sin negociar, sin influenciarse. Pueden quedar empate." },
+
+  // ====== DÍA 7 — Eurostar + Torre Eiffel ======
+  { id: "m7-1",  day: 7, type: "observe", points: 2, title: "Cronómetro del Eurotúnel",
+    desc: "Cuando el tren entre al túnel del canal, arrancar cronómetro. Cuando salga, parar. ¿Cuánto duró?",
+    hint: "Spoiler: ~20 min. Pero anotarlo y comparar." },
+  { id: "m7-2",  day: 7, type: "talk",    points: 3, title: "Bonjour primer francés",
+    desc: "El primer francés con quien hablen (taxista, panadero) saludarlo en perfecto francés: 'Bonjour, monsieur/madame!' por parte de los nenes.",
+    hint: "El francés AMA cuando hacés el esfuerzo. Bonificación inmediata." },
+  { id: "m7-3",  day: 7, type: "iconic",  points: 2, title: "Primera vista oficial",
+    desc: "Trocadéro: foto familiar con la Torre completa de fondo. Cara de impresión real." },
+  { id: "m7-4",  day: 7, type: "count",   points: 1, title: "2.500.000 remaches",
+    desc: "Tocar al menos 10 remaches de la Torre Eiffel con la mano. Total real: 2.5 millones." },
+  { id: "m7-5",  day: 7, type: "brave",   points: 3, title: "Falafel sin vergüenza",
+    desc: "L'As du Fallafel: comer el pita gigante SIN ensuciarse demasiado. Casi imposible. Foto antes y después." },
+
+  // ====== DÍA 8 — Bateaux Mouches + Tuileries + Louvre ======
+  { id: "m8-1",  day: 8, type: "talk",    points: 2, title: "Saludo a tripulantes",
+    desc: "Desde el Bateaux Mouches, saludar a OTROS barcos del Sena y conseguir que respondan. Mínimo 3.",
+    hint: "Casi siempre saludan de vuelta. Gritar 'Bonjour!' no avergonzarse." },
+  { id: "m8-2",  day: 8, type: "count",   points: 1, title: "Puentes del Sena",
+    desc: "Contar todos los puentes que pasan durante el crucero. Cada uno cuenta por separado y comparan." },
+  { id: "m8-3",  day: 8, type: "iconic",  points: 1, title: "Capitán de barquito",
+    desc: "Que cada uno empuje su velerito en Tuileries con el palo y lo lleve al otro lado del Grand Bassin." },
+  { id: "m8-4",  day: 8, type: "search",  points: 3, title: "Jeroglíficos con pájaros",
+    desc: "Sala 321 del Louvre (egipcia): encontrar 5 jeroglíficos diferentes que tengan un pájaro adentro.",
+    hint: "El halcón de Horus es el más fácil. Hay también búhos, ibis." },
+  { id: "m8-5",  day: 8, type: "observe", points: 1, title: "Mona Lisa en 30 segundos",
+    desc: "Tienen 30 segundos frente a la Mona Lisa. ¿Pueden describir su expresión en una sola palabra cada uno? Comparar." },
+  { id: "m8-6",  day: 8, type: "search",  points: 2, title: "Brazos perdidos",
+    desc: "Venus de Milo: ¿pueden encontrar otra estatua en el Louvre que TAMBIÉN le falte una parte? Hay muchas.",
+    hint: "Por ejemplo, narices rotas. Es común." },
+
+  // ====== DÍA 9 — PSG + Champs-Élysées + Arco ======
+  { id: "m9-1",  day: 9, type: "iconic",  points: 3, title: "Penal en Parc des Princes",
+    desc: "Patear penal contra el arco. Que CADA UNO patee. Video obligatorio." },
+  { id: "m9-2",  day: 9, type: "search",  points: 2, title: "Banqueta de Dembélé",
+    desc: "En el vestuario PSG, encontrar la banqueta de Dembélé (o el jugador que más le guste a Benji) y sentarse." },
+  { id: "m9-3",  day: 9, type: "count",   points: 2, title: "Champions League trophies",
+    desc: "En la Trophy Room: contar TODAS las copas que tiene PSG. ¿Cuántas Champions tienen?",
+    hint: "1 sola Champions (la de 2025). Pero muchas Ligue 1, Coupe de France, etc." },
+  { id: "m9-4",  day: 9, type: "iconic",  points: 1, title: "Bajo el Arco",
+    desc: "Foto familiar exactamente debajo del Arco de Triunfo, mirando hacia arriba." },
+  { id: "m9-5",  day: 9, type: "search",  points: 3, title: "Waterloo está prohibida",
+    desc: "Buscar en las placas del Arco las batallas grabadas. ¿Pueden encontrar 'Waterloo'?",
+    hint: "Spoiler: NO está. Los franceses no la pusieron porque la perdieron contra los ingleses." },
+  { id: "m9-6",  day: 9, type: "talk",    points: 2, title: "'Combien?' en LEGO",
+    desc: "Que Benji pregunte el precio de algo en la LEGO Store en francés: 'C'est combien?'" },
+
+  // ====== DÍA 10 — Montmartre + Buttes-Chaumont ======
+  { id: "m10-1", day: 10, type: "iconic",  points: 1, title: "Funicular de Montmartre",
+    desc: "Subir a Sacré-Cœur por el funicular (no las escaleras). 1.5 minutos de subida." },
+  { id: "m10-2", day: 10, type: "search",  points: 3, title: "'Te quiero' en español",
+    desc: "Mur des 'Je t'aime' (Place des Abbesses): tiene 'te amo' en 250 idiomas. Encontrar el 'Te quiero' en español.",
+    hint: "Está en azul oscuro. Buscar también guaraní si aparece." },
+  { id: "m10-3", day: 10, type: "observe", points: 2, title: "Viñedo en la ciudad",
+    desc: "Clos Montmartre: ver el ÚNICO viñedo de París en plena ciudad. ¿Cuántas hileras de uvas pueden contar desde la calle?" },
+  { id: "m10-4", day: 10, type: "search",  points: 2, title: "Café de Amélie",
+    desc: "Encontrar Café des Deux Moulins (15 Rue Lepic). Adentro está decorado IGUAL que en la película." },
+  { id: "m10-5", day: 10, type: "brave",   points: 2, title: "Puente de Eiffel",
+    desc: "Cruzar el puente colgante rojo de Buttes-Chaumont (diseñado por Eiffel mismo). Sin agarrarse de las cuerdas." },
+  { id: "m10-6", day: 10, type: "observe", points: 1, title: "Cascada subterránea",
+    desc: "Entrar a la gruta artificial de Buttes-Chaumont. Tocar las estalactitas (las que se pueden) y ver la cascada de 18m." },
+
+  // ====== DÍA 11 — Marais + Parpadeo ======
+  { id: "m11-1", day: 11, type: "talk",    points: 3, title: "Espía bilingüe",
+    desc: "Que Benji compre 3 croissants SOLO en la boulangerie. Saludo + pedido + gracias + despedida en francés. Sin ayuda.",
+    hint: "'Bonjour, trois croissants s'il vous plaît, merci, au revoir.' Practicar antes." },
+  { id: "m11-2", day: 11, type: "iconic",  points: 1, title: "Casa de Victor Hugo",
+    desc: "Entrar a la Maison de Victor Hugo. ¿Pueden encontrar el escritorio donde escribió Los Miserables?" },
+  { id: "m11-3", day: 11, type: "observe", points: 2, title: "Esculturas que se mueven",
+    desc: "Fuente Stravinsky (al lado del Pompidou): ver TODAS las esculturas mecánicas moverse y escupir agua. ¿Cuál es su favorita?" },
+  { id: "m11-4", day: 11, type: "brave",   points: 3, title: "Sabor más raro de Berthillon",
+    desc: "Cada uno elige UN sabor que nunca probó (lavanda, violeta, marron, regaliz). Comerlo entero, sin cambiar.",
+    hint: "Si hay que dividir bolas para probar varios, perfecto." },
+  { id: "m11-5", day: 11, type: "iconic",  points: 3, title: "Parpadeo a las 22:00",
+    desc: "Champ de Mars: ver el parpadeo de la Torre Eiffel a las 22:00. 5 minutos exactos. APLAUDIR cuando arranque.",
+    hint: "EL momento más mágico del viaje. No lo falten." },
+
+  // ====== DÍA 12 — Disneyland Paris ======
+  { id: "m12-1", day: 12, type: "iconic",  points: 1, title: "Castillo de la Bella Durmiente",
+    desc: "Entrar al castillo. Subir al primer piso. Ver el dragón animatrónico que está debajo (Maleficent's Lair, gratis)." },
+  { id: "m12-2", day: 12, type: "iconic",  points: 1, title: "Volar con Peter Pan",
+    desc: "Subir a Peter Pan's Flight. La cola es eterna después de las 10 AM, así que es la PRIMERA atracción del día." },
+  { id: "m12-3", day: 12, type: "brave",   points: 3, title: "Big Thunder Mountain",
+    desc: "Sobrevivir Big Thunder Mountain. (Juli necesita 1.02m. Si no llega, lo cumple solo Benji.)" },
+  { id: "m12-4", day: 12, type: "iconic",  points: 1, title: "Pirates of the Caribbean",
+    desc: "Navegar por las cuevas con piratas. La caída sorpresa es lo mejor." },
+  { id: "m12-5", day: 12, type: "count",   points: 2, title: "Score Buzz Lightyear",
+    desc: "Buzz Lightyear Laser Blast: ¿quién saca más puntos en el equipo? Anotar el récord." },
+  { id: "m12-6", day: 12, type: "observe", points: 3, title: "Illuminations sin parpadear",
+    desc: "Disney Illuminations 22:00: ver el show entero sin sacar el celular ni un segundo. Solo mirar.",
+    hint: "20-25 min. Vale la pena vivirlo, no filmarlo." },
+  { id: "m12-7", day: 12, type: "search",  points: 2, title: "Mickey escondido",
+    desc: "Hidden Mickeys: hay cabezas de Mickey escondidas en TODO el parque. Encontrar mínimo 3 entre todos.",
+    hint: "Tres círculos juntos formando la cabeza. En carteles, en la pintura del piso, en muebles..." },
+
+  // ====== DÍA 13 — Despedida (era 0 misiones) ======
+  { id: "m13-1", day: 13, type: "iconic",  points: 1, title: "Última foto en Place des Vosges",
+    desc: "Mismo encuadre que la foto del Día 11. Comparar después." },
+  { id: "m13-2", day: 13, type: "vote",    points: 1, title: "Votación final del viaje",
+    desc: "Cada uno vota: lugar favorito, comida favorita, mejor momento, cosa más rara. Anotarlo TODO." },
+  { id: "m13-3", day: 13, type: "talk",    points: 2, title: "Despedida bilingüe",
+    desc: "En el Eurostar, decirle 'Au revoir Paris!' a la salida. En St Pancras, 'Goodbye London!'." },
+  { id: "m13-4", day: 13, type: "iconic",  points: 2, title: "Carta del viaje",
+    desc: "En el avión a Montevideo, que cada uno (incluido Juli con dibujo) escriba/dibuje su MEJOR recuerdo. Guardarlas." }
+];
+
+// BADGES desbloqueables por puntos acumulados
+const BADGES = [
+  { points: 10,  emoji: "🌱", name: "Aventureros novatos", desc: "Primeras misiones cumplidas" },
+  { points: 25,  emoji: "🦊", name: "Exploradores hábiles", desc: "Ya le agarraron la mano" },
+  { points: 50,  emoji: "🦅", name: "Familia trotamundos", desc: "Mitad del viaje superada" },
+  { points: 75,  emoji: "🏆", name: "Maestros del viaje", desc: "Casi lo lograron" },
+  { points: 100, emoji: "👑", name: "Leyendas del 2026", desc: "El viaje perfecto" }
+];
+
+// CURIOSIDADES "sabías que..." por día
+const FUN_FACTS = {
+  1: ["Kensington Gardens fue parte privada del palacio real hasta 1841. Antes solo entraba la familia real.",
+      "En Hyde Park (al lado) hay un cementerio de mascotas victoriano con más de 300 tumbas, escondido."],
+  2: ["El London Eye fue construido para celebrar el año 2000. Iba a ser temporal, pero les gustó tanto que se quedó.",
+      "Los pelícanos de St James's Park son descendientes directos de los originales regalados por el embajador ruso a Carlos II en 1664.",
+      "El edificio del Big Ben en realidad se llama Elizabeth Tower. 'Big Ben' es solo la campana adentro."],
+  3: ["La ballena Hope que cuelga en el NHM murió varada en una playa de Irlanda en 1891 y mide 25.2 metros.",
+      "El Apollo 10 que está en Science Museum es el MISMO que voló alrededor de la Luna en 1969. La capsula real, no réplica."],
+  4: ["Las películas de Harry Potter usaron 588 sets reales en Warner Bros. Hicieron Hogwarts en miniatura con 2,500 luces de fibra óptica.",
+      "Covent Garden fue mercado de frutas y verduras desde 1654 hasta 1974. Después lo convirtieron en zona de tiendas."],
+  5: ["La Tower of London tiene 950 años. Fue prisión, palacio, zoológico (con leones, elefantes y un oso polar) y casa de moneda.",
+      "Cuando el rey Eduardo VII murió en 1910, los cuervos huyeron de la Torre. Desde entonces les recortan las alas para que no se vayan."],
+  6: ["Battersea Power Station fue cerrada en 1983 y estuvo abandonada 40 años. La reabrieron como shopping en 2022.",
+      "Los Pink Floyd usaron Battersea para la portada del álbum 'Animals' en 1977 con un cerdo inflable gigante volando."],
+  7: ["La Torre Eiffel iba a durar solo 20 años (era una construcción 'temporal' para la Expo de 1889). Se salvó porque servía como antena de radio.",
+      "Cada 7 años pintan la Torre completa. Usan 60 toneladas de pintura. Cambia ligeramente de color con cada capa."],
+  8: ["La Mona Lisa fue robada del Louvre en 1911 por un empleado italiano. Estuvo escondida 2 años. Cuando la recuperaron, se volvió mundialmente famosa.",
+      "El Louvre tiene 35,000 obras expuestas. Si pasaras 30 segundos viendo cada una, te llevaría 100 días verlas todas sin parar."],
+  9: ["Parc des Princes se abrió en 1972. Antes ahí había un velódromo donde llegaba el Tour de France desde 1903.",
+      "El Arco de Triunfo tiene los nombres de 660 generales franceses grabados. Los que murieron en batalla están subrayados."],
+  10: ["Sacré-Cœur se construyó como 'penitencia' después de que Francia perdiera la guerra contra Prusia en 1870. Tardaron 39 años.",
+       "Buttes-Chaumont era una cantera de yeso a cielo abierto. Napoleón III pidió convertirla en parque para los obreros del barrio en 1867."],
+  11: ["Place des Vosges (1612) es la plaza más antigua de París. Fue diseñada por Henry IV, que NUNCA llegó a verla terminada (lo asesinaron 2 años antes).",
+       "La Torre Eiffel tiene su propio departamento secreto en la cima donde Eiffel recibía a invitados como Thomas Edison."],
+  12: ["Disneyland Paris abrió en 1992 y casi quiebra el primer año (los franceses lo boicoteaban por 'imperialismo cultural'). Hoy es la atracción turística más visitada de Europa.",
+       "Cada noche, pasan 30 personas con sopladores apagando la grava del parque. Por eso siempre está perfecto a la mañana."],
+  13: ["Gare du Nord es la estación más concurrida de Europa: 700,000 personas por día.",
+       "El Eurostar tiene un récord: la velocidad máxima a la que vas a viajar en este viaje. 300 km/h en territorio francés."]
+};
+
+// COORDENADAS de lugares clave (para "abrir en Maps")
+const PLACES = {
+  // Londres
+  "high-st-kensington": { name: "Alojamiento Kensington", lat: 51.5009, lng: -0.1925 },
+  "london-eye":         { name: "London Eye", lat: 51.5033, lng: -0.1196 },
+  "big-ben":            { name: "Big Ben", lat: 51.5007, lng: -0.1246 },
+  "st-james":           { name: "St James's Park", lat: 51.5025, lng: -0.1340 },
+  "national-gallery":   { name: "National Gallery", lat: 51.5089, lng: -0.1283 },
+  "nhm":                { name: "Natural History Museum", lat: 51.4967, lng: -0.1764 },
+  "science-museum":     { name: "Science Museum", lat: 51.4978, lng: -0.1745 },
+  "covent-garden":      { name: "Covent Garden", lat: 51.5117, lng: -0.1240 },
+  "warner-bros":        { name: "Warner Bros Studio", lat: 51.6905, lng: -0.4194 },
+  "tower-london":       { name: "Tower of London", lat: 51.5081, lng: -0.0759 },
+  "tower-bridge":       { name: "Tower Bridge", lat: 51.5055, lng: -0.0754 },
+  "battersea":          { name: "Battersea Power Station", lat: 51.4814, lng: -0.1450 },
+  "hamleys":            { name: "Hamleys Regent St", lat: 51.5125, lng: -0.1395 },
+  "st-pancras":         { name: "St Pancras International", lat: 51.5320, lng: -0.1265 },
+  // París
+  "marais":             { name: "Alojamiento Marais", lat: 48.8567, lng: 2.3589 },
+  "trocadero":          { name: "Trocadéro", lat: 48.8625, lng: 2.2877 },
+  "tour-eiffel":        { name: "Tour Eiffel", lat: 48.8584, lng: 2.2945 },
+  "champ-mars":         { name: "Champ de Mars", lat: 48.8556, lng: 2.2988 },
+  "bateaux-mouches":    { name: "Bateaux Mouches", lat: 48.8635, lng: 2.3043 },
+  "louvre":             { name: "Louvre", lat: 48.8606, lng: 2.3376 },
+  "tuileries":          { name: "Jardin des Tuileries", lat: 48.8634, lng: 2.3275 },
+  "psg":                { name: "Parc des Princes", lat: 48.8414, lng: 2.2530 },
+  "champs-elysees":     { name: "Champs-Élysées", lat: 48.8698, lng: 2.3076 },
+  "arc-triomphe":       { name: "Arc de Triomphe", lat: 48.8738, lng: 2.2950 },
+  "sacre-coeur":        { name: "Sacré-Cœur", lat: 48.8867, lng: 2.3431 },
+  "place-tertre":       { name: "Place du Tertre", lat: 48.8866, lng: 2.3408 },
+  "buttes-chaumont":    { name: "Buttes-Chaumont", lat: 48.8800, lng: 2.3825 },
+  "place-vosges":       { name: "Place des Vosges", lat: 48.8553, lng: 2.3656 },
+  "berthillon":         { name: "Berthillon", lat: 48.8516, lng: 2.3563 },
+  "victor-hugo":        { name: "Maison Victor Hugo", lat: 48.8550, lng: 2.3661 },
+  "stravinsky":         { name: "Fontaine Stravinsky", lat: 48.8593, lng: 2.3517 },
+  "disneyland":         { name: "Disneyland Paris", lat: 48.8722, lng: 2.7758 },
+  "gare-nord":          { name: "Gare du Nord", lat: 48.8809, lng: 2.3553 }
+};
+
+// Mapeo de qué lugares están en cada día
+const DAY_PLACES = {
+  1: ["high-st-kensington"],
+  2: ["london-eye", "big-ben", "st-james", "national-gallery", "high-st-kensington"],
+  3: ["nhm", "science-museum", "high-st-kensington"],
+  4: ["covent-garden", "warner-bros", "high-st-kensington"],
+  5: ["tower-london", "tower-bridge", "high-st-kensington"],
+  6: ["battersea", "hamleys", "st-pancras", "high-st-kensington"],
+  7: ["st-pancras", "gare-nord", "marais", "trocadero", "tour-eiffel"],
+  8: ["bateaux-mouches", "tuileries", "louvre", "marais"],
+  9: ["psg", "champs-elysees", "arc-triomphe", "trocadero", "marais"],
+  10: ["sacre-coeur", "place-tertre", "buttes-chaumont", "marais"],
+  11: ["place-vosges", "victor-hugo", "stravinsky", "berthillon", "champ-mars", "tour-eiffel", "marais"],
+  12: ["disneyland", "marais"],
+  13: ["place-vosges", "marais", "gare-nord", "st-pancras"]
+};
 // ---------- STATE ----------
 const STORAGE_KEY = 'paris2026-state-v1';
 
@@ -3160,12 +3782,22 @@ function loadState() {
     return {
       reservations: parsed.reservations || {},
       todos: parsed.todos || {},
-      missions: parsed.missions || {},
+      missions: parsed.missions || {},        // mission id -> bool (legacy + nuevas)
       checklist: parsed.checklist || {},
-      flavors: parsed.flavors || {},      // { id: { tried: bool, stars: 0-5 } }
-      flavorFilter: parsed.flavorFilter || { city: 'all', level: 'all' }
+      flavors: parsed.flavors || {},
+      flavorFilter: parsed.flavorFilter || { city: 'all', level: 'all' },
+      highlights: parsed.highlights || {},    // dayNum -> string
+      weather: parsed.weather || {},          // dayNum -> string
+      photos: parsed.photos || {},            // dayNum -> [dataURL] (mini gallery)
+      votes: parsed.votes || {}               // 'd{n}-fav' -> string
     };
-  } catch { return { reservations: {}, todos: {}, missions: {}, checklist: {}, flavors: {}, flavorFilter: { city: 'all', level: 'all' } }; }
+  } catch {
+    return {
+      reservations: {}, todos: {}, missions: {}, checklist: {},
+      flavors: {}, flavorFilter: { city: 'all', level: 'all' },
+      highlights: {}, weather: {}, photos: {}, votes: {}
+    };
+  }
 }
 
 function saveState() {
@@ -3521,29 +4153,104 @@ function renderDayDetail(day) {
     day.blocks.forEach(b => container.appendChild(buildBlock(b)));
   }
 
-  // Missions
-  if (day.missions && day.missions.length) {
+  // Clima del día (input editable)
+  const weatherSection = el('div', { class: 'weather-card' }, [
+    el('div', { class: 'weather-label' }, '🌤️  Clima esperado'),
+    (() => {
+      const input = el('input', {
+        type: 'text',
+        class: 'weather-input',
+        placeholder: 'ej: 18°C nublado, lleva campera',
+        value: state.weather[day.num] || ''
+      });
+      input.addEventListener('change', () => {
+        state.weather[day.num] = input.value.trim();
+        saveState();
+      });
+      return input;
+    })()
+  ]);
+  container.appendChild(weatherSection);
+
+  // Lugares del día (botones de Maps)
+  const placeIds = (typeof DAY_PLACES !== 'undefined' && DAY_PLACES[day.num]) || [];
+  if (placeIds.length > 0) {
+    const placesSection = el('div', { class: 'places-card' }, [
+      el('div', { class: 'places-label' }, '📍  Lugares de hoy')
+    ]);
+    const grid = el('div', { class: 'places-grid' });
+    placeIds.forEach(pid => {
+      const place = PLACES[pid];
+      if (!place) return;
+      const url = `https://www.google.com/maps/search/?api=1&query=${place.lat},${place.lng}`;
+      grid.appendChild(el('a', {
+        class: 'place-btn',
+        href: url,
+        target: '_blank',
+        rel: 'noopener'
+      }, [
+        el('span', { class: 'place-btn-name' }, place.name),
+        el('span', { class: 'place-btn-arrow' }, '↗')
+      ]));
+    });
+    placesSection.appendChild(grid);
+    container.appendChild(placesSection);
+  }
+
+  // Misiones REDISEÑADAS (MISSIONS_V2)
+  const dayMissions = (typeof MISSIONS_V2 !== 'undefined') ? MISSIONS_V2.filter(m => m.day === day.num) : [];
+  if (dayMissions.length > 0) {
+    const dayPoints = dayMissions.reduce((sum, m) => sum + (state.missions[m.id] ? m.points : 0), 0);
+    const totalPoints = dayMissions.reduce((sum, m) => sum + m.points, 0);
+
     const miss = el('div', { class: 'missions' }, [
-      el('div', { class: 'missions-title' }, [
-        el('span', {}, '🎯'), el('em', {}, 'Misiones del día')
+      el('div', { class: 'missions-title', style: 'display: flex; align-items: center; justify-content: space-between; gap: 10px;' }, [
+        el('span', { style: 'display: flex; align-items: center; gap: 8px;' }, [
+          el('span', {}, '🎯'),
+          el('em', {}, 'Misiones del día')
+        ]),
+        el('span', {
+          style: 'font-family: var(--font-mono); font-size: 0.78rem; color: var(--accent); background: rgba(212, 165, 116, 0.12); padding: 3px 9px; border-radius: 999px;'
+        }, `${dayPoints}/${totalPoints} ⭐`)
       ])
     ]);
-    day.missions.forEach((m, i) => {
-      const id = `d${day.num}-m${i}`;
-      const isDone = state.missions[id];
+
+    dayMissions.forEach(m => {
+      const isDone = !!state.missions[m.id];
+      const typeMeta = MISSION_TYPES[m.type] || MISSION_TYPES.iconic;
+
       const item = el('div', {
-        class: 'mission' + (isDone ? ' done' : ''),
-        onclick: () => {
-          state.missions[id] = !state.missions[id];
-          saveState();
-          renderDayDetail(day);
-        }
-      }, [
-        el('div', { class: 'mission-check' }),
-        el('div', { class: 'mission-text' }, m)
+        class: 'mission-v2' + (isDone ? ' done' : ''),
+        style: `border-left-color: ${typeMeta.color};`
+      });
+
+      const header = el('div', { class: 'mission-v2-header' }, [
+        el('button', {
+          class: 'mission-check' + (isDone ? ' checked' : ''),
+          onclick: (e) => {
+            e.stopPropagation();
+            state.missions[m.id] = !state.missions[m.id];
+            saveState();
+            renderDayDetail(day);
+          }
+        }),
+        el('div', { class: 'mission-v2-content' }, [
+          el('div', { class: 'mission-v2-meta' }, [
+            el('span', { class: 'mission-type-badge', style: `color: ${typeMeta.color};` }, [
+              el('span', {}, typeMeta.icon),
+              el('span', {}, ' ' + typeMeta.label)
+            ]),
+            el('span', { class: 'mission-points' }, '⭐'.repeat(m.points))
+          ]),
+          el('div', { class: 'mission-v2-title' }, m.title),
+          el('div', { class: 'mission-v2-desc' }, m.desc),
+          m.hint ? el('div', { class: 'mission-v2-hint' }, '💡  ' + m.hint) : null
+        ])
       ]);
+      item.appendChild(header);
       miss.appendChild(item);
     });
+
     container.appendChild(miss);
   }
 
@@ -3583,6 +4290,115 @@ function renderDayDetail(day) {
     });
     container.appendChild(flavSection);
   }
+
+  // Curiosidades "sabías que"
+  const dayFacts = (typeof FUN_FACTS !== 'undefined') ? FUN_FACTS[day.num] : null;
+  if (dayFacts && dayFacts.length > 0) {
+    const factsSection = el('div', { class: 'facts-card' }, [
+      el('div', { class: 'facts-label' }, '💡  Sabías que…')
+    ]);
+    dayFacts.forEach(f => {
+      factsSection.appendChild(el('div', { class: 'fact-item' }, f));
+    });
+    container.appendChild(factsSection);
+  }
+
+  // Highlight del día (frase escribible)
+  const highlightSection = el('div', { class: 'highlight-card' }, [
+    el('div', { class: 'highlight-label' }, '✨  Highlight del día'),
+    el('div', { class: 'highlight-sub' }, 'Una frase, un momento, lo mejor de hoy.'),
+    (() => {
+      const ta = el('textarea', {
+        class: 'highlight-input',
+        placeholder: 'Lo más lindo de hoy fue…',
+        rows: '2'
+      });
+      ta.value = state.highlights[day.num] || '';
+      ta.addEventListener('change', () => {
+        state.highlights[day.num] = ta.value.trim();
+        saveState();
+      });
+      return ta;
+    })()
+  ]);
+  container.appendChild(highlightSection);
+
+  // Galería de fotos del día (mini)
+  const photoSection = el('div', { class: 'photos-card' }, [
+    el('div', { class: 'photos-label' }, '📸  Fotos del día'),
+    el('div', { class: 'photos-grid', id: `photos-${day.num}` })
+  ]);
+  // Add photo button (uses native file picker)
+  const addPhotoLabel = el('label', { class: 'photo-add-btn' }, '+ Agregar foto');
+  const photoInput = el('input', {
+    type: 'file',
+    accept: 'image/*',
+    capture: 'environment',
+    style: 'display: none;'
+  });
+  photoInput.addEventListener('change', (e) => {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+    // Resize and convert to data URL (max 800px)
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      const img = new Image();
+      img.onload = () => {
+        const maxDim = 800;
+        let w = img.width, h = img.height;
+        if (w > maxDim || h > maxDim) {
+          if (w > h) { h = h * (maxDim / w); w = maxDim; }
+          else { w = w * (maxDim / h); h = maxDim; }
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = w; canvas.height = h;
+        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+        const dataUrl = canvas.toDataURL('image/jpeg', 0.7);
+
+        if (!state.photos[day.num]) state.photos[day.num] = [];
+        state.photos[day.num].push(dataUrl);
+        try {
+          saveState();
+          renderDayDetail(day);
+        } catch (err) {
+          alert('No se pudo guardar la foto. Probablemente espacio lleno.\n\nProbá borrar fotos viejas o usá menos.');
+          state.photos[day.num].pop();
+        }
+      };
+      img.src = ev.target.result;
+    };
+    reader.readAsDataURL(file);
+    photoInput.value = '';
+  });
+  addPhotoLabel.appendChild(photoInput);
+  photoSection.appendChild(addPhotoLabel);
+  container.appendChild(photoSection);
+
+  // Render existing photos
+  setTimeout(() => {
+    const grid = document.getElementById(`photos-${day.num}`);
+    if (!grid) return;
+    const photos = state.photos[day.num] || [];
+    photos.forEach((p, idx) => {
+      const wrap = el('div', { class: 'photo-thumb' });
+      const img = el('img', { src: p, alt: `Foto ${idx + 1}` });
+      const del = el('button', {
+        class: 'photo-del',
+        onclick: () => {
+          if (!confirm('¿Borrar esta foto?')) return;
+          state.photos[day.num].splice(idx, 1);
+          saveState();
+          renderDayDetail(day);
+        }
+      }, '×');
+      wrap.appendChild(img);
+      wrap.appendChild(del);
+      grid.appendChild(wrap);
+    });
+    if (photos.length === 0) {
+      grid.appendChild(el('div', { style: 'color: var(--text-faint); font-size: 0.85rem; padding: 14px 4px;' }, 'Sin fotos todavía. Agregá una con el botón de arriba.'));
+    }
+  }, 0);
 
   // Tips
   if (day.tips && day.tips.length) {
@@ -3918,50 +4734,97 @@ function renderMore() {
   });
 }
 
-// ---------- RENDER: ALL MISSIONS ----------
-function updateMissionProgress() {
-  let total = 0, done = 0;
-  DAYS.forEach(d => {
-    if (d.missions && d.missions.length) {
-      total += d.missions.length;
-      d.missions.forEach((_, i) => {
-        if (state.missions[`d${d.num}-m${i}`]) done++;
-      });
+// ---------- RENDER: ALL MISSIONS (puntos familiares + badges) ----------
+function getTotalPoints() {
+  if (typeof MISSIONS_V2 === 'undefined') return { earned: 0, total: 0, count: 0, doneCount: 0 };
+  let earned = 0, total = 0, doneCount = 0;
+  MISSIONS_V2.forEach(m => {
+    total += m.points;
+    if (state.missions[m.id]) {
+      earned += m.points;
+      doneCount++;
     }
   });
-  const progressEl = document.getElementById('mission-progress');
-  if (progressEl) progressEl.textContent = `${done}/${total}`;
+  return { earned, total, count: MISSIONS_V2.length, doneCount };
 }
 
-function toggleMission(id, itemNode) {
-  // Toggle without full re-render — preserves accordion open/close state
-  state.missions[id] = !state.missions[id];
-  saveState();
-  if (state.missions[id]) itemNode.classList.add('done');
-  else itemNode.classList.remove('done');
-  updateMissionProgress();
+function getCurrentBadge(points) {
+  if (typeof BADGES === 'undefined') return null;
+  let current = null;
+  for (const b of BADGES) {
+    if (points >= b.points) current = b;
+  }
+  return current;
+}
+
+function getNextBadge(points) {
+  if (typeof BADGES === 'undefined') return null;
+  return BADGES.find(b => points < b.points) || null;
 }
 
 function renderMissionsView() {
   const container = document.getElementById('missions-all');
   container.innerHTML = '';
 
-  updateMissionProgress();
+  if (typeof MISSIONS_V2 === 'undefined') return;
 
+  const { earned, total, count, doneCount } = getTotalPoints();
+  const currentBadge = getCurrentBadge(earned);
+  const nextBadge = getNextBadge(earned);
+
+  // Update progress in hero
+  const progressEl = document.getElementById('mission-progress');
+  if (progressEl) progressEl.textContent = `${doneCount}/${count}`;
+
+  // Big points display
+  const pointsCard = el('div', { class: 'points-hero' }, [
+    el('div', { class: 'points-big' }, `${earned}`),
+    el('div', { class: 'points-total' }, `de ${total} puntos posibles`),
+    el('div', { class: 'points-bar' }, [
+      el('div', { class: 'points-bar-fill', style: `width: ${total > 0 ? (earned/total*100) : 0}%` })
+    ])
+  ]);
+
+  // Badge actual + próximo
+  if (currentBadge || nextBadge) {
+    const badgesRow = el('div', { class: 'badges-row' });
+    if (currentBadge) {
+      badgesRow.appendChild(el('div', { class: 'badge-item earned' }, [
+        el('div', { class: 'badge-emoji' }, currentBadge.emoji),
+        el('div', { class: 'badge-info' }, [
+          el('div', { class: 'badge-name' }, currentBadge.name),
+          el('div', { class: 'badge-desc' }, currentBadge.desc)
+        ])
+      ]));
+    }
+    if (nextBadge) {
+      const remaining = nextBadge.points - earned;
+      badgesRow.appendChild(el('div', { class: 'badge-item locked' }, [
+        el('div', { class: 'badge-emoji' }, nextBadge.emoji),
+        el('div', { class: 'badge-info' }, [
+          el('div', { class: 'badge-name' }, `Próximo: ${nextBadge.name}`),
+          el('div', { class: 'badge-desc' }, `Faltan ${remaining} puntos`)
+        ])
+      ]));
+    }
+    pointsCard.appendChild(badgesRow);
+  }
+
+  container.appendChild(pointsCard);
+
+  // Misiones por día
   DAYS.forEach(d => {
-    if (!d.missions || !d.missions.length) return;
+    const dayMissions = MISSIONS_V2.filter(m => m.day === d.num);
+    if (dayMissions.length === 0) return;
 
-    // Start OPEN by default
+    const dayPoints = dayMissions.reduce((s, m) => s + (state.missions[m.id] ? m.points : 0), 0);
+    const dayTotal = dayMissions.reduce((s, m) => s + m.points, 0);
+
     const acc = el('div', { class: 'acc open' });
-
-    let dayDone = 0;
-    d.missions.forEach((_, i) => {
-      if (state.missions[`d${d.num}-m${i}`]) dayDone++;
-    });
 
     const counterSpan = el('span', {
       style: 'font-family: var(--font-mono); font-size: 0.72rem; color: var(--accent); margin-left: auto; padding-right: 8px;'
-    }, `${dayDone}/${d.missions.length}`);
+    }, `${dayPoints}/${dayTotal} ⭐`);
 
     const btn = el('button', { class: 'acc-btn' }, [
       el('span', { style: 'display: flex; align-items: center; flex: 1; gap: 8px;' }, [
@@ -3970,27 +4833,41 @@ function renderMissionsView() {
         counterSpan
       ])
     ]);
+
     const body = el('div', { class: 'acc-body' });
 
-    d.missions.forEach((m, i) => {
-      const id = `d${d.num}-m${i}`;
-      const isDone = !!state.missions[id];
-      const itemNode = el('div', {
-        class: 'mission' + (isDone ? ' done' : '')
-      }, [
-        el('div', { class: 'mission-check' }),
-        el('div', { class: 'mission-text' }, m)
-      ]);
-      itemNode.addEventListener('click', () => {
-        toggleMission(id, itemNode);
-        // Update day counter
-        let done = 0;
-        d.missions.forEach((_, j) => {
-          if (state.missions[`d${d.num}-m${j}`]) done++;
-        });
-        counterSpan.textContent = `${done}/${d.missions.length}`;
+    dayMissions.forEach(m => {
+      const isDone = !!state.missions[m.id];
+      const typeMeta = MISSION_TYPES[m.type] || MISSION_TYPES.iconic;
+
+      const item = el('div', {
+        class: 'mission-v2 compact' + (isDone ? ' done' : ''),
+        style: `border-left-color: ${typeMeta.color};`
       });
-      body.appendChild(itemNode);
+      const header = el('div', { class: 'mission-v2-header' }, [
+        el('button', {
+          class: 'mission-check' + (isDone ? ' checked' : ''),
+          onclick: (e) => {
+            e.stopPropagation();
+            state.missions[m.id] = !state.missions[m.id];
+            saveState();
+            renderMissionsView();
+          }
+        }),
+        el('div', { class: 'mission-v2-content' }, [
+          el('div', { class: 'mission-v2-meta' }, [
+            el('span', { class: 'mission-type-badge', style: `color: ${typeMeta.color};` }, [
+              el('span', {}, typeMeta.icon),
+              el('span', {}, ' ' + typeMeta.label)
+            ]),
+            el('span', { class: 'mission-points' }, '⭐'.repeat(m.points))
+          ]),
+          el('div', { class: 'mission-v2-title' }, m.title),
+          el('div', { class: 'mission-v2-desc' }, m.desc)
+        ])
+      ]);
+      item.appendChild(header);
+      body.appendChild(item);
     });
 
     btn.addEventListener('click', () => acc.classList.toggle('open'));
@@ -4070,15 +4947,25 @@ window.resetAllProgress = resetAllProgress;
 // ---------- HEADER COUNTDOWN ----------
 function updateHeaderCountdown() {
   const today = new Date().toISOString().slice(0, 10);
-  const el = document.getElementById('headerCountdown');
+  const headerEl = document.getElementById('headerCountdown');
   if (today < TRIP.startDate) {
     const d = daysBetween(today, TRIP.startDate);
-    el.textContent = `−${d}d`;
+    headerEl.textContent = `−${d}d`;
   } else if (today <= TRIP.endDate) {
     const day = DAYS.find(x => x.date === today);
-    el.textContent = day ? `Día ${day.num}/13` : 'En viaje';
+    if (day && typeof MISSIONS_V2 !== 'undefined') {
+      const { earned } = getTotalPoints();
+      headerEl.innerHTML = `D${day.num}/13 · ${earned}⭐`;
+    } else {
+      headerEl.textContent = day ? `Día ${day.num}/13` : 'En viaje';
+    }
   } else {
-    el.textContent = '✓ Hecho';
+    if (typeof MISSIONS_V2 !== 'undefined') {
+      const { earned, total } = getTotalPoints();
+      headerEl.innerHTML = `${earned}/${total}⭐`;
+    } else {
+      headerEl.textContent = '✓ Hecho';
+    }
   }
 }
 
