@@ -3381,46 +3381,99 @@ const DAYS = [
     date: "2026-05-20",
     dayName: "Miércoles",
     city: "Londres",
-    title: "Torre de Londres light",
-    subtitle: "Versión light post-Warner",
-    principle: "Versión LIGHT después del Warner Bros. 3h30 actividad total, no 6h. Saltean joyas de la corona (cola + aburrido para nenes) y Tower Bridge exhibition (Juli no llega a 1.20m para glass floor).",
+    title: "Chelsea + Torre de Londres",
+    subtitle: "Stamford Bridge tour + Castillo medieval",
+    booked: [
+      { name: "Chelsea Stadium Tour", time: "10:00" }
+    ],
+    principle: "Día con dos mundos para Benji y Juli: a la mañana, Stamford Bridge (vestuarios, túnel, pitch, Champions League trophies). A la tarde, Tower de Londres versión light + Tower Bridge. Salida 1h antes que el plan original para que entre todo cómodo.",
+    warning: {
+      title: "⚠️ Reservar Chelsea Stadium Tour",
+      body: "Reservar slot 10:00 del miércoles 20/05/2026 con 1-2 meses de anticipación en tours.chelseafc.com. Precio aprox: £28 adultos + £18 niños = ~£90 total para los 4. Tour 60 min en inglés con guía live, recomendado 5+ años (Juli con 4 ya casi 5 funciona)."
+    },
     blocks: [
-      { time: "9:00-10:30", type: "rest", title: "Desayuno tranqui, arranque lento" },
-      { time: "10:30", type: "transport", title: "Salida + District Line a Tower Hill", body: "District Line desde High Street Kensington directo a Tower Hill (18 min, sin cambios)." },
-      { time: "11:05-11:15", type: "activity", title: "Tower Hill viewpoint + entrada", body: "Plaza elevada arriba de la estación: vista brutal del castillo, Tower Bridge, HMS Belfast, mapa gigante de bronce. Entran por Middle Drawbridge (Middle Tower en conservación hasta junio 2026)." },
+      { time: "8:00-8:45", type: "rest", title: "Desayuno + salida temprana", body: "Levantarse 7:30-8:00. Hoy arranca antes que ayer porque tenemos slot fijo a las 10:00 en Chelsea." },
       {
-        time: "11:15-13:00",
-        type: "highlight",
-        title: "🏰 Tower of London — highlights only (1h 45min)",
+        time: "9:00",
+        type: "transport",
+        title: "🚌 Bus 14 directo Kensington → Stamford Bridge",
+        body: "Sube en High Street Kensington (parada Kensington High St / Phillimore Gardens) directo a Fulham Road / Stamford Bridge. 15-20 min. Alt: Uber (~£10, 10 min) si están justos."
+      },
+      {
+        time: "9:30-10:00",
+        type: "activity",
+        title: "Llegan a Stamford Bridge — buffer pre-tour",
+        body: "Llegan 30 min antes del slot. Foto familiar con la fachada del estadio. Café en el lobby para vos y Fiore. Los nenes chequean la Megastore por afuera (no entran todavía, después del tour).",
         bullets: [
-          "11:15-11:45 Los cuervos + Tower Green: directo al Inner Ward, cuervos sueltos. Misión: encontrar los 7 (Munin, Jubilee, Harris, Merlina, etc). Tower Green: 'acá Enrique VIII mandó a cortar la cabeza a 2 de sus 6 esposas'",
-          "11:45-12:20 White Tower planta baja únicamente: Line of Kings / Royal Armouries. La armadura de Enrique VIII con el 'extra' (risa garantizada). NO suben los 3 pisos",
-          "12:20-13:00 Medieval Palace: guías en vestuario medieval que interactúan con los chicos. Los nenes son 'nobles visitando al rey'. Suben a Wall Walk si tienen ganas"
+          "MISIÓN ICÓNICA: foto familiar con la entrada principal de Stamford Bridge de fondo",
+          "Chequear que tienen el e-ticket descargado o impreso (Tour+) — algunos tours requieren confirmación impresa"
         ]
       },
       {
-        time: "13:00-14:00",
+        time: "10:00-11:00",
+        type: "highlight",
+        title: "⚽ CHELSEA STADIUM TOUR",
+        body: "Tour guiado en vivo en inglés, 60 minutos. La joya del día para Benji.",
+        bullets: [
+          "Home Dressing Room: vestuario de Cole Palmer, Reece James, Enzo Fernández. Banqueta con el nombre del jugador favorito",
+          "Press Room: los nenes se sientan en el podio con micrófonos del Chelsea",
+          "Players' Tunnel: pasillo por donde salen los jugadores al campo. Música épica, foto en el túnel",
+          "Pitch-side + Manager's Dugout: bajan al borde del campo, se sientan donde se sienta el DT",
+          "Curiosidad: el césped de Stamford Bridge se cambia cada verano. La línea blanca está pintada con cal."
+        ]
+      },
+      {
+        time: "11:00-11:45",
+        type: "activity",
+        title: "🏆 Chelsea FC Museum + Megastore",
+        body: "Incluido en el ticket. La colección de trofeos más completa de Londres.",
+        bullets: [
+          "Trophy Room: foto familiar con las copas Champions League 2012 y 2021. Los nenes alucinan",
+          "Premier Leagues, FA Cups, Conference League — toda la sala de trofeos",
+          "Megastore: tiempo para que Benji elija UNA cosa (presupuesto definido antes: £25-30 máximo, mismo presupuesto que Hamleys mañana). Camisetas, gorros, llaveros",
+          "Snack rápido en el café del estadio si los nenes tienen hambre"
+        ]
+      },
+      {
+        time: "11:45-12:15",
+        type: "transport",
+        title: "🚇 Stamford Bridge → Tower Hill",
+        body: "Metro Fulham Broadway (District Line) directo a Tower Hill. 25 min sin cambios. Pick fuerte por logística limpia."
+      },
+      { time: "12:15-12:30", type: "activity", title: "Tower Hill viewpoint + entrada", body: "Plaza elevada arriba de la estación: vista brutal del castillo, Tower Bridge, HMS Belfast, mapa gigante de bronce. Entran por Middle Drawbridge (Middle Tower en conservación hasta junio 2026)." },
+      {
+        time: "12:30-14:15",
+        type: "highlight",
+        title: "🏰 Tower of London — highlights only (1h 45min)",
+        bullets: [
+          "12:30-13:00 Los cuervos + Tower Green: directo al Inner Ward, cuervos sueltos. Misión: encontrar los 7 (Munin, Jubilee, Harris, Merlina, etc). Tower Green: 'acá Enrique VIII mandó a cortar la cabeza a 2 de sus 6 esposas'",
+          "13:00-13:35 White Tower planta baja únicamente: Line of Kings / Royal Armouries. La armadura de Enrique VIII con el 'extra' (risa garantizada). NO suben los 3 pisos",
+          "13:35-14:15 Medieval Palace: guías en vestuario medieval que interactúan con los chicos. Los nenes son 'nobles visitando al rey'. Suben a Wall Walk si tienen ganas"
+        ]
+      },
+      {
+        time: "14:15-15:15",
         type: "food",
         title: "⚓ Almuerzo en St Katharine Docks",
-        body: "5 min caminando al este, cruzando bajo Tower Bridge. Marina histórica con barcos amarrados, restaurantes al aire libre.",
+        body: "5 min caminando al este, cruzando bajo Tower Bridge. Marina histórica con barcos amarrados, restaurantes al aire libre. ALMUERZO TARDÍO porque arrancamos temprano — los nenes pueden estar con hambre, llevamos snack en mochila por las dudas.",
         bullets: [
           "Pick fuerte: The Dickens Inn — pub histórico edificio victoriano, menu kids, terraza enorme",
           "Alts: Pizza Express (ventana al agua), Côte Brasserie (francés), Burger & Lobster"
         ]
       },
       {
-        time: "14:00-14:45",
+        time: "15:15-16:00",
         type: "activity",
         title: "🌉 Cruzar Tower Bridge caminando (SOLO paseo)",
         body: "GRATIS cruzar. Saltean la exhibición (Juli no llega a 1.20m para glass floor).",
         bullets: [
           "Paran en el medio para fotos",
           "Si hay Bridge Lift programado (chequear towerbridge.org.uk el día antes) = bonus épico",
-          "14:45: llegan al lado sur, Potter's Fields Park. Helado en carrito cerca"
+          "16:00: llegan al lado sur, Potter's Fields Park. Helado en carrito cerca"
         ]
       },
       {
-        time: "15:00-16:00",
+        time: "16:00-17:00",
         type: "activity",
         title: "Opción libre según energía",
         bullets: [
@@ -3433,11 +3486,12 @@ const DAYS = [
       { time: "18:30-19:30", type: "food", title: "Cena en Kensington", body: "Si quieren reservar algo especial, esta es la noche porque mañana es el último día en Londres." }
     ],
     missions: [
-      "Encontrar los 7 cuervos",
-      "Armadura de Enrique VIII con el 'extra'",
-      "Hacer reverencia al rey en el Medieval Palace",
-      "Cruzar Tower Bridge caminando en el medio",
-      "Bonus si hay Bridge Lift: ver el puente levantándose"
+      "Foto en la entrada de Stamford Bridge",
+      "Banqueta del jugador favorito en el Chelsea Dressing Room",
+      "Foto con la copa Champions League 2012/2021",
+      "Pisar el campo de Stamford Bridge desde el dugout",
+      "Encontrar los 7 cuervos del Tower",
+      "Cruzar Tower Bridge caminando en el medio"
     ]
   },
 
@@ -4350,6 +4404,7 @@ DAYS.push(...DAYS_PART2);
 
 const RESERVATIONS = [
   { id: "nhm", name: "Natural History Museum", day: 3, date: "Lun 18/05", time: "10:00", url: "https://www.nhm.ac.uk/visit/tickets.html", note: "GRATIS pero reservar slot. Exhibition Road entrance." },
+  { id: "chelsea-tour", name: "Chelsea Stadium Tour", day: 5, date: "Mié 20/05", time: "10:00", url: "https://tours.chelseafc.com/booking/", note: "Tour 60 min en inglés con guía live. ~£28 adulto + £18 niño = ~£90 los 4. Reservar 1-2 meses antes." },
   { id: "louvre", name: "Louvre", day: 8, date: "Sáb 23/05", time: "15:00", url: "https://www.ticketlouvre.fr/", note: "Slot 15:00-15:30. Sábado mayo se agota rápido." },
   { id: "inn-park", name: "Inn the Park (opcional)", day: 2, date: "Dom 17/05", time: "13:00", url: "https://www.opentable.co.uk/r/inn-the-park-london", note: "Si quieren asegurar lugar" },
   { id: "plaza-gardens", name: "Plaza Gardens Disney (opcional)", day: 12, date: "Mié 27/05", time: "12:30", url: "https://www.disneylandparis.com", note: "App Disneyland Paris con 2-3 días anticipación" }
@@ -5128,18 +5183,30 @@ const MISSIONS_V2 = [
   { id: "m4-6",  day: 4, type: "search",  points: 3, title: "Casa de Hagrid",
     desc: "Encontrar la cabaña de Hagrid en el backlot, entrar, y quedarse hasta que Hagrid animatrónico se mueva. Aguantar." },
 
-  // ====== DÍA 5 — Tower of London + Tower Bridge ======
-  { id: "m5-1",  day: 5, type: "count",   points: 2, title: "7 cuervos protectores",
+  // ====== DÍA 5 — Chelsea + Tower of London + Tower Bridge ======
+  { id: "m5-1",  day: 5, type: "iconic",  points: 2, title: "Foto en la entrada de Stamford Bridge",
+    desc: "Foto familiar con la fachada principal del estadio de Chelsea de fondo.",
+    hint: "La entrada principal está sobre Fulham Road, frente a la Megastore." },
+  { id: "m5-2",  day: 5, type: "search",  points: 2, title: "Banqueta del jugador favorito",
+    desc: "En el Home Dressing Room del Chelsea, encontrar la banqueta con el nombre del jugador favorito de Benji y sacar foto.",
+    hint: "Cole Palmer, Reece James, Enzo Fernández, Moisés Caicedo... cada banqueta tiene el nombre arriba. Algunos tienen las botas." },
+  { id: "m5-3",  day: 5, type: "iconic",  points: 3, title: "Foto con la copa Champions League",
+    desc: "En la Trophy Room del Chelsea Museum, foto familiar con la copa Champions League 2012 o 2021.",
+    hint: "La 2012 fue contra Bayern Munich (en Munich, increíble historia). La 2021 contra Manchester City. Las dos copas están una al lado de la otra." },
+  { id: "m5-4",  day: 5, type: "courage", points: 2, title: "Pisar el campo desde el dugout",
+    desc: "Bajar al borde del campo de Stamford Bridge desde el banco del DT y pisar el césped (en la zona permitida).",
+    hint: "El guía indica dónde se puede pisar — generalmente la línea del banderín. NO entrar al campo central." },
+  { id: "m5-5",  day: 5, type: "count",   points: 2, title: "7 cuervos protectores",
     desc: "La leyenda dice que si los 7 cuervos abandonan la Torre, cae la corona. Contarlos todos.",
     hint: "Tienen las alas recortadas para que no se vayan. Algunos tienen nombres como Merlina, Jubilee." },
-  { id: "m5-2",  day: 5, type: "search",  points: 2, title: "Armadura con extra",
+  { id: "m5-6",  day: 5, type: "search",  points: 2, title: "Armadura con extra",
     desc: "Line of Kings: encontrar la armadura de Enrique VIII con el 'pedacito grande' adelante (codpiece).",
     hint: "Era símbolo de fertilidad. Risa garantizada." },
-  { id: "m5-3",  day: 5, type: "talk",    points: 3, title: "Reverencia al Beefeater",
+  { id: "m5-7",  day: 5, type: "talk",    points: 3, title: "Reverencia al Beefeater",
     desc: "Hacer una reverencia formal a un Yeoman Warder (Beefeater, los guardias con uniforme rojo y negro). Que uno de los nenes se anime a saludarlo y preguntar 'How are you, Sir?'" },
-  { id: "m5-4",  day: 5, type: "observe", points: 1, title: "Tower Bridge desde el medio",
+  { id: "m5-8",  day: 5, type: "observe", points: 1, title: "Tower Bridge desde el medio",
     desc: "Pararse exactamente en el medio del puente y mirar río arriba y río abajo. Foto de los 4 ahí." },
-  { id: "m5-5",  day: 5, type: "iconic",  points: 3, title: "BONUS: Bridge Lift",
+  { id: "m5-9",  day: 5, type: "iconic",  points: 3, title: "BONUS: Bridge Lift",
     desc: "Si justo se levanta el puente para pasar un barco, presenciarlo. (Chequear horarios en towerbridge.org.uk)",
     hint: "Es raro pero pasa ~800 veces al año. Si tocan, son muy afortunados." },
 
@@ -5296,7 +5363,10 @@ const FUN_FACTS = {
       "El Apollo 10 que está en Science Museum es el MISMO que voló alrededor de la Luna en 1969. La capsula real, no réplica."],
   4: ["Las películas de Harry Potter usaron 588 sets reales en Warner Bros. Hicieron Hogwarts en miniatura con 2,500 luces de fibra óptica.",
       "Covent Garden fue mercado de frutas y verduras desde 1654 hasta 1974. Después lo convirtieron en zona de tiendas."],
-  5: ["La Tower of London tiene 950 años. Fue prisión, palacio, zoológico (con leones, elefantes y un oso polar) y casa de moneda.",
+  5: ["Stamford Bridge es uno de los estadios MÁS ANTIGUOS del fútbol inglés: se construyó en 1877. Chelsea juega ahí desde su fundación en 1905, hace 120 años seguidos.",
+      "Chelsea ganó la Champions League dos veces: en 2012 contra el Bayern Munich (en Munich, una final increíble) y en 2021 contra el Manchester City. Ambas copas están en la Trophy Room.",
+      "El estadio originalmente se diseñó para atletismo, no fútbol. Por eso es de los únicos donde el campo no está pegado a las tribunas — quedó la pista por el medio.",
+      "La Tower of London tiene 950 años. Fue prisión, palacio, zoológico (con leones, elefantes y un oso polar) y casa de moneda.",
       "Cuando el rey Eduardo VII murió en 1910, los cuervos huyeron de la Torre. Desde entonces les recortan las alas para que no se vayan."],
   6: ["Camden está construido sobre antiguas caballerizas (Stables Market = 'mercado de los establos'). Había cientos de caballos que tiraban barcazas con carbón en el canal. Por eso hay esculturas de caballos por todas partes.",
       "Las Dr. Martens fueron inventadas por un médico alemán llamado Klaus Maertens. Se las hizo para sí mismo después de lastimarse el pie esquiando. Camden las hizo famosas en los 70 con los punks.",
@@ -5338,6 +5408,7 @@ const PLACES = {
   "battersea":          { name: "Battersea Power Station", lat: 51.4814, lng: -0.1450 },
   "hamleys":            { name: "Hamleys Regent St", lat: 51.5125, lng: -0.1395 },
   "st-pancras":         { name: "St Pancras International", lat: 51.5320, lng: -0.1265 },
+  "chelsea-stadium":    { name: "Stamford Bridge (Chelsea FC)", lat: 51.4817, lng: -0.1910 },
   // París
   "marais":             { name: "Alojamiento Marais", lat: 48.8567, lng: 2.3589 },
   "trocadero":          { name: "Trocadéro", lat: 48.8625, lng: 2.2877 },
@@ -5374,7 +5445,7 @@ const DAY_PLACES = {
   2: ["london-eye", "big-ben", "st-james", "national-gallery", "high-st-kensington"],
   3: ["nhm", "science-museum", "high-st-kensington"],
   4: ["covent-garden", "warner-bros", "high-st-kensington"],
-  5: ["tower-london", "tower-bridge", "high-st-kensington"],
+  5: ["chelsea-stadium", "tower-london", "tower-bridge", "high-st-kensington"],
   6: ["camden-town", "camden-lock", "stables-market", "regents-canal", "hamleys", "high-st-kensington"],
   7: ["st-pancras", "gare-nord", "marais", "trocadero", "tour-eiffel"],
   8: ["bateaux-mouches", "tuileries", "louvre", "marais"],
@@ -5749,8 +5820,11 @@ const NIGHT_BEFORE_PREP = {
     "📱 Pedir Uber al estudio 14:30 desde Watford"
   ],
   5: [
+    "⚽ Verificar e-ticket Chelsea Stadium Tour (10:00) descargado/impreso",
+    "🚌 Chequear horarios bus 14 (sale temprano, ~9:00)",
+    "⏰ Despertador 7:30-8:00 (hoy arrancamos antes)",
     "🌧️ Chequear pronóstico (Tower of London tiene mucho exterior)",
-    "🌉 Chequear Tower Bridge lift schedule"
+    "🌉 Chequear Tower Bridge lift schedule en towerbridge.org.uk"
   ],
   6: [
     "🛍️ Decidir presupuesto Hamleys final (Benji £30 / Juli £20)",
